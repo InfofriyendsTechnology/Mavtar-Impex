@@ -30,7 +30,8 @@ export const loginAdmin = async (req, res) => {
     const token = jwt.sign(
       {
         id: "admin-mavtar-1",
-        name: "Mavtar Impex Admin",
+        name: "Krish Vaghani",
+        title: "Founder & Super Admin",
         mobile: superAdminMobile,
         role: "SUPER_ADMIN",
       },
@@ -38,11 +39,12 @@ export const loginAdmin = async (req, res) => {
       { expiresIn: "7d" }
     );
 
-    return responseHandler.success(res, "Admin logged in successfully", {
+    return responseHandler.success(res, "Welcome back, Krish Vaghani!", {
       token,
       user: {
         id: "admin-mavtar-1",
-        name: "Mavtar Impex Admin",
+        name: "Krish Vaghani",
+        title: "Founder & Super Admin",
         mobile: superAdminMobile,
         role: "SUPER_ADMIN",
       },

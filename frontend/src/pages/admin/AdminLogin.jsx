@@ -32,7 +32,7 @@ const AdminLogin = () => {
             <ShieldCheck />
           </div>
           <h1 className="brand-title">Mavtar Impex</h1>
-          <p className="brand-subtitle">Sign in to Admin Management Portal</p>
+          <p className="brand-subtitle">Executive Backoffice • Krish Vaghani</p>
         </div>
 
         {/* Login Form */}

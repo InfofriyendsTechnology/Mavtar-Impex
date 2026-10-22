@@ -7,6 +7,7 @@ import "./AdminSettings.scss";
 const AdminSettings = () => {
   const [settings, setSettings] = useState({
     storeName: "Mavtar Impex",
+    ownerName: "Krish Vaghani",
     tagline: "Handcrafted Luxury Linen Bags & Royal Indian Embroidery",
     supportEmail: "contact@mavtarimpex.com",
     supportPhone: "+91 95127 53471",
@@ -90,6 +91,17 @@ const AdminSettings = () => {
               </div>
 
               <div className="form-group">
+                <label>Owner / Managing Director</label>
+                <input
+                  type="text"
+                  value={settings.ownerName || "Krish Vaghani"}
+                  onChange={(e) => setSettings({ ...settings, ownerName: e.target.value })}
+                />
+              </div>
+            </div>
+
+            <div className="form-grid-2">
+              <div className="form-group">
                 <label>Support Email</label>
                 <input
                   type="email"
@@ -97,15 +109,15 @@ const AdminSettings = () => {
                   onChange={(e) => setSettings({ ...settings, supportEmail: e.target.value })}
                 />
               </div>
-            </div>
 
-            <div className="form-group">
-              <label>Brand Tagline</label>
-              <input
-                type="text"
-                value={settings.tagline}
-                onChange={(e) => setSettings({ ...settings, tagline: e.target.value })}
-              />
+              <div className="form-group">
+                <label>Brand Tagline</label>
+                <input
+                  type="text"
+                  value={settings.tagline}
+                  onChange={(e) => setSettings({ ...settings, tagline: e.target.value })}
+                />
+              </div>
             </div>
 
             <div className="form-grid-2">

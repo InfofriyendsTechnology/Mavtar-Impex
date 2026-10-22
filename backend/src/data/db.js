@@ -28,6 +28,7 @@ const defaultState = {
   inquiries: [],
   settings: {
     storeName: "Mavtar Impex",
+    ownerName: "Krish Vaghani",
     tagline: "Handcrafted Luxury Linen Bags & Royal Indian Embroidery",
     supportEmail: "contact@mavtarimpex.com",
     supportPhone: "+91 95127 53471",

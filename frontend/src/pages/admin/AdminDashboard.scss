@@ -328,3 +328,184 @@
     }
   }
 }
+
+  /* Super Admin Greeting Card */
+  .super-admin-greeting-card {
+    background: linear-gradient(135deg, #0B3B2B 0%, #072B1F 60%, #051F16 100%);
+    border: 1px solid rgba(197, 160, 89, 0.4);
+    border-radius: $border-radius-card;
+    padding: 28px 32px;
+    color: #FFFFFF;
+    box-shadow: 0 10px 30px -5px rgba(11, 59, 43, 0.25), 0 0 0 1px rgba(197, 160, 89, 0.15);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 24px;
+    position: relative;
+    overflow: hidden;
+
+    &::before {
+      content: "";
+      position: absolute;
+      top: -50%;
+      right: -10%;
+      width: 320px;
+      height: 320px;
+      background: radial-gradient(circle, rgba(197, 160, 89, 0.18) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .greeting-content {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      max-width: 650px;
+      z-index: 1;
+
+      .greeting-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(197, 160, 89, 0.3);
+        padding: 4px 14px;
+        border-radius: $border-radius-pill;
+        font-size: 0.76rem;
+        font-weight: 600;
+        color: #FDE047;
+        width: fit-content;
+
+        .badge-sparkle {
+          color: #FDE047;
+        }
+
+        .badge-divider {
+          color: rgba(255, 255, 255, 0.3);
+        }
+
+        .owner-tag {
+          color: #FFFFFF;
+          font-weight: 700;
+        }
+      }
+
+      .greeting-heading {
+        font-family: $font-serif;
+        font-size: 2.2rem;
+        font-weight: 700;
+        color: #FFFFFF;
+        letter-spacing: -0.01em;
+        line-height: 1.15;
+      }
+
+      .greeting-description {
+        font-size: 0.88rem;
+        color: #E2E8F0;
+        line-height: 1.5;
+        opacity: 0.9;
+      }
+
+      .system-status-pills {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 6px;
+
+        .status-pill {
+          display: inline-flex;
+          align-items: center;
+          gap: 6px;
+          background: rgba(0, 0, 0, 0.25);
+          border: 1px solid rgba(255, 255, 255, 0.12);
+          padding: 4px 12px;
+          border-radius: $border-radius-pill;
+          font-size: 0.74rem;
+          color: #E2E8F0;
+          font-weight: 500;
+
+          &.active {
+            .status-dot {
+              width: 7px;
+              height: 7px;
+              background-color: #22C55E;
+              border-radius: 50%;
+              box-shadow: 0 0 8px #22C55E;
+            }
+          }
+
+          &.date {
+            color: #FDE047;
+            svg {
+              color: #FDE047;
+            }
+          }
+        }
+      }
+    }
+
+    .greeting-quick-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      z-index: 1;
+
+      @media (min-width: 640px) {
+        flex-direction: row;
+      }
+
+      .hero-pill-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        height: 42px;
+        padding: 0 20px;
+        border-radius: $border-radius-pill;
+        font-size: 0.84rem;
+        font-weight: 700;
+        text-decoration: none;
+        cursor: pointer;
+        transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+
+        &.primary {
+          background-color: $gold;
+          color: #072B1F !important;
+          box-shadow: 0 4px 14px rgba(197, 160, 89, 0.3);
+
+          svg {
+            color: #072B1F !important;
+          }
+
+          span {
+            color: #072B1F !important;
+          }
+
+          &:hover {
+            background-color: $gold-hover;
+            transform: translateY(-1px);
+          }
+        }
+
+        &.secondary {
+          background-color: rgba(255, 255, 255, 0.12);
+          color: #FFFFFF !important;
+          border: 1px solid rgba(255, 255, 255, 0.2);
+
+          svg {
+            color: #FFFFFF !important;
+          }
+
+          span {
+            color: #FFFFFF !important;
+          }
+
+          &:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-1px);
+          }
+        }
+      }
+    }
+  }

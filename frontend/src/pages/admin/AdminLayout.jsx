@@ -129,10 +129,16 @@ const AdminLayout = () => {
             {/* Clean Professional User Profile Capsule */}
             <div className="user-profile-capsule">
               <div className="profile-avatar">
-                <span>MI</span>
+                <span>KV</span>
               </div>
-              <span className="profile-display-name">Mavtar Impex</span>
-              <span className="role-badge">Admin</span>
+              <div style={{ display: "flex", flexDirection: "column", textAlign: "left", lineHeight: 1.2 }}>
+                <span className="profile-display-name" style={{ fontWeight: 700, fontSize: "0.85rem", color: "var(--text-main)" }}>
+                  {admin?.name || "Krish Vaghani"}
+                </span>
+                <span className="role-badge" style={{ fontSize: "0.68rem", color: "#C5A059", fontWeight: 700, letterSpacing: "0.05em", textTransform: "uppercase" }}>
+                  👑 Super Admin
+                </span>
+              </div>
             </div>
           </div>
 
