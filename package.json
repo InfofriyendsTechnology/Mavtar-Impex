@@ -13,8 +13,7 @@
     "dev:store": "npm run dev:store --prefix frontend",
     "dev:admin": "npm run dev:admin --prefix frontend",
     "dev:backend": "npm run dev --prefix backend",
-    "dev:all": "concurrently \"npm run dev --prefix backend\" \"npm run dev:store --prefix frontend\" \"npm run dev:admin --prefix frontend\"",
-    "build": "npm run build --prefix frontend",
+    "build": "node -e \"const { execSync } = require('child_process'); if (require('fs').existsSync('./frontend/package.json')) { execSync('npm run build --prefix frontend', { stdio: 'inherit' }); } else { execSync('npm run build', { stdio: 'inherit' }); }\"",
     "start": "node backend/src/server.js"
   }
 }
