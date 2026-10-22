@@ -43,7 +43,7 @@ export const AuthProvider = ({ children }) => {
         setAdmin(res.data.user);
         localStorage.setItem("mavtar_admin_token", res.data.token);
         localStorage.setItem("mavtar_admin_user", JSON.stringify(res.data.user));
-        toast.success(`Welcome back, ${res.data?.user?.name || "Krish Vaghani"}! 👑`);
+        toast.success(`Welcome back, ${res.data?.user?.name || "Krish Vaghani"}!`);
         return true;
       }
       return false;

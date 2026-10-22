@@ -10,6 +10,11 @@ import {
   Calendar,
   CheckCircle2,
   Crown,
+  Database,
+  Activity,
+  ArrowRight,
+  Clock,
+  User,
 } from "lucide-react";
 import { analyticsApi } from "../../services/api";
 import "./AdminDashboard.scss";
@@ -73,14 +78,17 @@ const AdminDashboard = () => {
   return (
     <div className="admin-dashboard-page">
       
-      {/* Super Admin Welcome & Executive Greetings */}
+      {/* 1. Super Admin Welcome & Executive Greetings */}
       <div className="super-admin-greeting-card">
         <div className="greeting-content">
           <div className="greeting-badge">
             <Sparkles size={14} className="badge-sparkle" />
             <span>Mavtar Impex Executive Suite</span>
             <span className="badge-divider">•</span>
-            <span className="owner-tag">👑 Krish Vaghani (Super Admin)</span>
+            <span className="owner-tag">
+              <Crown size={13} className="text-amber-400" />
+              Krish Vaghani (Super Admin)
+            </span>
           </div>
 
           <h1 className="greeting-heading">
@@ -93,10 +101,12 @@ const AdminDashboard = () => {
 
           <div className="system-status-pills">
             <span className="status-pill active">
+              <Database size={13} />
               <span className="status-dot"></span>
               Neon PostgreSQL Connected
             </span>
             <span className="status-pill active">
+              <Activity size={13} />
               <span className="status-dot"></span>
               Zari & Resham Embroidery Live
             </span>
@@ -120,7 +130,7 @@ const AdminDashboard = () => {
         </div>
       </div>
 
-      {/* Metrics Cards Grid */}
+      {/* 2. Metrics Cards Grid */}
       <div className="metrics-grid">
         
         {/* Total Sales */}
@@ -173,26 +183,30 @@ const AdminDashboard = () => {
 
       </div>
 
-      {/* Two Column Layout: Recent Orders & Inventory Watch */}
-      <div className="dashboard-grid-2">
+      {/* 3. Two Column Layout: Recent Orders & Inventory Watch */}
+      <div className="dashboard-split-grid">
         
         {/* Recent Orders Panel */}
-        <div className="dashboard-panel">
+        <div className="dashboard-panel-card">
           <div className="panel-header">
             <div>
               <h3 className="panel-title">Recent Client Orders</h3>
               <p className="panel-subtitle">Latest pan-India orders placed through the public storefront</p>
             </div>
             <Link to="/admin/orders" className="panel-link">
-              View All Orders →
+              <span>View All Orders</span>
+              <ArrowRight size={13} />
             </Link>
           </div>
 
-          <div className="panel-table-wrap">
+          <div className="orders-table-wrapper">
             {(!data?.recentOrders || data.recentOrders.length === 0) ? (
-              <div className="empty-state">No orders received yet.</div>
+              <div className="empty-orders-state">
+                <Package size={36} />
+                <span>No orders received yet.</span>
+              </div>
             ) : (
-              <table className="bond-table">
+              <table className="bond-orders-table">
                 <thead>
                   <tr>
                     <th>Order #</th>
@@ -202,23 +216,43 @@ const AdminDashboard = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {data.recentOrders.slice(0, 5).map((order) => (
-                    <tr key={order.id}>
-                      <td className="font-mono">{order.orderNumber}</td>
-                      <td>
-                        <div className="customer-cell">
-                          <span className="name">{order.customerName}</span>
-                          <span className="city">{order.city}, {order.state}</span>
-                        </div>
-                      </td>
-                      <td className="amount-cell">₹{order.totalAmount}</td>
-                      <td>
-                        <span className={`status-pill ${order.orderStatus?.toLowerCase()}`}>
-                          {order.orderStatus}
-                        </span>
-                      </td>
-                    </tr>
-                  ))}
+                  {data.recentOrders.slice(0, 5).map((order) => {
+                    const initials = (order.customerName || "Customer")
+                      .split(" ")
+                      .map((n) => n[0])
+                      .slice(0, 2)
+                      .join("")
+                      .toUpperCase();
+
+                    return (
+                      <tr key={order.id}>
+                        <td>
+                          <span className="order-code-badge">{order.orderNumber}</span>
+                        </td>
+                        <td>
+                          <div className="customer-cell">
+                            <div className="customer-avatar">
+                              {initials}
+                            </div>
+                            <div className="customer-details">
+                              <span className="customer-name">{order.customerName}</span>
+                              <span className="customer-city">{order.city || "Pan-India"}, {order.state || "IN"}</span>
+                            </div>
+                          </div>
+                        </td>
+                        <td>
+                          <span className="amount-pill">₹{Number(order.totalAmount).toLocaleString("en-IN")}</span>
+                        </td>
+                        <td>
+                          <span className={`status-badge ${order.orderStatus?.toLowerCase()}`}>
+                            {order.orderStatus === "CONFIRMED" && <CheckCircle2 size={11} />}
+                            {order.orderStatus === "PENDING" && <Clock size={11} />}
+                            {order.orderStatus}
+                          </span>
+                        </td>
+                      </tr>
+                    );
+                  })}
                 </tbody>
               </table>
             )}
@@ -226,46 +260,46 @@ const AdminDashboard = () => {
         </div>
 
         {/* Inventory Stock Watch */}
-        <div className="dashboard-panel">
+        <div className="dashboard-panel-card">
           <div className="panel-header">
             <div>
               <h3 className="panel-title">Inventory Stock Watch</h3>
               <p className="panel-subtitle">Current stock levels for hand-embroidered bags</p>
             </div>
             <Link to="/admin/products" className="panel-link">
-              Manage Stock →
+              <span>Manage Stock</span>
+              <ArrowRight size={13} />
             </Link>
           </div>
 
-          <div className="panel-table-wrap">
+          <div className="inventory-alert-list">
             {(!data?.lowStockProducts || data.lowStockProducts.length === 0) ? (
-              <div className="empty-state">All catalog items have healthy stock levels.</div>
+              <div className="empty-orders-state">
+                <CheckCircle2 size={36} className="text-emerald-600" />
+                <span>All catalog items have healthy stock levels.</span>
+              </div>
             ) : (
-              <div className="inventory-list">
-                {data.lowStockProducts.map((prod) => (
-                  <div key={prod.id} className="inventory-item">
+              data.lowStockProducts.map((prod) => (
+                <div key={prod.id} className="inventory-card-item">
+                  <div className="prod-thumb-wrap">
                     <img
                       src={prod.images?.[0] || "/products/royal-elephant-green-tote.jpg"}
                       alt={prod.title}
-                      className="prod-thumb"
+                      className="prod-img"
                     />
-                    <div className="prod-meta">
-                      <span className="prod-title">{prod.title}</span>
+                    <div className="prod-info">
+                      <span className="prod-name" title={prod.title}>{prod.title}</span>
                       <span className="prod-sku">SKU: {prod.sku || "N/A"}</span>
                     </div>
-                    <div className="prod-stock">
-                      <span className={`stock-count ${prod.stock <= 5 ? "critical" : "warning"}`}>
-                        {prod.stock} in stock
-                      </span>
-                      {prod.stock <= 5 && (
-                        <span className="critical-badge">
-                          <AlertTriangle size={12} /> Low
-                        </span>
-                      )}
-                    </div>
                   </div>
-                ))}
-              </div>
+                  <div className="stock-indicator-wrap">
+                    <span className={`stock-count-badge ${prod.stock <= 5 ? "critical" : ""}`}>
+                      {prod.stock <= 5 && <AlertTriangle size={11} />}
+                      {prod.stock} in stock
+                    </span>
+                  </div>
+                </div>
+              ))
             )}
           </div>
         </div>

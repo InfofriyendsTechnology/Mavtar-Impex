@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { ArrowRight, Sparkles, Play, ShieldCheck, Heart, Award, CheckCircle2, Star } from "lucide-react";
+import { ArrowRight, Sparkles, Play, ShieldCheck, Heart, Award, CheckCircle2, Star, Video } from "lucide-react";
 import ProductCard from "../../components/ProductCard";
 import { productApi } from "../../services/api";
 
@@ -50,9 +50,15 @@ const Home = () => {
               </p>
 
               {/* Price Callout */}
-              <div className="flex items-center justify-center lg:justify-start gap-4 text-xs tracking-wide text-gold-300 font-medium">
-                <span>✦ Masterpiece Collection: ₹600 - ₹2,000</span>
-                <span>✦ Pan-India Free Delivery Above ₹999</span>
+              <div className="flex flex-wrap items-center justify-center lg:justify-start gap-4 text-xs tracking-wide text-gold-300 font-medium">
+                <span className="flex items-center gap-1.5">
+                  <Sparkles size={12} className="text-gold-400" />
+                  <span>Masterpiece Collection: ₹600 - ₹2,000</span>
+                </span>
+                <span className="flex items-center gap-1.5">
+                  <Sparkles size={12} className="text-gold-400" />
+                  <span>Pan-India Free Delivery Above ₹999</span>
+                </span>
               </div>
 
               {/* Action Buttons */}
@@ -246,8 +252,9 @@ const Home = () => {
                   className="w-full aspect-[9/16] max-h-[580px] mx-auto object-contain bg-black"
                 />
               </div>
-              <div className="mt-3 text-center text-xs text-gold-300 italic">
-                🎥 Real footage from our computerized embroidery workshop in Surat
+              <div className="mt-3 text-center text-xs text-gold-300 italic flex items-center justify-center gap-1.5">
+                <Video size={13} className="text-gold-400" />
+                <span>Real footage from our computerized embroidery workshop in Surat</span>
               </div>
             </div>
 

@@ -14,7 +14,7 @@ const AdminSettings = () => {
     whatsappNumber: "919512753471",
     freeShippingThreshold: 999,
     standardShippingFee: 99,
-    bannerText: "✨ Handcrafted Luxury Linen Bags | Free Pan-India Delivery Above ₹999 | Code: MAVTAR10 for 10% OFF",
+    bannerText: "Handcrafted Luxury Linen Bags | Free Pan-India Delivery Above ₹999 | Code: MAVTAR10 for 10% OFF",
     address: "Surat, Gujarat, India - 395006",
   });
 

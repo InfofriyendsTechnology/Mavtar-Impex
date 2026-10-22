@@ -4,334 +4,11 @@
 .admin-dashboard-page {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 24px;
 
-  /* Hero Header Bar */
-  .dashboard-hero-bar {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-    flex-wrap: wrap;
-    gap: 16px;
-    padding: 6px 2px;
-
-    .hero-text {
-      .hero-title {
-        font-family: $font-serif;
-        font-size: 2.2rem;
-        font-weight: 700;
-        color: $text-main;
-        letter-spacing: -0.02em;
-        line-height: 1.15;
-      }
-
-      .hero-subtitle {
-        color: $text-muted;
-        font-size: 0.88rem;
-        margin-top: 4px;
-      }
-    }
-
-    .hero-actions {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-
-      /* High-contrast Action Buttons */
-      .hero-pill-btn {
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        height: 42px;
-        padding: 0 20px;
-        border-radius: $border-radius-pill;
-        font-size: 0.86rem;
-        font-weight: 600;
-        text-decoration: none;
-        cursor: pointer;
-        transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-
-        &.primary {
-          background-color: $bg-pill-dark;
-          color: #FFFFFF !important;
-          border: 1px solid rgba(197, 160, 89, 0.35);
-          box-shadow: $shadow-pill;
-
-          svg {
-            color: $gold !important;
-            width: 16px;
-            height: 16px;
-          }
-
-          span {
-            color: #FFFFFF !important;
-            font-weight: 600;
-          }
-
-          &:hover {
-            background-color: $accent-hover;
-            transform: translateY(-1px);
-            box-shadow: 0 6px 18px rgba(11, 59, 43, 0.25);
-          }
-        }
-
-        &.secondary {
-          background-color: $bg-card;
-          color: $text-main !important;
-          border: 1px solid $border-main;
-          box-shadow: $shadow-sm;
-
-          svg {
-            color: $accent !important;
-            width: 16px;
-            height: 16px;
-          }
-
-          span {
-            color: $text-main !important;
-            font-weight: 600;
-          }
-
-          &:hover {
-            background-color: $bg-card-alt;
-            border-color: $border-pill;
-            transform: translateY(-1px);
-          }
-        }
-      }
-    }
-  }
-
-  /* Metric Cards Grid */
-  .metrics-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 16px;
-
-    .metric-card {
-      background-color: $bg-card;
-      border: 1px solid $border-main;
-      border-radius: $border-radius;
-      padding: 20px;
-      box-shadow: $shadow-sm;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-
-      .card-top {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-
-        .card-label {
-          font-size: 0.74rem;
-          font-weight: 700;
-          text-transform: uppercase;
-          letter-spacing: 0.05em;
-          color: $text-muted;
-        }
-
-        .card-icon-pill {
-          width: 34px;
-          height: 34px;
-          border-radius: 10px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          background-color: $bg-card-alt;
-          color: $accent;
-
-          &.gold {
-            background-color: $gold-light;
-            color: $gold-hover;
-          }
-
-          &.green {
-            background-color: $accent-light;
-            color: $accent;
-          }
-
-          &.danger {
-            background-color: $danger-light;
-            color: $danger;
-          }
-        }
-      }
-
-      .card-value {
-        font-size: 1.85rem;
-        font-weight: 800;
-        color: $text-main;
-        letter-spacing: -0.02em;
-        line-height: 1.1;
-      }
-
-      .card-subtext {
-        font-size: 0.76rem;
-        color: $text-muted;
-        font-weight: 500;
-      }
-    }
-  }
-
-  /* Split Layout */
-  .dashboard-split-grid {
-    display: grid;
-    grid-template-columns: 8fr 4fr;
-    gap: 18px;
-
-    .dashboard-panel-card {
-      background-color: $bg-card;
-      border: 1px solid $border-main;
-      border-radius: $border-radius;
-      padding: 22px;
-      box-shadow: $shadow-sm;
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-
-      .panel-header {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding-bottom: 14px;
-        border-bottom: 1px solid $border-muted;
-
-        .panel-title {
-          font-family: $font-serif;
-          font-size: 1.25rem;
-          font-weight: 700;
-          color: $text-main;
-        }
-
-        .panel-link {
-          font-size: 0.8rem;
-          font-weight: 600;
-          color: $gold-hover;
-          text-decoration: none;
-
-          &:hover {
-            color: $accent;
-          }
-        }
-      }
-
-      /* Clean Table */
-      .orders-table-wrapper {
-        overflow-x: auto;
-
-        table {
-          width: 100%;
-          border-collapse: collapse;
-          font-size: 0.82rem;
-
-          th {
-            text-align: left;
-            padding: 10px 12px;
-            font-size: 0.72rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            color: $text-muted;
-            background-color: $bg-card-alt;
-            border-bottom: 1px solid $border-main;
-
-            &:first-child { border-radius: 8px 0 0 8px; }
-            &:last-child { border-radius: 0 8px 8px 0; }
-          }
-
-          td {
-            padding: 12px;
-            border-bottom: 1px solid $border-muted;
-            color: $text-main;
-
-            .cust-name { font-weight: 600; }
-            .cust-phone { font-size: 0.72rem; color: $text-muted; }
-            .ord-price { font-weight: 700; color: $text-main; }
-          }
-
-          tbody tr:hover {
-            background-color: $bg-card-hover;
-          }
-        }
-      }
-
-      /* Status Badges */
-      .status-pill {
-        display: inline-block;
-        padding: 3px 10px;
-        border-radius: $border-radius-pill;
-        font-size: 0.7rem;
-        font-weight: 700;
-        text-transform: uppercase;
-        letter-spacing: 0.03em;
-        background-color: $accent-light;
-        color: $accent;
-        border: 1px solid $accent-border;
-      }
-
-      /* Low Stock Items */
-      .inventory-alert-list {
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-
-        .alert-item {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          padding: 10px 14px;
-          border-radius: 10px;
-          background-color: $bg-card-alt;
-          border: 1px solid $border-main;
-
-          .item-name {
-            font-size: 0.82rem;
-            font-weight: 600;
-            color: $text-main;
-            max-width: 180px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-          }
-
-          .stock-tag {
-            font-size: 0.72rem;
-            font-weight: 700;
-            padding: 2px 8px;
-            border-radius: $border-radius-pill;
-            background-color: #FEF3C7;
-            color: #92400E;
-          }
-        }
-      }
-    }
-  }
-}
-
-@media (max-width: 1024px) {
-  .admin-dashboard-page {
-    .metrics-grid {
-      grid-template-columns: repeat(2, 1fr);
-    }
-
-    .dashboard-split-grid {
-      grid-template-columns: 1fr;
-    }
-  }
-}
-
-@media (max-width: 640px) {
-  .admin-dashboard-page {
-    .metrics-grid {
-      grid-template-columns: 1fr;
-    }
-  }
-}
-
-  /* Super Admin Greeting Card */
+  /* 1. Super Admin Greeting Card */
   .super-admin-greeting-card {
-    background: linear-gradient(135deg, #0B3B2B 0%, #072B1F 60%, #051F16 100%);
+    background: linear-gradient(135deg, #0B3B2B 0%, #072B1F 55%, #051F16 100%);
     border: 1px solid rgba(197, 160, 89, 0.4);
     border-radius: $border-radius-card;
     padding: 28px 32px;
@@ -350,9 +27,9 @@
       position: absolute;
       top: -50%;
       right: -10%;
-      width: 320px;
-      height: 320px;
-      background: radial-gradient(circle, rgba(197, 160, 89, 0.18) 0%, transparent 70%);
+      width: 340px;
+      height: 340px;
+      background: radial-gradient(circle, rgba(197, 160, 89, 0.2) 0%, transparent 70%);
       pointer-events: none;
     }
 
@@ -360,7 +37,7 @@
       display: flex;
       flex-direction: column;
       gap: 10px;
-      max-width: 650px;
+      max-width: 680px;
       z-index: 1;
 
       .greeting-badge {
@@ -368,16 +45,17 @@
         align-items: center;
         gap: 8px;
         background: rgba(255, 255, 255, 0.08);
-        border: 1px solid rgba(197, 160, 89, 0.3);
-        padding: 4px 14px;
+        border: 1px solid rgba(197, 160, 89, 0.35);
+        padding: 5px 14px;
         border-radius: $border-radius-pill;
         font-size: 0.76rem;
         font-weight: 600;
         color: #FDE047;
         width: fit-content;
 
-        .badge-sparkle {
+        svg {
           color: #FDE047;
+          flex-shrink: 0;
         }
 
         .badge-divider {
@@ -387,12 +65,15 @@
         .owner-tag {
           color: #FFFFFF;
           font-weight: 700;
+          display: inline-flex;
+          align-items: center;
+          gap: 5px;
         }
       }
 
       .greeting-heading {
         font-family: $font-serif;
-        font-size: 2.2rem;
+        font-size: 2.3rem;
         font-weight: 700;
         color: #FFFFFF;
         letter-spacing: -0.01em;
@@ -403,7 +84,7 @@
         font-size: 0.88rem;
         color: #E2E8F0;
         line-height: 1.5;
-        opacity: 0.9;
+        opacity: 0.92;
       }
 
       .system-status-pills {
@@ -417,13 +98,18 @@
           display: inline-flex;
           align-items: center;
           gap: 6px;
-          background: rgba(0, 0, 0, 0.25);
-          border: 1px solid rgba(255, 255, 255, 0.12);
-          padding: 4px 12px;
+          background: rgba(0, 0, 0, 0.3);
+          border: 1px solid rgba(255, 255, 255, 0.15);
+          padding: 5px 12px;
           border-radius: $border-radius-pill;
           font-size: 0.74rem;
           color: #E2E8F0;
           font-weight: 500;
+
+          svg {
+            color: #C5A059;
+            flex-shrink: 0;
+          }
 
           &.active {
             .status-dot {
@@ -432,6 +118,7 @@
               background-color: #22C55E;
               border-radius: 50%;
               box-shadow: 0 0 8px #22C55E;
+              animation: pulse 2s infinite;
             }
           }
 
@@ -491,7 +178,7 @@
         &.secondary {
           background-color: rgba(255, 255, 255, 0.12);
           color: #FFFFFF !important;
-          border: 1px solid rgba(255, 255, 255, 0.2);
+          border: 1px solid rgba(255, 255, 255, 0.25);
 
           svg {
             color: #FFFFFF !important;
@@ -509,3 +196,401 @@
       }
     }
   }
+
+  /* 2. Metrics Cards Grid */
+  .metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+
+    .metric-card {
+      background-color: $bg-card;
+      border: 1px solid $border-main;
+      border-radius: $border-radius;
+      padding: 20px;
+      box-shadow: $shadow-sm;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+      &:hover {
+        transform: translateY(-2px);
+        box-shadow: $shadow-md;
+      }
+
+      .card-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        .card-label {
+          font-size: 0.74rem;
+          font-weight: 700;
+          text-transform: uppercase;
+          letter-spacing: 0.05em;
+          color: $text-muted;
+        }
+
+        .card-icon-pill {
+          width: 36px;
+          height: 36px;
+          border-radius: 10px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background-color: $bg-card-alt;
+          color: $text-main;
+
+          &.green {
+            background-color: $accent-light;
+            color: $accent;
+          }
+
+          &.gold {
+            background-color: #FEF3C7;
+            color: #92400E;
+          }
+        }
+      }
+
+      .card-value {
+        font-size: 1.85rem;
+        font-weight: 800;
+        color: $text-main;
+        letter-spacing: -0.02em;
+        line-height: 1.1;
+      }
+
+      .card-subtext {
+        font-size: 0.76rem;
+        color: $text-muted;
+        font-weight: 500;
+      }
+    }
+  }
+
+  /* 3. Split Layout: Recent Orders & Inventory Watch */
+  .dashboard-split-grid {
+    display: grid;
+    grid-template-columns: 8fr 4fr;
+    gap: 20px;
+
+    .dashboard-panel-card {
+      background-color: $bg-card;
+      border: 1px solid $border-main;
+      border-radius: $border-radius;
+      padding: 24px;
+      box-shadow: $shadow-sm;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+
+      .panel-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding-bottom: 14px;
+        border-bottom: 1px solid $border-muted;
+
+        .panel-title {
+          font-family: $font-serif;
+          font-size: 1.28rem;
+          font-weight: 700;
+          color: $text-main;
+        }
+
+        .panel-subtitle {
+          font-size: 0.78rem;
+          color: $text-muted;
+          margin-top: 2px;
+        }
+
+        .panel-link {
+          font-size: 0.8rem;
+          font-weight: 700;
+          color: $gold-hover;
+          text-decoration: none;
+          display: inline-flex;
+          align-items: center;
+          gap: 4px;
+          white-space: nowrap;
+
+          &:hover {
+            color: $accent;
+          }
+        }
+      }
+
+      /* Clean Table Wrapper */
+      .orders-table-wrapper {
+        overflow-x: auto;
+
+        table.bond-orders-table {
+          width: 100%;
+          border-collapse: separate;
+          border-spacing: 0;
+          font-size: 0.82rem;
+
+          thead {
+            tr {
+              th {
+                text-align: left;
+                padding: 10px 14px;
+                font-size: 0.72rem;
+                font-weight: 700;
+                text-transform: uppercase;
+                letter-spacing: 0.06em;
+                color: $text-muted;
+                background-color: $bg-card-alt;
+                border-bottom: 1px solid $border-main;
+                white-space: nowrap;
+
+                &:first-child {
+                  border-top-left-radius: 8px;
+                  border-bottom-left-radius: 8px;
+                }
+                &:last-child {
+                  border-top-right-radius: 8px;
+                  border-bottom-right-radius: 8px;
+                  text-align: right;
+                }
+              }
+            }
+          }
+
+          tbody {
+            tr {
+              transition: background-color 0.15s ease;
+
+              &:hover {
+                background-color: $bg-card-hover;
+              }
+
+              td {
+                padding: 14px;
+                border-bottom: 1px solid $border-muted;
+                color: $text-main;
+                vertical-align: middle;
+
+                &:last-child {
+                  text-align: right;
+                }
+
+                .order-code-badge {
+                  font-family: monospace;
+                  font-size: 0.8rem;
+                  font-weight: 700;
+                  color: $text-main;
+                  background-color: $bg-card-alt;
+                  padding: 4px 8px;
+                  border-radius: 6px;
+                  border: 1px solid $border-main;
+                }
+
+                .customer-cell {
+                  display: flex;
+                  align-items: center;
+                  gap: 10px;
+
+                  .customer-avatar {
+                    width: 32px;
+                    height: 32px;
+                    border-radius: 50%;
+                    background: linear-gradient(135deg, $accent-light, #C5A059);
+                    color: $accent;
+                    font-size: 0.74rem;
+                    font-weight: 800;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    flex-shrink: 0;
+                  }
+
+                  .customer-details {
+                    display: flex;
+                    flex-direction: column;
+
+                    .customer-name {
+                      font-weight: 700;
+                      color: $text-main;
+                      font-size: 0.84rem;
+                    }
+
+                    .customer-city {
+                      font-size: 0.72rem;
+                      color: $text-muted;
+                    }
+                  }
+                }
+
+                .amount-pill {
+                  font-weight: 800;
+                  color: $accent;
+                  font-size: 0.88rem;
+                }
+
+                .status-badge {
+                  display: inline-flex;
+                  align-items: center;
+                  gap: 5px;
+                  padding: 4px 10px;
+                  border-radius: $border-radius-pill;
+                  font-size: 0.7rem;
+                  font-weight: 700;
+                  text-transform: uppercase;
+                  letter-spacing: 0.04em;
+                  white-space: nowrap;
+
+                  &.confirmed, &.completed, &.delivered {
+                    background-color: #DCFCE7;
+                    color: #15803D;
+                    border: 1px solid #BBF7D0;
+                  }
+
+                  &.pending, &.in_production {
+                    background-color: #FEF3C7;
+                    color: #B45309;
+                    border: 1px solid #FDE68A;
+                  }
+
+                  &.shipped {
+                    background-color: #DBEAFE;
+                    color: #1D4ED8;
+                    border: 1px solid #BFDBFE;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+
+      /* Inventory Alert List */
+      .inventory-alert-list {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+
+        .inventory-card-item {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 12px 14px;
+          border-radius: 12px;
+          background-color: $bg-card-alt;
+          border: 1px solid $border-main;
+          gap: 12px;
+          transition: transform 0.15s ease;
+
+          &:hover {
+            transform: translateX(2px);
+          }
+
+          .prod-thumb-wrap {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            min-width: 0;
+
+            .prod-img {
+              width: 44px;
+              height: 44px;
+              border-radius: 8px;
+              object-fit: cover;
+              border: 1px solid $border-main;
+              flex-shrink: 0;
+            }
+
+            .prod-info {
+              display: flex;
+              flex-direction: column;
+              min-width: 0;
+
+              .prod-name {
+                font-size: 0.82rem;
+                font-weight: 700;
+                color: $text-main;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+              }
+
+              .prod-sku {
+                font-size: 0.7rem;
+                color: $text-muted;
+                font-family: monospace;
+              }
+            }
+          }
+
+          .stock-indicator-wrap {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            flex-shrink: 0;
+
+            .stock-count-badge {
+              font-size: 0.74rem;
+              font-weight: 700;
+              padding: 3px 10px;
+              border-radius: $border-radius-pill;
+              background-color: #FEF3C7;
+              color: #92400E;
+              border: 1px solid #FDE68A;
+              display: inline-flex;
+              align-items: center;
+              gap: 4px;
+
+              &.critical {
+                background-color: #FEE2E2;
+                color: #B91C1C;
+                border-color: #FECACA;
+              }
+            }
+          }
+        }
+      }
+
+      .empty-orders-state {
+        text-align: center;
+        padding: 40px 16px;
+        color: $text-muted;
+        font-size: 0.84rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+
+        svg {
+          color: $border-pill;
+        }
+      }
+    }
+  }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+@media (max-width: 1024px) {
+  .admin-dashboard-page {
+    .metrics-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .dashboard-split-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+}
+
+@media (max-width: 640px) {
+  .admin-dashboard-page {
+    .metrics-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+}

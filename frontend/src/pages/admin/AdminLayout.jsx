@@ -9,6 +9,7 @@ import {
   LogOut,
   Menu,
   ShieldCheck,
+  Crown,
 } from "lucide-react";
 import { useAuth } from "../../context/AuthContext";
 import "./AdminLayout.scss";
@@ -135,8 +136,9 @@ const AdminLayout = () => {
                 <span className="profile-display-name" style={{ fontWeight: 700, fontSize: "0.85rem", color: "var(--text-main)" }}>
                   {admin?.name || "Krish Vaghani"}
                 </span>
-                <span className="role-badge" style={{ fontSize: "0.68rem", color: "#C5A059", fontWeight: 700, letterSpacing: "0.05em", textTransform: "uppercase" }}>
-                  👑 Super Admin
+                <span className="role-badge" style={{ fontSize: "0.68rem", color: "#C5A059", fontWeight: 700, letterSpacing: "0.05em", textTransform: "uppercase", display: "inline-flex", alignItems: "center", gap: 3 }}>
+                  <Crown size={11} />
+                  <span>Super Admin</span>
                 </span>
               </div>
             </div>

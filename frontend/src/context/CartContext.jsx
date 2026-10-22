@@ -46,7 +46,6 @@ export const CartProvider = ({ children }) => {
     });
 
     toast.success(`${product.title} added to your bag!`, {
-      icon: "🛍️",
       style: {
         background: "#0b2b1f",
         color: "#fcfaf4",

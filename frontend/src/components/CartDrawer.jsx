@@ -1,6 +1,6 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { X, Plus, Minus, Trash2, ShoppingBag, ArrowRight, CheckCircle2 } from "lucide-react";
+import { X, Plus, Minus, Trash2, ShoppingBag, ArrowRight, CheckCircle2, ShieldCheck } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useCart } from "../context/CartContext";
 
@@ -196,8 +196,9 @@ const CartDrawer = () => {
                     <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                   </motion.button>
 
-                  <p className="text-[11px] text-center text-linen-500">
-                    🔒 Safe & Secure 256-bit Encrypted Checkout • COD Available
+                  <p className="text-[11px] text-center text-linen-500 flex items-center justify-center gap-1.5">
+                    <ShieldCheck className="w-3.5 h-3.5 text-emerald-700" />
+                    <span>Safe & Secure 256-bit Encrypted Checkout • COD Available</span>
                   </p>
                 </div>
               )}
