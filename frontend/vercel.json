@@ -1,7 +1,6 @@
 {
-  "buildCommand": "vite build",
+  "buildCommand": "node -e \"if(process.platform==='linux'){try{require('child_process').execSync('npm i --no-save @rollup/rollup-linux-x64-gnu@4.64.12',{stdio:'inherit'})}catch(e){console.error(e)}}\" && vite build",
   "outputDirectory": "dist",
-  "installCommand": "npm install --include=optional && npm install --no-save @rollup/rollup-linux-x64-gnu@4.64.12",
   "rewrites": [
     {
       "source": "/((?!api/).*)",
