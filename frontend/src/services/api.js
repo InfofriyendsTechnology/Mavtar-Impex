@@ -1,9 +1,17 @@
 import axios from "axios";
 
 const getApiBase = () => {
-  // If running in browser and port is known
+  if (import.meta.env.VITE_API_BASE_URL) {
+    return import.meta.env.VITE_API_BASE_URL;
+  }
+  if (import.meta.env.VITE_API_URL) {
+    return import.meta.env.VITE_API_URL;
+  }
   if (typeof window !== "undefined") {
-    // If not proxied or direct cross-origin
+    // When running on production (e.g. Vercel), default to the live backend URL
+    if (window.location.hostname !== "localhost" && window.location.hostname !== "127.0.0.1") {
+      return "https://mavtarimpexbackend.vercel.app/api";
+    }
     return "/api";
   }
   return "http://localhost:1653/api";
