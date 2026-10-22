@@ -1,0 +1,139 @@
+@import '../../styles/variables';
+@import '../../styles/mixins';
+
+.admin-settings-page {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  max-width: 900px;
+
+  /* Header */
+  .page-header-bar {
+    .page-title {
+      font-family: $font-serif;
+      font-size: 2rem;
+      font-weight: 700;
+      color: $text-main;
+    }
+
+    .page-subtitle {
+      color: $text-muted;
+      font-size: 0.86rem;
+      margin-top: 2px;
+    }
+  }
+
+  /* Form Container */
+  .settings-panel-card {
+    background-color: $bg-card;
+    border: 1px solid $border-main;
+    border-radius: $border-radius;
+    padding: 32px;
+    box-shadow: $shadow-sm;
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+    }
+
+    .section-block {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+
+      .section-heading {
+        font-family: $font-serif;
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: $text-main;
+        border-bottom: 1px solid $border-muted;
+        padding-bottom: 10px;
+      }
+    }
+
+    .form-grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+
+      @media (max-width: 640px) {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+
+      label {
+        font-size: 0.78rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        color: $text-muted;
+      }
+
+      input, textarea {
+        background-color: $bg-card-alt;
+        border: 1px solid $border-main;
+        border-radius: 10px;
+        padding: 10px 14px;
+        font-size: 0.88rem;
+        color: $text-main;
+        transition: border-color $transition-fast, box-shadow $transition-fast;
+
+        &:focus {
+          border-color: $gold;
+          box-shadow: 0 0 0 3px rgba(197, 160, 89, 0.15);
+        }
+      }
+
+      textarea {
+        resize: vertical;
+        min-height: 70px;
+        line-height: 1.5;
+      }
+    }
+
+    .form-footer {
+      display: flex;
+      justify-content: flex-end;
+      padding-top: 12px;
+      border-top: 1px solid $border-muted;
+
+      .save-btn {
+        @include pill-button;
+        height: 44px;
+        padding: 0 28px;
+        background-color: $bg-pill-dark;
+        color: #FFFFFF !important;
+        border: 1px solid rgba(197, 160, 89, 0.35);
+        box-shadow: $shadow-pill;
+
+        svg {
+          color: $gold !important;
+        }
+
+        span {
+          color: #FFFFFF !important;
+          font-weight: 700;
+          letter-spacing: 0.05em;
+          text-transform: uppercase;
+          font-size: 0.8rem;
+        }
+
+        &:hover:not(:disabled) {
+          background-color: $accent-hover;
+          transform: translateY(-1px);
+        }
+
+        &:disabled {
+          opacity: 0.6;
+          cursor: not-allowed;
+        }
+      }
+    }
+  }
+}

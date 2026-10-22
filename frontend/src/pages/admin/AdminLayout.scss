@@ -1,0 +1,357 @@
+@import '../../styles/variables';
+
+.dashboard-layout {
+  display: flex;
+  min-height: 100vh;
+  background-color: $bg-canvas;
+  padding: 16px;
+  gap: 18px;
+  box-sizing: border-box;
+
+  /* Floating Modern Sidebar */
+  .sidebar {
+    width: 260px;
+    background-color: $bg-card;
+    border-radius: $border-radius-card;
+    border: 1px solid $border-main;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 18px 0;
+    box-shadow: $shadow-sm;
+    height: calc(100vh - 32px);
+    position: sticky;
+    top: 16px;
+    box-sizing: border-box;
+    flex-shrink: 0;
+    z-index: 50;
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+
+    .sidebar-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 0 18px 18px 18px;
+      border-bottom: 1px solid $border-muted;
+
+      .brand-logo-card {
+        width: 42px;
+        height: 42px;
+        border-radius: 12px;
+        background-color: $bg-pill-dark;
+        border: 1px solid rgba(197, 160, 89, 0.4);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: $gold;
+        box-shadow: $shadow-sm;
+        flex-shrink: 0;
+
+        svg {
+          width: 22px;
+          height: 22px;
+        }
+      }
+
+      .brand-title-wrap {
+        display: flex;
+        flex-direction: column;
+
+        .brand-name {
+          font-family: $font-serif;
+          font-size: 1.28rem;
+          font-weight: 700;
+          color: $text-main;
+          line-height: 1.1;
+        }
+
+        .brand-sub {
+          font-size: 0.68rem;
+          font-weight: 600;
+          color: $gold;
+          letter-spacing: 0.15em;
+          text-transform: uppercase;
+          margin-top: 2px;
+        }
+      }
+    }
+
+    /* Nav items */
+    .sidebar-nav {
+      padding: 14px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      flex: 1;
+
+      .nav-link-pill {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 10px 14px;
+        border-radius: $border-radius-inner;
+        font-size: 0.86rem;
+        font-weight: 600;
+        color: $text-muted;
+        text-decoration: none;
+        transition: all 0.18s ease;
+
+        svg {
+          width: 18px;
+          height: 18px;
+          color: $text-muted;
+          transition: color 0.18s ease;
+        }
+
+        &:hover {
+          color: $text-main;
+          background-color: $bg-card-alt;
+
+          svg {
+            color: $accent;
+          }
+        }
+
+        &.active {
+          background-color: $bg-pill-dark;
+          color: #FFFFFF !important;
+          box-shadow: $shadow-pill;
+
+          svg {
+            color: $gold !important;
+          }
+        }
+      }
+    }
+
+    /* Bottom footer */
+    .sidebar-footer {
+      padding: 14px 12px 0 12px;
+      border-top: 1px solid $border-muted;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+
+      .footer-action-btn {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 9px 12px;
+        border-radius: $border-radius-inner;
+        font-size: 0.82rem;
+        font-weight: 600;
+        color: $text-muted;
+        background: transparent;
+        cursor: pointer;
+        transition: all 0.15s ease;
+
+        svg {
+          width: 16px;
+          height: 16px;
+        }
+
+        &:hover {
+          color: $text-main;
+          background-color: $bg-card-alt;
+        }
+
+        &.logout {
+          color: $danger;
+
+          &:hover {
+            background-color: $danger-light;
+          }
+        }
+      }
+    }
+  }
+
+  /* Main Workspace */
+  .dashboard-main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    min-width: 0;
+
+    /* Capsule Header matching Bond CRM */
+    .dashboard-header-capsule {
+      height: 58px;
+      background-color: $bg-card;
+      border-radius: $border-radius-pill;
+      border: 1px solid $border-main;
+      box-shadow: $shadow-sm;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 16px 0 24px;
+      box-sizing: border-box;
+      flex-shrink: 0;
+
+      .header-left-wrap {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+
+        .mobile-hamburger-btn {
+          display: none;
+          width: 36px;
+          height: 36px;
+          border-radius: 50%;
+          background-color: $bg-card-alt;
+          border: 1px solid $border-main;
+          color: $text-main;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+        }
+
+        .header-breadcrumbs {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          font-size: 0.88rem;
+
+          .crumb-root {
+            color: $text-muted;
+            font-weight: 500;
+          }
+
+          .crumb-slash {
+            color: $text-muted;
+            opacity: 0.4;
+          }
+
+          .crumb-active {
+            color: $text-main;
+            font-weight: 700;
+          }
+        }
+      }
+
+      /* Right Actions & Profile Capsule */
+      .header-right-wrap {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+
+        .header-store-btn {
+          display: inline-flex;
+          align-items: center;
+          gap: 6px;
+          padding: 6px 14px;
+          border-radius: $border-radius-pill;
+          background-color: $bg-card-alt;
+          border: 1px solid $border-main;
+          color: $text-main;
+          font-size: 0.78rem;
+          font-weight: 600;
+          text-decoration: none;
+          transition: all 0.15s ease;
+
+          svg {
+            color: $accent;
+            width: 14px;
+            height: 14px;
+          }
+
+          &:hover {
+            border-color: $border-pill;
+            background-color: #E8E2D5;
+          }
+        }
+
+        /* Profile Capsule (Matching Rent360 cleanly) */
+        .user-profile-capsule {
+          display: inline-flex;
+          align-items: center;
+          gap: 10px;
+          height: 38px;
+          padding: 0 14px 0 4px;
+          background-color: $bg-card;
+          border: 1px solid $border-main;
+          border-radius: 24px;
+          box-shadow: $shadow-sm;
+
+          .profile-avatar {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, $accent 0%, #166534 100%);
+            color: #FFFFFF;
+            font-size: 0.74rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid #22c55e; // Green active status ring
+          }
+
+          .profile-display-name {
+            font-size: 0.84rem;
+            font-weight: 700;
+            color: $text-main;
+          }
+
+          .role-badge {
+            font-size: 0.68rem;
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: $border-radius-pill;
+            background-color: $success-light;
+            color: $success;
+          }
+        }
+      }
+    }
+
+    .dashboard-content {
+      flex: 1;
+      padding: 4px 2px;
+      overflow-y: auto;
+    }
+  }
+}
+
+/* Sidebar Backdrop for Mobile */
+.sidebar-backdrop {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(18, 18, 22, 0.45);
+  backdrop-filter: blur(4px);
+  z-index: 45;
+}
+
+@media (max-width: 1024px) {
+  .dashboard-layout {
+    padding: 10px 8px;
+    gap: 12px;
+
+    .sidebar {
+      position: fixed;
+      left: 10px;
+      top: 10px;
+      bottom: 10px;
+      height: calc(100vh - 20px);
+      transform: translateX(-110%);
+
+      &.mobile-open {
+        transform: translateX(0);
+      }
+    }
+
+    .dashboard-main {
+      .dashboard-header-capsule {
+        padding: 0 12px;
+
+        .header-left-wrap .mobile-hamburger-btn {
+          display: inline-flex;
+        }
+
+        .header-store-btn span {
+          display: none;
+        }
+      }
+    }
+  }
+}

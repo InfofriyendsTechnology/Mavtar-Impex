@@ -1,0 +1,174 @@
+@import './variables';
+@import './mixins';
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: $font-family;
+  font-size: $font-size-base;
+  background-color: $bg-canvas;
+  color: $text-main;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, .font-serif {
+  font-family: $font-serif;
+  letter-spacing: -0.01em;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+button {
+  cursor: pointer;
+  font-family: $font-family;
+  outline: none;
+  border: none;
+}
+
+input {
+  font-family: $font-family;
+  outline: none;
+
+  /* Transparent Webkit Autofill Fix from Rent360 */
+  &:-webkit-autofill,
+  &:-webkit-autofill:hover, 
+  &:-webkit-autofill:focus, 
+  &:-webkit-autofill:active {
+    -webkit-background-clip: text !important;
+    background-clip: text !important;
+    -webkit-text-fill-color: var(--text-main) !important;
+    caret-color: var(--text-main) !important;
+    transition: background-color 5000000s ease-in-out 0s !important;
+    box-shadow: 0 0 0 1000px transparent inset !important;
+    -webkit-box-shadow: 0 0 0 1000px transparent inset !important;
+  }
+}
+
+select {
+  font-family: $font-family;
+  outline: none;
+  cursor: pointer;
+}
+
+/* Custom Minimalist Scrollbar */
+::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+}
+::-webkit-scrollbar-track {
+  background: $bg-card-alt;
+}
+::-webkit-scrollbar-thumb {
+  background: $gold;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: $gold-hover;
+}
+
+/* Standard Reusable Enterprise Action Buttons */
+.btn-pill-primary {
+  @include pill-button;
+  background-color: $bg-pill-dark;
+  color: #FFFFFF !important;
+  border: 1px solid rgba(197, 160, 89, 0.3);
+  box-shadow: $shadow-pill;
+
+  svg {
+    color: $gold !important;
+  }
+
+  span {
+    color: #FFFFFF !important;
+    font-weight: 600;
+  }
+
+  &:hover {
+    background-color: $accent-hover;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 14px rgba(11, 59, 43, 0.25);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+.btn-pill-secondary {
+  @include pill-button;
+  background-color: $bg-card;
+  color: $text-main !important;
+  border: 1px solid $border-main;
+  box-shadow: $shadow-sm;
+
+  svg {
+    color: $accent !important;
+  }
+
+  span {
+    color: $text-main !important;
+    font-weight: 600;
+  }
+
+  &:hover {
+    background-color: $bg-card-alt;
+    border-color: $border-pill;
+    transform: translateY(-1px);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+.btn-pill-gold {
+  @include pill-button;
+  background-color: $gold;
+  color: $bg-pill-dark !important;
+  box-shadow: $shadow-gold;
+
+  span {
+    color: $bg-pill-dark !important;
+    font-weight: 700;
+  }
+
+  &:hover {
+    background-color: $gold-hover;
+    transform: translateY(-1px);
+  }
+}
+
+/* Gold Palette Utilities & High-Contrast Overrides */
+.text-gold-100 { color: #FEF9C3 !important; }
+.text-gold-200 { color: #FEF08A !important; }
+.text-gold-300 { color: #FDE047 !important; }
+.text-gold-400 { color: #EAB308 !important; }
+.text-gold-500 { color: #C5A059 !important; }
+.text-gold-600 { color: #B88A35 !important; }
+
+/* Universal High Contrast Fix for Emerald CTA buttons */
+button.bg-emerald-900,
+button.bg-emerald-950,
+a.bg-emerald-900,
+a.bg-emerald-950 {
+  color: #FFFFFF !important;
+
+  span {
+    color: #FFFFFF !important;
+  }
+
+  svg {
+    color: #FDE047 !important;
+  }
+
+  &:hover {
+    color: #FFFFFF !important;
+  }
+}

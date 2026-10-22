@@ -1,0 +1,301 @@
+@import '../../styles/variables';
+@import '../../styles/mixins';
+
+.admin-orders-page {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+
+  /* Header */
+  .page-header-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 14px;
+
+    .header-info {
+      .page-title {
+        font-family: $font-serif;
+        font-size: 2rem;
+        font-weight: 700;
+        color: $text-main;
+      }
+
+      .page-subtitle {
+        color: $text-muted;
+        font-size: 0.86rem;
+        margin-top: 2px;
+      }
+    }
+
+    /* Status Pills Filter */
+    .status-filter-pills {
+      display: inline-flex;
+      align-items: center;
+      background-color: $bg-card;
+      border: 1px solid $border-main;
+      border-radius: $border-radius-pill;
+      padding: 4px;
+      gap: 3px;
+      box-shadow: $shadow-sm;
+
+      .filter-btn {
+        border: none;
+        background: transparent;
+        color: $text-muted;
+        font-size: 0.78rem;
+        font-weight: 600;
+        padding: 6px 14px;
+        border-radius: $border-radius-pill;
+        cursor: pointer;
+        transition: all 0.18s ease;
+
+        &:hover {
+          color: $text-main;
+        }
+
+        &.active {
+          background-color: $bg-pill-dark;
+          color: #FFFFFF !important;
+          box-shadow: $shadow-sm;
+        }
+      }
+    }
+  }
+
+  /* Search & Table Card */
+  .orders-card {
+    background-color: $bg-card;
+    border: 1px solid $border-main;
+    border-radius: $border-radius;
+    box-shadow: $shadow-sm;
+    overflow: hidden;
+
+    .search-box {
+      padding: 16px 20px;
+      border-bottom: 1px solid $border-muted;
+      display: flex;
+      align-items: center;
+      background-color: $bg-card-alt;
+
+      .input-wrapper {
+        display: flex;
+        align-items: center;
+        background-color: $bg-card;
+        border: 1px solid $border-main;
+        border-radius: 10px;
+        padding: 0 12px;
+        height: 38px;
+        max-width: 380px;
+        width: 100%;
+
+        svg {
+          color: $text-muted;
+          margin-right: 8px;
+        }
+
+        input {
+          border: none;
+          background: transparent;
+          width: 100%;
+          font-size: 0.86rem;
+          color: $text-main;
+        }
+      }
+    }
+
+    .table-container {
+      overflow-x: auto;
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.84rem;
+
+        th {
+          text-align: left;
+          padding: 12px 18px;
+          background-color: $bg-card-alt;
+          border-bottom: 1px solid $border-main;
+          font-size: 0.72rem;
+          font-weight: 700;
+          text-transform: uppercase;
+          letter-spacing: 0.05em;
+          color: $text-muted;
+        }
+
+        td {
+          padding: 14px 18px;
+          border-bottom: 1px solid $border-muted;
+          color: $text-main;
+          vertical-align: middle;
+
+          .order-ref {
+            font-weight: 700;
+            color: $accent;
+            font-size: 0.88rem;
+          }
+
+          .date-text {
+            font-size: 0.76rem;
+            color: $text-muted;
+          }
+
+          .cust-name {
+            font-weight: 600;
+          }
+
+          .cust-phone {
+            font-size: 0.74rem;
+            color: $text-muted;
+          }
+
+          .amount-tag {
+            font-weight: 700;
+            color: $text-main;
+          }
+
+          .method-pill {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: $border-radius-pill;
+            font-size: 0.7rem;
+            font-weight: 700;
+            background-color: $bg-card-alt;
+            border: 1px solid $border-main;
+          }
+
+          select.status-select {
+            padding: 5px 10px;
+            border-radius: $border-radius-pill;
+            border: 1px solid $border-main;
+            background-color: $bg-card-alt;
+            font-size: 0.74rem;
+            font-weight: 700;
+            color: $text-main;
+            cursor: pointer;
+
+            &:focus {
+              border-color: $accent;
+              background-color: $bg-card;
+            }
+          }
+        }
+
+        tbody tr:hover {
+          background-color: $bg-card-hover;
+        }
+      }
+    }
+  }
+
+  /* Invoice Modal */
+  .modal-backdrop {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(18, 18, 22, 0.55);
+    backdrop-filter: blur(4px);
+    z-index: 1050;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+
+    .invoice-card {
+      width: 100%;
+      max-width: 540px;
+      background-color: $bg-card;
+      border-radius: 24px;
+      border: 1px solid $border-main;
+      box-shadow: $shadow-lg;
+      padding: 32px;
+      box-sizing: border-box;
+
+      .invoice-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        padding-bottom: 16px;
+        border-bottom: 1px solid $border-muted;
+        margin-bottom: 20px;
+
+        .brand-sub {
+          font-size: 0.72rem;
+          font-weight: 700;
+          letter-spacing: 0.1em;
+          text-transform: uppercase;
+          color: $gold;
+        }
+
+        .invoice-title {
+          font-family: $font-serif;
+          font-size: 1.6rem;
+          font-weight: 700;
+          color: $text-main;
+        }
+      }
+
+      .invoice-details-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+        background-color: $bg-card-alt;
+        padding: 16px;
+        border-radius: 12px;
+        font-size: 0.8rem;
+        margin-bottom: 20px;
+
+        .section-label {
+          font-size: 0.7rem;
+          font-weight: 700;
+          text-transform: uppercase;
+          color: $text-muted;
+          margin-bottom: 4px;
+          display: block;
+        }
+
+        .data-strong {
+          font-weight: 700;
+          color: $text-main;
+        }
+      }
+
+      .items-list {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        margin-bottom: 20px;
+
+        .item-row {
+          display: flex;
+          justify-content: space-between;
+          padding: 8px 0;
+          border-bottom: 1px solid $border-muted;
+          font-size: 0.84rem;
+
+          .item-name { font-weight: 600; color: $text-main; }
+          .item-qty { font-size: 0.74rem; color: $text-muted; }
+          .item-total { font-weight: 700; color: $text-main; }
+        }
+      }
+
+      .invoice-total-row {
+        display: flex;
+        justify-content: space-between;
+        padding-top: 12px;
+        border-top: 2px solid $border-main;
+        font-size: 1rem;
+        font-weight: 800;
+        color: $accent;
+        margin-bottom: 24px;
+      }
+
+      .modal-footer {
+        display: flex;
+        justify-content: flex-end;
+        gap: 12px;
+      }
+    }
+  }
+}

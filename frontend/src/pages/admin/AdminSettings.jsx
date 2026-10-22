@@ -1,0 +1,190 @@
+import React, { useState, useEffect } from "react";
+import { Settings, Save, ShieldCheck, Check } from "lucide-react";
+import { settingsApi } from "../../services/api";
+import toast from "react-hot-toast";
+import "./AdminSettings.scss";
+
+const AdminSettings = () => {
+  const [settings, setSettings] = useState({
+    storeName: "Mavtar Impex",
+    tagline: "Handcrafted Luxury Linen Bags & Royal Indian Embroidery",
+    supportEmail: "contact@mavtarimpex.com",
+    supportPhone: "+91 95127 53471",
+    whatsappNumber: "919512753471",
+    freeShippingThreshold: 999,
+    standardShippingFee: 99,
+    bannerText: "✨ Handcrafted Luxury Linen Bags | Free Pan-India Delivery Above ₹999 | Code: MAVTAR10 for 10% OFF",
+    address: "Surat, Gujarat, India - 395006",
+  });
+
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
+
+  useEffect(() => {
+    settingsApi
+      .get()
+      .then((res) => {
+        if (res.success && res.data) {
+          setSettings(res.data);
+        }
+      })
+      .catch((err) => console.error("Error loading settings:", err))
+      .finally(() => setLoading(false));
+  }, []);
+
+  const handleSave = async (e) => {
+    e.preventDefault();
+    setSaving(true);
+    try {
+      const res = await settingsApi.update(settings);
+      if (res.success) {
+        toast.success("Store settings updated successfully");
+      }
+    } catch (err) {
+      toast.error("Failed to save settings");
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  if (loading) {
+    return (
+      <div style={{ padding: "48px", textAlign: "center" }}>
+        <div
+          style={{
+            width: 32,
+            height: 32,
+            border: "4px solid var(--accent)",
+            borderTopColor: "var(--gold)",
+            borderRadius: "50%",
+            animation: "spin 1s linear infinite",
+            margin: "0 auto",
+          }}
+        />
+      </div>
+    );
+  }
+
+  return (
+    <div className="admin-settings-page">
+      <div className="page-header-bar">
+        <h1 className="page-title">Store Settings</h1>
+        <p className="page-subtitle">
+          Configure business details, shipping thresholds, and promotional announcements.
+        </p>
+      </div>
+
+      <div className="settings-panel-card">
+        <form onSubmit={handleSave}>
+          <div className="section-block">
+            <h3 className="section-heading">Brand Profile</h3>
+
+            <div className="form-grid-2">
+              <div className="form-group">
+                <label>Company / Store Name</label>
+                <input
+                  type="text"
+                  value={settings.storeName}
+                  onChange={(e) => setSettings({ ...settings, storeName: e.target.value })}
+                />
+              </div>
+
+              <div className="form-group">
+                <label>Support Email</label>
+                <input
+                  type="email"
+                  value={settings.supportEmail}
+                  onChange={(e) => setSettings({ ...settings, supportEmail: e.target.value })}
+                />
+              </div>
+            </div>
+
+            <div className="form-group">
+              <label>Brand Tagline</label>
+              <input
+                type="text"
+                value={settings.tagline}
+                onChange={(e) => setSettings({ ...settings, tagline: e.target.value })}
+              />
+            </div>
+
+            <div className="form-grid-2">
+              <div className="form-group">
+                <label>Support Phone</label>
+                <input
+                  type="text"
+                  value={settings.supportPhone}
+                  onChange={(e) => setSettings({ ...settings, supportPhone: e.target.value })}
+                />
+              </div>
+
+              <div className="form-group">
+                <label>WhatsApp Business Number</label>
+                <input
+                  type="text"
+                  value={settings.whatsappNumber}
+                  onChange={(e) => setSettings({ ...settings, whatsappNumber: e.target.value })}
+                />
+              </div>
+            </div>
+
+            <div className="form-group">
+              <label>Workshop & Warehouse Address</label>
+              <input
+                type="text"
+                value={settings.address}
+                onChange={(e) => setSettings({ ...settings, address: e.target.value })}
+              />
+            </div>
+          </div>
+
+          <div className="section-block">
+            <h3 className="section-heading">Shipping & Marketing Rules</h3>
+
+            <div className="form-grid-2">
+              <div className="form-group">
+                <label>Free Shipping Minimum (₹)</label>
+                <input
+                  type="number"
+                  value={settings.freeShippingThreshold}
+                  onChange={(e) => setSettings({ ...settings, freeShippingThreshold: Number(e.target.value) })}
+                />
+              </div>
+
+              <div className="form-group">
+                <label>Standard Shipping Fee (₹)</label>
+                <input
+                  type="number"
+                  value={settings.standardShippingFee}
+                  onChange={(e) => setSettings({ ...settings, standardShippingFee: Number(e.target.value) })}
+                />
+              </div>
+            </div>
+
+            <div className="form-group">
+              <label>Announcement Banner Text</label>
+              <textarea
+                rows={2}
+                value={settings.bannerText}
+                onChange={(e) => setSettings({ ...settings, bannerText: e.target.value })}
+              />
+            </div>
+          </div>
+
+          <div className="form-footer">
+            <button
+              type="submit"
+              disabled={saving}
+              className="save-btn"
+            >
+              <Save size={16} />
+              <span>{saving ? "Saving Changes..." : "Save Store Settings"}</span>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
+};
+
+export default AdminSettings;

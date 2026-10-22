@@ -1,0 +1,20 @@
+{
+  "name": "mavtar-impex",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Mavtar Impex — Handcrafted Luxury Linen Bags & Royal Indian Embroidery (Monorepo)",
+  "workspaces": [
+    "backend",
+    "frontend"
+  ],
+  "type": "module",
+  "scripts": {
+    "dev": "npm run dev:store --prefix frontend",
+    "dev:store": "npm run dev:store --prefix frontend",
+    "dev:admin": "npm run dev:admin --prefix frontend",
+    "dev:backend": "npm run dev --prefix backend",
+    "dev:all": "concurrently \"npm run dev --prefix backend\" \"npm run dev:store --prefix frontend\" \"npm run dev:admin --prefix frontend\"",
+    "build": "npm run build --prefix frontend",
+    "start": "node backend/src/server.js"
+  }
+}

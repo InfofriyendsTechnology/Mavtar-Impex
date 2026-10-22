@@ -1,0 +1,256 @@
+@import '../../styles/variables';
+
+.bond-login-layout {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: $bg-canvas;
+  padding: 20px;
+  box-sizing: border-box;
+  position: relative;
+  background-image: 
+    radial-gradient(at 100% 0%, rgba(197, 160, 89, 0.15) 0px, transparent 50%),
+    radial-gradient(at 0% 100%, rgba(11, 70, 51, 0.08) 0px, transparent 50%);
+
+  /* Floating Centered Card */
+  .bond-login-card {
+    width: 100%;
+    max-width: 440px;
+    background-color: $bg-card;
+    border-radius: 24px;
+    border: 1px solid $border-main;
+    box-shadow: $shadow-lg;
+    padding: 44px 36px;
+    box-sizing: border-box;
+    animation: bondCardFadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+
+    /* Brand Header */
+    .login-brand-header {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      margin-bottom: 30px;
+
+      .brand-logo-pill {
+        width: 52px;
+        height: 52px;
+        border-radius: 14px;
+        background-color: $bg-pill-dark;
+        border: 1px solid rgba(197, 160, 89, 0.4);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 16px;
+        box-shadow: $shadow-sm;
+
+        svg {
+          color: $gold;
+          width: 26px;
+          height: 26px;
+        }
+      }
+
+      .brand-title {
+        font-family: $font-serif;
+        font-size: 2rem;
+        font-weight: 700;
+        color: $text-main;
+        letter-spacing: -0.02em;
+        line-height: 1.2;
+        margin-bottom: 4px;
+      }
+
+      .brand-subtitle {
+        color: $text-muted;
+        font-size: 0.88rem;
+        font-weight: 400;
+      }
+    }
+
+    /* Form */
+    .login-form {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+
+      .form-group {
+        display: flex;
+        flex-direction: column;
+        gap: 7px;
+
+        label {
+          font-size: 0.82rem;
+          font-weight: 600;
+          color: $text-main;
+          letter-spacing: 0.01em;
+        }
+
+        .input-wrapper {
+          display: flex;
+          align-items: center;
+          height: 48px;
+          background-color: $bg-card-alt;
+          border: 1px solid transparent;
+          border-radius: 12px;
+          padding: 0 14px;
+          transition: all 0.2s ease;
+          box-sizing: border-box;
+
+          .input-icon {
+            color: $text-muted;
+            margin-right: 12px;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+          }
+
+          input {
+            border: none !important;
+            background: transparent !important;
+            outline: none !important;
+            padding: 0 !important;
+            height: 100%;
+            width: 100%;
+            font-size: 0.92rem;
+            color: $text-main;
+            font-family: inherit;
+            box-shadow: none !important;
+
+            &::placeholder {
+              color: $text-muted;
+              opacity: 0.65;
+            }
+
+            /* Transparent Webkit Autofill */
+            &:-webkit-autofill,
+            &:-webkit-autofill:hover, 
+            &:-webkit-autofill:focus, 
+            &:-webkit-autofill:active {
+              -webkit-background-clip: text !important;
+              background-clip: text !important;
+              -webkit-text-fill-color: var(--text-main) !important;
+              caret-color: var(--text-main) !important;
+              transition: background-color 5000000s ease-in-out 0s !important;
+              box-shadow: 0 0 0 1000px transparent inset !important;
+              -webkit-box-shadow: 0 0 0 1000px transparent inset !important;
+            }
+          }
+
+          .eye-toggle-btn {
+            background: transparent;
+            border: none;
+            color: $text-muted;
+            cursor: pointer;
+            padding: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 6px;
+            box-shadow: none;
+            margin-left: 6px;
+
+            &:hover {
+              color: $text-main;
+            }
+          }
+
+          &:focus-within {
+            background-color: $bg-card;
+            border-color: $accent;
+            box-shadow: 0 0 0 3px $accent-light;
+          }
+        }
+      }
+
+      /* Bond Submit Pill Button */
+      .bond-submit-btn {
+        height: 48px;
+        margin-top: 6px;
+        background-color: $bg-pill-dark;
+        color: #FFFFFF !important;
+        border: 1px solid rgba(197, 160, 89, 0.4);
+        border-radius: $border-radius-pill;
+        font-size: 0.92rem;
+        font-weight: 700;
+        letter-spacing: 0.03em;
+        cursor: pointer;
+        box-shadow: $shadow-pill;
+        transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+
+        svg {
+          color: $gold !important;
+        }
+
+        span {
+          color: #FFFFFF !important;
+          font-weight: 700;
+        }
+
+        &:hover:not(:disabled) {
+          background-color: $accent-hover;
+          transform: translateY(-1px);
+          box-shadow: 0 6px 18px rgba(11, 59, 43, 0.28);
+        }
+
+        &:active:not(:disabled) {
+          transform: translateY(0);
+        }
+
+        &:disabled {
+          opacity: 0.6;
+          cursor: not-allowed;
+        }
+      }
+    }
+
+    /* Footer link */
+    .login-card-footer {
+      margin-top: 24px;
+      padding-top: 16px;
+      border-top: 1px solid $border-muted;
+      text-align: center;
+
+      a {
+        font-size: 0.82rem;
+        font-weight: 600;
+        color: $text-muted;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        transition: color 0.15s ease;
+
+        &:hover {
+          color: $accent;
+        }
+      }
+    }
+  }
+}
+
+@keyframes bondCardFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@media (max-width: 480px) {
+  .bond-login-layout {
+    padding: 14px;
+
+    .bond-login-card {
+      padding: 32px 22px;
+      border-radius: 18px;
+    }
+  }
+}
