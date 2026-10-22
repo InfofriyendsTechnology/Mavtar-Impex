@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Star, ShoppingBag, Eye } from "lucide-react";
+import { motion } from "framer-motion";
 import { useCart } from "../context/CartContext";
 
 const ProductCard = ({ product }) => {
@@ -13,8 +14,11 @@ const ProductCard = ({ product }) => {
   const mainImage = product.images?.[0] || "/products/royal-elephant-green-tote.jpg";
 
   return (
-    <div className="group bg-white rounded-lg overflow-hidden border border-linen-200/80 hover:border-gold-500/40 hover:shadow-luxury transition-all duration-300 flex flex-col h-full">
-      
+    <motion.div
+      whileHover={{ y: -5 }}
+      transition={{ duration: 0.25, ease: "easeOut" }}
+      className="group bg-white rounded-xl overflow-hidden border border-linen-200 hover:border-gold-500/50 hover:shadow-xl transition-all duration-300 flex flex-col h-full"
+    >
       {/* Image container */}
       <Link to={`/product/${product.slug || product.id}`} className="relative block overflow-hidden bg-linen-100 aspect-[4/5]">
         <img
@@ -34,7 +38,7 @@ const ProductCard = ({ product }) => {
             </span>
           )}
           {discountPercent > 0 && (
-            <span className="bg-ruby-700 text-white text-[10px] font-bold px-2 py-0.5 rounded tracking-wider uppercase shadow-sm">
+            <span className="bg-red-800 text-white text-[10px] font-bold px-2 py-0.5 rounded tracking-wider uppercase shadow-sm">
               {discountPercent}% OFF
             </span>
           )}
@@ -43,7 +47,7 @@ const ProductCard = ({ product }) => {
         {/* Quick View Pill on hover */}
         <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center pointer-events-none">
           <span className="bg-white/95 text-emerald-950 text-xs font-semibold px-3 py-1.5 rounded-full shadow-md flex items-center gap-1.5 transform translate-y-2 group-hover:translate-y-0 transition-transform">
-            <Eye className="w-3.5 h-3.5" />
+            <Eye className="w-3.5 h-3.5 text-gold-600" />
             <span>View Details</span>
           </span>
         </div>
@@ -57,7 +61,7 @@ const ProductCard = ({ product }) => {
           </div>
 
           <Link to={`/product/${product.slug || product.id}`} className="block">
-            <h3 className="font-serif text-lg font-bold text-emerald-950 hover:text-emerald-800 transition-colors line-clamp-1">
+            <h3 className="font-serif text-lg font-bold text-emerald-950 group-hover:text-gold-700 transition-colors line-clamp-1">
               {product.title}
             </h3>
           </Link>
@@ -94,18 +98,19 @@ const ProductCard = ({ product }) => {
               )}
             </div>
 
-            <button
+            <motion.button
+              whileTap={{ scale: 0.92 }}
               onClick={() => addToCart(product, 1)}
-              className="bg-emerald-900 hover:bg-emerald-800 text-gold-200 p-2.5 rounded-md transition-colors shadow-sm hover:shadow flex items-center justify-center gap-1.5 group/btn"
+              className="bg-emerald-950 hover:bg-emerald-900 text-white px-3 py-2 rounded-lg transition-colors shadow-sm flex items-center justify-center gap-1.5 cursor-pointer font-semibold"
               title="Add to shopping bag"
             >
-              <ShoppingBag className="w-4 h-4" />
-              <span className="text-xs font-semibold hidden sm:inline">Add</span>
-            </button>
+              <ShoppingBag className="w-3.5 h-3.5 text-gold-400" />
+              <span className="text-xs font-semibold">Add</span>
+            </motion.button>
           </div>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 
