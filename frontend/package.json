@@ -4,9 +4,9 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite --port 1053 --host",
-    "dev:store": "vite --port 1053 --host",
-    "dev:admin": "vite --port 2253 --host",
+    "dev": "vite --port 1053 --host --force",
+    "dev:store": "vite --port 1053 --host --force",
+    "dev:admin": "vite --port 2253 --host --force",
     "prebuild": "node -e \"if(process.platform==='linux'){try{require('child_process').execSync('npm i --no-save @rollup/rollup-linux-x64-gnu@4.64.12',{stdio:'inherit'})}catch(e){console.error(e)}}\"",
     "build": "vite build",
     "preview": "vite preview"
