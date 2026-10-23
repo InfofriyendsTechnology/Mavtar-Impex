@@ -59,18 +59,35 @@ select {
 
 /* Custom Minimalist Scrollbar */
 ::-webkit-scrollbar {
-  width: 7px;
-  height: 7px;
+  width: 5px;
+  height: 5px;
 }
 ::-webkit-scrollbar-track {
-  background: $bg-card-alt;
+  background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: $border-pill;
-  border-radius: 4px;
+  background: #D4D4D8;
+  border-radius: 9999px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: $text-muted;
+  background: #A1A1AA;
+}
+
+/* Scrollbar Utility to Completely Suppress Ugly Native Scrollbars */
+.no-scrollbar,
+.modal-backdrop,
+.modal-card,
+.modal-body,
+.invoice-card,
+.invoice-body {
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+
+  &::-webkit-scrollbar {
+    display: none !important;
+    width: 0 !important;
+    height: 0 !important;
+  }
 }
 
 /* Standard Reusable Action Buttons */

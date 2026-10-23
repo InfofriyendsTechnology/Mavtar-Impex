@@ -343,60 +343,89 @@ const AdminProducts = () => {
         )}
       </div>
 
-      {/* Modal */}
+      {/* Modern Atelier Modal */}
       {isModalOpen && (
-        <div className="modal-backdrop">
+        <div
+          className="modal-backdrop"
+          onClick={(e) => {
+            if (e.target === e.currentTarget) setIsModalOpen(false);
+          }}
+        >
           <div className="modal-card">
             <div className="modal-header">
-              <h2 className="modal-title">
-                {editingProduct ? "Edit Linen Bag" : "Add New Linen Bag"}
-              </h2>
-              <button onClick={() => setIsModalOpen(false)} className="close-btn">
-                <X size={20} />
+              <div className="modal-header-titles">
+                <span className="modal-eyebrow">Catalog Atelier</span>
+                <h2 className="modal-title">
+                  {editingProduct ? "Edit Linen Bag" : "Add New Linen Bag"}
+                </h2>
+              </div>
+              <button
+                type="button"
+                onClick={() => setIsModalOpen(false)}
+                className="close-btn"
+                aria-label="Close modal"
+              >
+                <X size={18} />
               </button>
             </div>
 
             <form onSubmit={handleSubmit} className="modal-form">
-              <div className="form-group">
-                <label>Product Title</label>
-                <input
-                  type="text"
-                  required
-                  placeholder="e.g. The Royal Haathi Emerald Linen Tote"
-                  value={formData.title}
-                  onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                />
-              </div>
-
-              <div className="form-row-3">
+              <div className="modal-body">
+                {/* Product Title */}
                 <div className="form-group">
-                  <label>Price (₹600 - ₹2000)</label>
+                  <label>Product Title</label>
                   <input
-                    type="number"
+                    type="text"
                     required
-                    value={formData.price}
-                    onChange={(e) => setFormData({ ...formData, price: Number(e.target.value) })}
+                    placeholder="e.g. The Royal Haathi Emerald Linen Tote"
+                    value={formData.title}
+                    onChange={(e) => setFormData({ ...formData, title: e.target.value })}
                   />
                 </div>
-                <div className="form-group">
-                  <label>Original MRP (₹)</label>
-                  <input
-                    type="number"
-                    value={formData.originalPrice}
-                    onChange={(e) => setFormData({ ...formData, originalPrice: Number(e.target.value) })}
-                  />
-                </div>
-                <div className="form-group">
-                  <label>Stock Count</label>
-                  <input
-                    type="number"
-                    value={formData.stock}
-                    onChange={(e) => setFormData({ ...formData, stock: Number(e.target.value) })}
-                  />
-                </div>
-              </div>
 
-              <div className="form-row">
+                {/* Price & MRP Row */}
+                <div className="form-row-2">
+                  <div className="form-group">
+                    <label>Selling Price (₹)</label>
+                    <input
+                      type="number"
+                      required
+                      value={formData.price}
+                      onChange={(e) => setFormData({ ...formData, price: Number(e.target.value) })}
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label>Original MRP (₹)</label>
+                    <input
+                      type="number"
+                      value={formData.originalPrice}
+                      onChange={(e) => setFormData({ ...formData, originalPrice: Number(e.target.value) })}
+                    />
+                  </div>
+                </div>
+
+                {/* Stock & Fabric Row */}
+                <div className="form-row-2">
+                  <div className="form-group">
+                    <label>Stock Count</label>
+                    <input
+                      type="number"
+                      value={formData.stock}
+                      onChange={(e) => setFormData({ ...formData, stock: Number(e.target.value) })}
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label>Fabric Grade</label>
+                    <input
+                      type="text"
+                      placeholder="e.g. 100% Belgian Flax"
+                      value={formData.fabric}
+                      onChange={(e) => setFormData({ ...formData, fabric: e.target.value })}
+                    />
+                  </div>
+                </div>
+
+                {/* Category Selection */}
                 <div className="form-group">
                   <label>Category</label>
                   <select
@@ -409,86 +438,115 @@ const AdminProducts = () => {
                     <option value="Artisanal Potlis & Clutches">Artisanal Potlis & Clutches</option>
                   </select>
                 </div>
+
+                {/* Embroidery Style */}
                 <div className="form-group">
-                  <label>Fabric</label>
+                  <label>Embroidery Style & Technique</label>
                   <input
                     type="text"
-                    value={formData.fabric}
-                    onChange={(e) => setFormData({ ...formData, fabric: e.target.value })}
+                    placeholder="e.g. Multi-Head Computerized Zari & Velvet Applique"
+                    value={formData.embroideryType}
+                    onChange={(e) => setFormData({ ...formData, embroideryType: e.target.value })}
                   />
+                </div>
+
+                {/* Photo URL & Upload with Live Thumbnail */}
+                <div className="form-group">
+                  <label>Product Image / Media Asset</label>
+                  <div className="image-upload-wrapper">
+                    {formData.images?.[0] && (
+                      <img
+                        src={formData.images[0]}
+                        alt="Preview"
+                        className="preview-thumb"
+                        onError={(e) => {
+                          e.target.style.display = "none";
+                        }}
+                      />
+                    )}
+                    <input
+                      type="text"
+                      placeholder="/products/bag-image.jpg or CDN link"
+                      value={formData.images[0] || ""}
+                      onChange={(e) => setFormData({ ...formData, images: [e.target.value] })}
+                    />
+                    <label className="upload-btn-label">
+                      <Upload size={13} />
+                      <span>{uploadingImage ? "Uploading..." : "Upload"}</span>
+                      <input
+                        type="file"
+                        accept="image/*"
+                        onChange={handleImageFileUpload}
+                        style={{ display: "none" }}
+                      />
+                    </label>
+                  </div>
+                </div>
+
+                {/* Short Headline */}
+                <div className="form-group">
+                  <label>Short Headline</label>
+                  <input
+                    type="text"
+                    placeholder="Brief 1-sentence luxury artisan summary"
+                    value={formData.shortDescription}
+                    onChange={(e) => setFormData({ ...formData, shortDescription: e.target.value })}
+                  />
+                </div>
+
+                {/* Full Description */}
+                <div className="form-group">
+                  <label>Craftsmanship & Detailing</label>
+                  <textarea
+                    rows={2}
+                    placeholder="Detailed craftsmanship, weave texture, and closure details..."
+                    value={formData.description}
+                    onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                  />
+                </div>
+
+                {/* Interactive Placement Toggles */}
+                <div className="form-group">
+                  <label>Merchandising Placement</label>
+                  <div className="badge-toggles-grid">
+                    <label className={`toggle-card ${formData.isFeatured ? "active" : ""}`}>
+                      <input
+                        type="checkbox"
+                        checked={formData.isFeatured}
+                        onChange={(e) => setFormData({ ...formData, isFeatured: e.target.checked })}
+                      />
+                      <div className="toggle-info">
+                        <span className="toggle-title">Featured Showcase</span>
+                        <span className="toggle-desc">Display in hero collections</span>
+                      </div>
+                    </label>
+
+                    <label className={`toggle-card ${formData.isBestSeller ? "active" : ""}`}>
+                      <input
+                        type="checkbox"
+                        checked={formData.isBestSeller}
+                        onChange={(e) => setFormData({ ...formData, isBestSeller: e.target.checked })}
+                      />
+                      <div className="toggle-info">
+                        <span className="toggle-title">Best Seller Tag</span>
+                        <span className="toggle-desc">Highlight with top artisan badge</span>
+                      </div>
+                    </label>
+                  </div>
                 </div>
               </div>
 
-              <div className="form-group">
-                <label>Embroidery Style</label>
-                <input
-                  type="text"
-                  value={formData.embroideryType}
-                  onChange={(e) => setFormData({ ...formData, embroideryType: e.target.value })}
-                />
-              </div>
-
-              <div className="form-group">
-                <label>Photo URL / Upload</label>
-                <div style={{ display: "flex", gap: "8px" }}>
-                  <input
-                    type="text"
-                    placeholder="/products/bag-image.jpg or Cloudinary URL"
-                    value={formData.images[0] || ""}
-                    onChange={(e) => setFormData({ ...formData, images: [e.target.value] })}
-                    style={{ flex: 1 }}
-                  />
-                  <label className="btn-pill-secondary" style={{ height: "42px", padding: "0 14px", cursor: "pointer" }}>
-                    <Upload size={14} />
-                    <span>{uploadingImage ? "Uploading..." : "Upload"}</span>
-                    <input type="file" accept="image/*" onChange={handleImageFileUpload} style={{ display: "none" }} />
-                  </label>
-                </div>
-              </div>
-
-              <div className="form-group">
-                <label>Short Description</label>
-                <input
-                  type="text"
-                  value={formData.shortDescription}
-                  onChange={(e) => setFormData({ ...formData, shortDescription: e.target.value })}
-                />
-              </div>
-
-              <div className="form-group">
-                <label>Full Description</label>
-                <textarea
-                  rows={3}
-                  value={formData.description}
-                  onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                />
-              </div>
-
-              <div style={{ display: "flex", gap: "20px", paddingTop: "8px" }}>
-                <label style={{ display: "flex", alignItems: "center", gap: "8px", fontSize: "0.84rem", cursor: "pointer" }}>
-                  <input
-                    type="checkbox"
-                    checked={formData.isFeatured}
-                    onChange={(e) => setFormData({ ...formData, isFeatured: e.target.checked })}
-                  />
-                  <span>Show as Featured</span>
-                </label>
-                <label style={{ display: "flex", alignItems: "center", gap: "8px", fontSize: "0.84rem", cursor: "pointer" }}>
-                  <input
-                    type="checkbox"
-                    checked={formData.isBestSeller}
-                    onChange={(e) => setFormData({ ...formData, isBestSeller: e.target.checked })}
-                  />
-                  <span>Mark as Best Seller</span>
-                </label>
-              </div>
-
+              {/* Sticky Footer Action Bar */}
               <div className="modal-actions">
-                <button type="button" onClick={() => setIsModalOpen(false)} className="btn-pill-secondary">
+                <button
+                  type="button"
+                  onClick={() => setIsModalOpen(false)}
+                  className="btn-pill-secondary"
+                >
                   <span>Cancel</span>
                 </button>
                 <button type="submit" className="btn-pill-primary">
-                  <span>Save Product</span>
+                  <span>{editingProduct ? "Save Changes" : "Create Product"}</span>
                 </button>
               </div>
             </form>

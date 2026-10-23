@@ -235,51 +235,63 @@ const AdminOrders = () => {
 
       {/* Invoice Modal */}
       {selectedOrder && (
-        <div className="modal-backdrop">
+        <div
+          className="modal-backdrop"
+          onClick={(e) => {
+            if (e.target === e.currentTarget) setSelectedOrder(null);
+          }}
+        >
           <div className="invoice-card">
             <div className="invoice-header">
               <div>
                 <span className="brand-sub">Mavtar Impex Dispatch Note</span>
                 <h2 className="invoice-title">Order #{selectedOrder.orderNumber}</h2>
               </div>
-              <button onClick={() => setSelectedOrder(null)} style={{ background: "transparent", border: "none", cursor: "pointer", color: "#6B7280" }}>
-                <X size={20} />
+              <button
+                type="button"
+                onClick={() => setSelectedOrder(null)}
+                className="close-btn"
+                aria-label="Close invoice"
+              >
+                <X size={18} />
               </button>
             </div>
 
-            <div className="invoice-details-grid">
-              <div>
-                <span className="section-label">Customer</span>
-                <div className="data-strong">{selectedOrder.customerName}</div>
-                <div style={{ color: "#4B5563" }}>{selectedOrder.customerPhone}</div>
-              </div>
-              <div>
-                <span className="section-label">Shipping Address</span>
-                <div style={{ color: "#374151" }}>
-                  {selectedOrder.shippingAddress?.addressLine1}, {selectedOrder.shippingAddress?.city},{" "}
-                  {selectedOrder.shippingAddress?.state} - {selectedOrder.shippingAddress?.pincode}
+            <div className="invoice-body">
+              <div className="invoice-details-grid">
+                <div>
+                  <span className="section-label">Customer</span>
+                  <div className="data-strong">{selectedOrder.customerName}</div>
+                  <div className="data-sub">{selectedOrder.customerPhone}</div>
                 </div>
-              </div>
-            </div>
-
-            <div className="items-list">
-              <span style={{ fontSize: "0.72rem", fontWeight: 700, textTransform: "uppercase", color: "#6B7280" }}>
-                Order Items ({selectedOrder.items?.length || 0})
-              </span>
-              {selectedOrder.items?.map((item, i) => (
-                <div key={i} className="item-row">
-                  <div>
-                    <div className="item-name">{item.title}</div>
-                    <div className="item-qty">Qty: {item.quantity}</div>
+                <div>
+                  <span className="section-label">Shipping Address</span>
+                  <div className="data-sub">
+                    {selectedOrder.shippingAddress?.addressLine1}, {selectedOrder.shippingAddress?.city},{" "}
+                    {selectedOrder.shippingAddress?.state} - {selectedOrder.shippingAddress?.pincode}
                   </div>
-                  <div className="item-total">₹{item.price * item.quantity}</div>
                 </div>
-              ))}
-            </div>
+              </div>
 
-            <div className="invoice-total-row">
-              <span>Total Amount</span>
-              <span>₹{selectedOrder.totalAmount}</span>
+              <div className="items-list">
+                <span className="section-label">
+                  Order Items ({selectedOrder.items?.length || 0})
+                </span>
+                {selectedOrder.items?.map((item, i) => (
+                  <div key={i} className="item-row">
+                    <div>
+                      <div className="item-name">{item.title}</div>
+                      <div className="item-qty">Qty: {item.quantity}</div>
+                    </div>
+                    <div className="item-total">₹{item.price * item.quantity}</div>
+                  </div>
+                ))}
+              </div>
+
+              <div className="invoice-total-row">
+                <span>Total Amount</span>
+                <span>₹{selectedOrder.totalAmount}</span>
+              </div>
             </div>
 
             <div className="modal-footer">
