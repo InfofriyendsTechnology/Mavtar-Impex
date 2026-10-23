@@ -8,12 +8,12 @@
 
   /* 1. Super Admin Greeting Card */
   .super-admin-greeting-card {
-    background: linear-gradient(135deg, #0B3B2B 0%, #072B1F 55%, #051F16 100%);
-    border: 1px solid rgba(197, 160, 89, 0.4);
+    background: linear-gradient(135deg, #18181B 0%, #27272A 55%, #09090B 100%);
+    border: 1px solid rgba(255, 255, 255, 0.12);
     border-radius: $border-radius-card;
     padding: 28px 32px;
     color: #FFFFFF;
-    box-shadow: 0 10px 30px -5px rgba(11, 59, 43, 0.25), 0 0 0 1px rgba(197, 160, 89, 0.15);
+    box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(255, 255, 255, 0.08);
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -157,20 +157,20 @@
         transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 
         &.primary {
-          background-color: $gold;
-          color: #072B1F !important;
-          box-shadow: 0 4px 14px rgba(197, 160, 89, 0.3);
+          background-color: #FFFFFF;
+          color: #18181B !important;
+          box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
 
           svg {
-            color: #072B1F !important;
+            color: #18181B !important;
           }
 
           span {
-            color: #072B1F !important;
+            color: #18181B !important;
           }
 
           &:hover {
-            background-color: $gold-hover;
+            background-color: #F4F4F5;
             transform: translateY(-1px);
           }
         }

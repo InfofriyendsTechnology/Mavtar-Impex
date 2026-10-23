@@ -1,45 +1,50 @@
-// Mavtar Impex - Luxury Minimalist Warm Aesthetic Theme (Bond CRM Style)
+// Mavtar Impex - Luxury Minimalist Slate/Grey Aesthetic Theme (Bond CRM & Haute Couture Monochromatic Palette)
 
 :root {
-  --bg-canvas: #F4EFE6;      /* Outer warm oat canvas frame */
-  --bg-main: #FAF7F2;        /* Main inner workspace */
+  --bg-canvas: #EBEAE5;      /* Outer warm oat/grey canvas frame */
+  --bg-main: #F5F5F3;        /* Main inner workspace */
   --bg-card: #FFFFFF;        /* Crisp clean white cards & sidebar */
-  --bg-card-alt: #F0EAE1;    /* Secondary pill & table header background */
-  --bg-card-hover: #F8F5EE;  /* Subtle row hover */
-  --bg-pill-dark: #0B3B2B;   /* Deep luxury emerald active pill */
-  --bg-inverse: #0B3B2B;
+  --bg-card-alt: #EDEDE8;    /* Secondary pill & table header background */
+  --bg-card-hover: #F7F7F5;  /* Subtle row hover */
+  --bg-pill-dark: #18181B;   /* Deep obsidian charcoal active pill */
+  --bg-inverse: #18181B;
   
   --text-main: #18181B;      /* Deep sharp charcoal */
-  --text-muted: #6B7280;     /* Clean secondary text */
+  --text-muted: #71717A;     /* Clean secondary zinc grey */
   --text-inverse: #FFFFFF;   /* Text on dark pills */
   
-  --border-main: #E5E7EB;    /* Crisp, uniform, visible border */
-  --border-muted: #F3F4F6;
-  --border-pill: #D1D5DB;
+  --border-main: #E2E8F0;    /* Crisp, uniform, visible border */
+  --border-muted: #F1F5F9;
+  --border-pill: #CBD5E1;
   
-  /* Brand Luxury Accents */
-  --accent: #0B4633;         /* Royal Emerald */
-  --accent-hover: #072B1F;
-  --accent-light: #E6F3EE;   /* Soft emerald highlight tint */
-  --accent-border: #BCD8CB;
+  /* Brand Luxury Monochrome Accents */
+  --accent: #18181B;         /* Obsidian Charcoal */
+  --accent-hover: #27272A;
+  --accent-light: #F4F4F5;   /* Soft slate highlight tint */
+  --accent-border: #D4D4D8;
   
-  --gold: #C5A059;           /* Royal Zari Gold */
-  --gold-hover: #B88A35;
-  --gold-light: #FAF5EB;
-  --gold-border: #E8D7B0;
+  /* Metallic Platinum & Silver Accents */
+  --silver: #475569;
+  --silver-light: #F8FAFC;
+  --silver-border: #CBD5E1;
+  
+  --gold: #52525B;           /* Modern Titanium/Muted Bronze */
+  --gold-hover: #3F3F46;
+  --gold-light: #F4F4F5;
+  --gold-border: #D4D4D8;
   
   --success: #15803D;
-  --success-light: #DCFCE7;
+  --success-light: #F0FDF4;
   --danger: #DC2626;
   --danger-hover: #B91C1C;
-  --danger-light: #FEE2E2;
+  --danger-light: #FEF2F2;
   
-  // Ultra-soft diffuse shadows
+  // Ultra-soft diffuse shadows (Pure neutral monochromatic)
   --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.04);
-  --shadow-md: 0 4px 16px -2px rgba(11, 59, 43, 0.06), 0 2px 6px -1px rgba(0, 0, 0, 0.02);
-  --shadow-lg: 0 12px 32px -4px rgba(11, 59, 43, 0.08);
-  --shadow-pill: 0 2px 8px rgba(11, 59, 43, 0.18);
-  --shadow-gold: 0 4px 14px rgba(197, 160, 89, 0.25);
+  --shadow-md: 0 4px 16px -2px rgba(0, 0, 0, 0.06), 0 2px 6px -1px rgba(0, 0, 0, 0.02);
+  --shadow-lg: 0 12px 32px -4px rgba(0, 0, 0, 0.08);
+  --shadow-pill: 0 2px 8px rgba(0, 0, 0, 0.16);
+  --shadow-gold: 0 4px 14px rgba(0, 0, 0, 0.12);
 }
 
 $bg-canvas: var(--bg-canvas);
@@ -64,6 +69,10 @@ $accent-hover: var(--accent-hover);
 $accent-light: var(--accent-light);
 $accent-border: var(--accent-border);
 
+$silver: var(--silver);
+$silver-light: var(--silver-light);
+$silver-border: var(--silver-border);
+
 $gold: var(--gold);
 $gold-hover: var(--gold-hover);
 $gold-light: var(--gold-light);
@@ -82,6 +91,7 @@ $shadow-pill: var(--shadow-pill);
 $shadow-gold: var(--shadow-gold);
 
 $font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+$font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
 $font-serif: 'Cormorant Garamond', Georgia, serif;
 $font-size-base: 14px;
 

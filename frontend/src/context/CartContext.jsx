@@ -1,9 +1,19 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import toast from "react-hot-toast";
+import {
+  addToCart as reduxAddToCart,
+  removeFromCart as reduxRemoveFromCart,
+  updateQuantity as reduxUpdateQuantity,
+  clearCart as reduxClearCart,
+  openCart as reduxOpenCart,
+  closeCart as reduxCloseCart,
+} from "../store/cartSlice";
 
 const CartContext = createContext(null);
 
 export const CartProvider = ({ children }) => {
+  const dispatch = useDispatch();
   const [cart, setCart] = useState(() => {
     try {
       const saved = localStorage.getItem("mavtar_cart");
@@ -45,11 +55,22 @@ export const CartProvider = ({ children }) => {
       }
     });
 
+    // Also dispatch to Redux store
+    dispatch(reduxAddToCart({ product, quantity }));
+
     toast.success(`${product.title} added to your bag!`, {
       style: {
-        background: "#0b2b1f",
-        color: "#fcfaf4",
-        border: "1px solid #c5a059",
+        background: "#18181B",
+        color: "#FFFFFF",
+        border: "1px solid #3F3F46",
+        borderRadius: "9999px",
+        padding: "10px 18px",
+        fontSize: "13px",
+        fontWeight: "500",
+      },
+      iconTheme: {
+        primary: "#FFFFFF",
+        secondary: "#18181B",
       },
     });
 
@@ -64,17 +85,27 @@ export const CartProvider = ({ children }) => {
     setCart((prev) =>
       prev.map((item) => (item.id === id ? { ...item, quantity: newQuantity } : item))
     );
+    dispatch(reduxUpdateQuantity({ id, quantity: newQuantity }));
   };
 
   const removeFromCart = (id) => {
     setCart((prev) => prev.filter((item) => item.id !== id));
+    dispatch(reduxRemoveFromCart(id));
     toast.error("Item removed from bag", {
-      style: { background: "#2a2723", color: "#faf7f2" },
+      style: {
+        background: "#18181B",
+        color: "#FFFFFF",
+        border: "1px solid #3F3F46",
+        borderRadius: "9999px",
+        padding: "10px 18px",
+        fontSize: "13px",
+      },
     });
   };
 
   const clearCart = () => {
     setCart([]);
+    dispatch(reduxClearCart());
   };
 
   const subtotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
@@ -100,7 +131,11 @@ export const CartProvider = ({ children }) => {
         amountToFreeShipping,
         FREE_SHIPPING_THRESHOLD,
         isCartOpen,
-        setIsCartOpen,
+        setIsCartOpen: (open) => {
+          setIsCartOpen(open);
+          if (open) dispatch(reduxOpenCart());
+          else dispatch(reduxCloseCart());
+        },
       }}
     >
       {children}

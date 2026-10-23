@@ -1,10 +1,13 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
 import { authApi } from "../services/api";
+import { loginSuccess, logout as reduxLogout } from "../store/authSlice";
 import toast from "react-hot-toast";
 
 const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
+  const dispatch = useDispatch();
   const [admin, setAdmin] = useState(() => {
     try {
       const saved = localStorage.getItem("mavtar_admin_user");
@@ -24,6 +27,7 @@ export const AuthProvider = ({ children }) => {
           if (res.success && res.data?.user) {
             setAdmin(res.data.user);
             localStorage.setItem("mavtar_admin_user", JSON.stringify(res.data.user));
+            dispatch(loginSuccess({ user: res.data.user, token }));
           }
         })
         .catch(() => {
@@ -33,7 +37,7 @@ export const AuthProvider = ({ children }) => {
     } else {
       setLoading(false);
     }
-  }, [token]);
+  }, [token, dispatch]);
 
   const login = async (identifier, password) => {
     try {
@@ -43,13 +47,33 @@ export const AuthProvider = ({ children }) => {
         setAdmin(res.data.user);
         localStorage.setItem("mavtar_admin_token", res.data.token);
         localStorage.setItem("mavtar_admin_user", JSON.stringify(res.data.user));
-        toast.success(`Welcome back, ${res.data?.user?.name || "Krish Vaghani"}!`);
+        dispatch(loginSuccess({ user: res.data.user, token: res.data.token }));
+
+        toast.success(`Welcome back, ${res.data?.user?.name || "Krish Vaghani"}!`, {
+          style: {
+            background: "#18181B",
+            color: "#FFFFFF",
+            border: "1px solid #3F3F46",
+            borderRadius: "9999px",
+            fontSize: "13px",
+            padding: "10px 18px",
+          },
+        });
         return true;
       }
       return false;
     } catch (err) {
       const msg = err.response?.data?.message || "Invalid login credentials";
-      toast.error(msg);
+      toast.error(msg, {
+        style: {
+          background: "#18181B",
+          color: "#FFFFFF",
+          border: "1px solid #3F3F46",
+          borderRadius: "9999px",
+          fontSize: "13px",
+          padding: "10px 18px",
+        },
+      });
       return false;
     }
   };
@@ -59,7 +83,15 @@ export const AuthProvider = ({ children }) => {
     setAdmin(null);
     localStorage.removeItem("mavtar_admin_token");
     localStorage.removeItem("mavtar_admin_user");
-    toast.success("Admin session ended");
+    dispatch(reduxLogout());
+    toast("Logged out securely", {
+      style: {
+        background: "#18181B",
+        color: "#A1A1AA",
+        borderRadius: "9999px",
+        fontSize: "13px",
+      },
+    });
   };
 
   return (
@@ -67,8 +99,8 @@ export const AuthProvider = ({ children }) => {
       value={{
         admin,
         token,
-        isAuthenticated: !!token,
         loading,
+        isAuthenticated: !!token,
         login,
         logout,
       }}

@@ -7,38 +7,46 @@ export default {
   theme: {
     extend: {
       colors: {
+        // Luxury Monochromatic Charcoal & Slate Grey Palette (Replaces old Green)
         emerald: {
-          900: "#0b2b1f",
-          850: "#0e3828",
-          800: "#134633",
-          700: "#1b5e45",
-          600: "#247b5b",
-          100: "#e6f3ee",
-          50: "#f2f9f5",
+          950: "#09090B",
+          900: "#18181B",
+          850: "#202024",
+          800: "#27272A",
+          700: "#3F3F46",
+          600: "#52525B",
+          500: "#71717A",
+          300: "#D4D4D8",
+          200: "#E4E4E7",
+          100: "#F4F4F5",
+          50: "#FAFAFA",
         },
+        // Modern Titanium & Neutral Metallic Accents
         gold: {
-          700: "#99732b",
-          600: "#b88a35",
-          500: "#c5a059",
-          400: "#d9b672",
-          300: "#e8cf9c",
-          100: "#f9f4e8",
-          50: "#fcfaf4",
+          700: "#27272A",
+          600: "#3F3F46",
+          500: "#52525B",
+          400: "#71717A",
+          300: "#A1A1AA",
+          200: "#E4E4E7",
+          100: "#F4F4F5",
+          50: "#FFFFFF",
         },
+        // Crisp Clean Linen / Canvas Neutrals
         linen: {
-          900: "#2a2723",
-          800: "#443f38",
-          700: "#686156",
-          600: "#8e8577",
-          300: "#d9d2c5",
-          200: "#e8e2d5",
-          100: "#f4efe6",
-          50: "#faf7f2",
+          900: "#18181B",
+          800: "#27272A",
+          700: "#3F3F46",
+          600: "#52525B",
+          300: "#D4D4D8",
+          200: "#E4E4E7",
+          100: "#F4F4F5",
+          50: "#FAFAFA",
         },
         ruby: {
-          700: "#781d2c",
-          600: "#8c2d3b",
-          50: "#fdf2f4",
+          700: "#781D2C",
+          600: "#8C2D3B",
+          50: "#FEF2F2",
         }
       },
       fontFamily: {
@@ -47,11 +55,11 @@ export default {
         sans: ["'Plus Jakarta Sans'", "system-ui", "-apple-system", "sans-serif"],
       },
       boxShadow: {
-        'soft': '0 4px 20px -2px rgba(15, 43, 31, 0.08)',
-        'luxury': '0 10px 30px -4px rgba(15, 43, 31, 0.12), 0 4px 10px -2px rgba(197, 160, 89, 0.08)',
-        'gold-glow': '0 0 25px -5px rgba(197, 160, 89, 0.35)',
+        'soft': '0 4px 20px -2px rgba(0, 0, 0, 0.05)',
+        'elevated': '0 10px 30px -4px rgba(0, 0, 0, 0.08)',
+        'card': '0 2px 10px rgba(0, 0, 0, 0.04)',
       }
     },
   },
   plugins: [],
-};
+}

@@ -8,8 +8,8 @@
   }
   
   body {
-    background-color: #faf7f2;
-    color: #2a2723;
+    background-color: #F5F5F3;
+    color: #18181B;
     overflow-x: hidden;
   }
 
@@ -19,34 +19,34 @@
   }
 }
 
-/* Custom Scrollbar */
+/* Custom Minimalist Scrollbar */
 ::-webkit-scrollbar {
   width: 7px;
   height: 7px;
 }
 ::-webkit-scrollbar-track {
-  background: #f4efe6;
+  background: #EDEDE8;
 }
 ::-webkit-scrollbar-thumb {
-  background: #c5a059;
+  background: #D4D4D8;
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #b88a35;
+  background: #A1A1AA;
 }
 
 .luxury-border {
-  border: 1px solid rgba(197, 160, 89, 0.25);
+  border: 1px solid rgba(0, 0, 0, 0.08);
 }
 
 .gold-gradient-text {
-  background: linear-gradient(135deg, #c5a059 0%, #ecd599 50%, #b88a35 100%);
+  background: linear-gradient(135deg, #18181B 0%, #3F3F46 50%, #18181B 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
 .gold-gradient-bg {
-  background: linear-gradient(135deg, #b88a35 0%, #c5a059 50%, #a37526 100%);
+  background: linear-gradient(135deg, #18181B 0%, #27272A 50%, #09090B 100%);
 }
 
 /* WebKit Autofill Background Transparency / Reset */
@@ -56,17 +56,6 @@ input:-webkit-autofill:focus,
 input:-webkit-autofill:active {
   -webkit-box-shadow: 0 0 0 50px #ffffff inset !important;
   box-shadow: 0 0 0 50px #ffffff inset !important;
-  -webkit-text-fill-color: #1f2421 !important;
-  caret-color: #1f2421 !important;
-  font-size: inherit !important;
-  transition: background-color 5000s ease-in-out 0s;
-}
-
-/* Autofill for subtle off-white / linen inputs */
-.bg-linen-input:-webkit-autofill,
-.bg-linen-input:-webkit-autofill:hover,
-.bg-linen-input:-webkit-autofill:focus {
-  -webkit-box-shadow: 0 0 0 50px #f4efe6 inset !important;
-  box-shadow: 0 0 0 50px #f4efe6 inset !important;
-  -webkit-text-fill-color: #1f2421 !important;
+  -webkit-text-fill-color: #18181B !important;
+  caret-color: #18181B !important;
 }

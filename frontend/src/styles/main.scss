@@ -8,7 +8,7 @@
 }
 
 body {
-  font-family: $font-family;
+  font-family: $font-sans;
   font-size: $font-size-base;
   background-color: $bg-canvas;
   color: $text-main;
@@ -27,16 +27,16 @@ a {
 
 button {
   cursor: pointer;
-  font-family: $font-family;
+  font-family: $font-sans;
   outline: none;
   border: none;
 }
 
 input {
-  font-family: $font-family;
+  font-family: $font-sans;
   outline: none;
 
-  /* Transparent Webkit Autofill Fix from Rent360 */
+  /* Transparent Webkit Autofill Fix */
   &:-webkit-autofill,
   &:-webkit-autofill:hover, 
   &:-webkit-autofill:focus, 
@@ -52,7 +52,7 @@ input {
 }
 
 select {
-  font-family: $font-family;
+  font-family: $font-sans;
   outline: none;
   cursor: pointer;
 }
@@ -66,23 +66,23 @@ select {
   background: $bg-card-alt;
 }
 ::-webkit-scrollbar-thumb {
-  background: $gold;
+  background: $border-pill;
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: $gold-hover;
+  background: $text-muted;
 }
 
-/* Standard Reusable Enterprise Action Buttons */
+/* Standard Reusable Action Buttons */
 .btn-pill-primary {
   @include pill-button;
   background-color: $bg-pill-dark;
   color: #FFFFFF !important;
-  border: 1px solid rgba(197, 160, 89, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.15);
   box-shadow: $shadow-pill;
 
   svg {
-    color: $gold !important;
+    color: #F4F4F5 !important;
   }
 
   span {
@@ -93,7 +93,7 @@ select {
   &:hover {
     background-color: $accent-hover;
     transform: translateY(-1px);
-    box-shadow: 0 4px 14px rgba(11, 59, 43, 0.25);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
   }
 
   &:active {
@@ -109,7 +109,7 @@ select {
   box-shadow: $shadow-sm;
 
   svg {
-    color: $accent !important;
+    color: $text-muted !important;
   }
 
   span {
@@ -130,34 +130,29 @@ select {
 
 .btn-pill-gold {
   @include pill-button;
-  background-color: $gold;
-  color: $bg-pill-dark !important;
-  box-shadow: $shadow-gold;
+  background-color: $accent;
+  color: #FFFFFF !important;
+  box-shadow: $shadow-md;
 
   span {
-    color: $bg-pill-dark !important;
-    font-weight: 700;
+    color: #FFFFFF !important;
+    font-weight: 600;
   }
 
   &:hover {
-    background-color: $gold-hover;
+    background-color: $accent-hover;
     transform: translateY(-1px);
   }
 }
 
-/* Gold Palette Utilities & High-Contrast Overrides */
-.text-gold-100 { color: #FEF9C3 !important; }
-.text-gold-200 { color: #FEF08A !important; }
-.text-gold-300 { color: #FDE047 !important; }
-.text-gold-400 { color: #EAB308 !important; }
-.text-gold-500 { color: #C5A059 !important; }
-.text-gold-600 { color: #B88A35 !important; }
-
-/* Universal High Contrast Fix for Emerald CTA buttons */
+/* Slate & Charcoal High Contrast Overrides */
 button.bg-emerald-900,
 button.bg-emerald-950,
 a.bg-emerald-900,
-a.bg-emerald-950 {
+a.bg-emerald-950,
+.bg-emerald-900,
+.bg-emerald-950 {
+  background-color: #18181B !important;
   color: #FFFFFF !important;
 
   span {
@@ -165,10 +160,27 @@ a.bg-emerald-950 {
   }
 
   svg {
-    color: #FDE047 !important;
+    color: #F4F4F5 !important;
   }
 
   &:hover {
+    background-color: #27272A !important;
     color: #FFFFFF !important;
   }
+}
+
+.text-emerald-800,
+.text-emerald-900,
+.text-emerald-950 {
+  color: #18181B !important;
+}
+
+.bg-emerald-50,
+.bg-emerald-100 {
+  background-color: #F4F4F5 !important;
+}
+
+.border-emerald-200,
+.border-emerald-300 {
+  border-color: #E2E8F0 !important;
 }
