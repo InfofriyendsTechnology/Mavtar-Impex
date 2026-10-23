@@ -325,9 +325,12 @@
       /* Clean Table Wrapper */
       .orders-table-wrapper {
         overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        width: 100%;
 
         table.bond-orders-table {
           width: 100%;
+          min-width: 580px;
           border-collapse: separate;
           border-spacing: 0;
           font-size: 0.82rem;

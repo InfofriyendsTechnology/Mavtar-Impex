@@ -107,9 +107,12 @@
 
     .table-container {
       overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      width: 100%;
 
       table {
         width: 100%;
+        min-width: 820px;
         border-collapse: collapse;
         font-size: 0.84rem;
 
@@ -123,6 +126,7 @@
           text-transform: uppercase;
           letter-spacing: 0.05em;
           color: $text-muted;
+          white-space: nowrap;
         }
 
         td {
@@ -130,6 +134,7 @@
           border-bottom: 1px solid $border-muted;
           color: $text-main;
           vertical-align: middle;
+          white-space: nowrap;
 
           .order-ref {
             font-weight: 700;
@@ -294,6 +299,67 @@
       .modal-footer {
         display: flex;
         justify-content: flex-end;
+        gap: 12px;
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .admin-orders-page {
+    gap: 14px;
+
+    .page-header-bar {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 12px;
+
+      .header-info {
+        .page-title {
+          font-size: 1.6rem;
+        }
+
+        .page-subtitle {
+          font-size: 0.82rem;
+        }
+      }
+
+      .status-filter-pills {
+        display: flex;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        width: 100%;
+        max-width: 100%;
+        padding: 4px;
+
+        .filter-btn {
+          white-space: nowrap;
+          padding: 6px 12px;
+          font-size: 0.74rem;
+          flex-shrink: 0;
+        }
+      }
+    }
+
+    .orders-card {
+      border-radius: 16px;
+
+      .search-box {
+        padding: 12px;
+
+        .input-wrapper {
+          max-width: 100%;
+          width: 100%;
+        }
+      }
+    }
+
+    .invoice-modal-card {
+      padding: 18px 14px;
+      border-radius: 18px;
+
+      .invoice-details-grid {
+        grid-template-columns: 1fr;
         gap: 12px;
       }
     }
