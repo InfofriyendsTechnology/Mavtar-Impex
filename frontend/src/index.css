@@ -59,3 +59,23 @@ input:-webkit-autofill:active {
   -webkit-text-fill-color: #18181B !important;
   caret-color: #18181B !important;
 }
+
+/* Continuous Luxury Marquee Ribbon Animation */
+@keyframes marquee {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  display: flex;
+  width: max-content;
+  animation: marquee 35s linear infinite;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
+}

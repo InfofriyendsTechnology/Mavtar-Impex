@@ -50,11 +50,11 @@
         border-radius: $border-radius-pill;
         font-size: 0.76rem;
         font-weight: 600;
-        color: #FDE047;
+        color: #E4E4E7;
         width: fit-content;
 
         svg {
-          color: #FDE047;
+          color: #FFFFFF;
           flex-shrink: 0;
         }
 
@@ -107,7 +107,7 @@
           font-weight: 500;
 
           svg {
-            color: #C5A059;
+            color: #E4E4E7;
             flex-shrink: 0;
           }
 
@@ -123,9 +123,9 @@
           }
 
           &.date {
-            color: #FDE047;
+            color: #E4E4E7;
             svg {
-              color: #FDE047;
+              color: #E4E4E7;
             }
           }
         }
@@ -579,18 +579,85 @@
   .admin-dashboard-page {
     .metrics-grid {
       grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
     }
 
     .dashboard-split-grid {
       grid-template-columns: 1fr;
+      gap: 16px;
     }
   }
 }
 
 @media (max-width: 640px) {
   .admin-dashboard-page {
+    gap: 16px;
+
+    .super-admin-greeting-card {
+      padding: 20px 16px;
+      border-radius: 16px;
+      gap: 16px;
+
+      .greeting-content {
+        .greeting-badge {
+          font-size: 0.72rem;
+          padding: 4px 10px;
+        }
+
+        .greeting-heading {
+          font-size: 1.55rem;
+          line-height: 1.15;
+        }
+
+        .greeting-description {
+          font-size: 0.82rem;
+        }
+
+        .system-status-pills {
+          gap: 6px;
+
+          .status-pill {
+            font-size: 0.68rem;
+            padding: 4px 8px;
+          }
+        }
+      }
+
+      .greeting-quick-actions {
+        width: 100%;
+        flex-direction: column;
+
+        .hero-pill-btn {
+          width: 100%;
+          justify-content: center;
+        }
+      }
+    }
+
     .metrics-grid {
       grid-template-columns: 1fr;
+      gap: 12px;
+
+      .metric-card {
+        padding: 16px 14px;
+
+        .card-value {
+          font-size: 1.6rem;
+        }
+      }
+    }
+
+    .dashboard-split-grid {
+      .dashboard-panel-card {
+        padding: 16px 12px;
+        border-radius: 16px;
+
+        .panel-header {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 8px;
+        }
+      }
     }
   }
 }

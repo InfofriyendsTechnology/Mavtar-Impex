@@ -86,7 +86,7 @@ const AdminDashboard = () => {
             <span>Mavtar Impex Executive Suite</span>
             <span className="badge-divider">•</span>
             <span className="owner-tag">
-              <Crown size={13} className="text-amber-400" />
+              <Crown size={13} className="text-zinc-200" />
               Krish Vaghani (Super Admin)
             </span>
           </div>

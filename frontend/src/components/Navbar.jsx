@@ -40,12 +40,12 @@ const Navbar = () => {
           </div>
 
           {/* Brand Logo */}
-          <div className="flex-shrink-0">
+          <div className="flex-shrink-0 min-w-0">
             <Link to="/" className="inline-block group text-left">
-              <span className="text-2xl sm:text-3xl font-serif font-bold tracking-tight text-zinc-900 group-hover:text-zinc-700 transition-colors whitespace-nowrap block">
+              <span className="text-xl sm:text-2xl lg:text-3xl font-serif font-bold tracking-tight text-zinc-900 group-hover:text-zinc-700 transition-colors whitespace-nowrap block">
                 MAVTAR IMPEX
               </span>
-              <span className="text-[9px] sm:text-[10px] tracking-[0.25em] uppercase text-zinc-500 font-semibold block -mt-0.5 whitespace-nowrap">
+              <span className="text-[8px] sm:text-[9.5px] tracking-[0.2em] sm:tracking-[0.25em] uppercase text-zinc-500 font-semibold block -mt-0.5 whitespace-nowrap">
                 Artisanal Linen & Royal Embroidery
               </span>
             </Link>

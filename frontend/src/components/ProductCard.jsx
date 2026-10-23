@@ -14,9 +14,9 @@ const ProductCard = ({ product }) => {
 
   return (
     <motion.div
-      whileHover={{ y: -4 }}
+      whileHover={{ y: -5 }}
       transition={{ duration: 0.2 }}
-      className="group bg-white rounded-xl overflow-hidden border border-zinc-200 hover:border-zinc-400 hover:shadow-xl transition-all duration-300 flex flex-col h-full"
+      className="group bg-white rounded-2xl overflow-hidden border border-zinc-200/90 hover:border-zinc-800 hover:shadow-2xl transition-all duration-300 flex flex-col h-full"
     >
       {/* Image container */}
       <Link to={`/product/${product.slug || product.id}`} className="relative block overflow-hidden bg-zinc-100 aspect-[4/5]">
@@ -100,11 +100,11 @@ const ProductCard = ({ product }) => {
             <motion.button
               whileTap={{ scale: 0.92 }}
               onClick={() => addToCart(product, 1)}
-              className="bg-zinc-900 hover:bg-black text-white px-3 py-2 rounded-lg transition-colors shadow-sm flex items-center justify-center gap-1.5 cursor-pointer font-semibold"
+              className="bg-zinc-900 hover:bg-black text-white px-3.5 py-2 rounded-full transition-all shadow-sm hover:shadow flex items-center justify-center gap-1.5 cursor-pointer font-semibold"
               title="Add to shopping bag"
             >
               <ShoppingBag className="w-3.5 h-3.5 text-zinc-300" />
-              <span className="text-xs font-semibold">Add</span>
+              <span className="text-xs font-semibold">Add to Bag</span>
             </motion.button>
           </div>
         </div>
