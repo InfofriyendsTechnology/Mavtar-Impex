@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link, NavLink, Outlet, useNavigate, useLocation } from "react-router-dom";
+import toast from "react-hot-toast";
 import {
   LayoutDashboard,
   ShoppingBag,
@@ -22,6 +23,7 @@ const AdminLayout = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isRefreshing, setIsRefreshing] = useState(false);
+  const [refreshKey, setRefreshKey] = useState(0);
   const dropdownRef = useRef(null);
   const navigate = useNavigate();
   const location = useLocation();
@@ -66,10 +68,13 @@ const AdminLayout = () => {
   };
 
   const handleRefresh = () => {
+    if (isRefreshing) return;
     setIsRefreshing(true);
+    setRefreshKey((prev) => prev + 1);
+    toast.success("Page refreshed", { id: "outlet-refresh", duration: 1500 });
     setTimeout(() => {
-      window.location.reload();
-    }, 300);
+      setIsRefreshing(false);
+    }, 600);
   };
 
   const displayName = admin?.name || "Krish Vaghani";
@@ -255,9 +260,9 @@ const AdminLayout = () => {
 
         </header>
 
-        {/* Dynamic Content */}
-        <main className="dashboard-content">
-          <Outlet />
+        {/* Dynamic Content - Refreshes outlet workspace on demand without full window reload */}
+        <main className="dashboard-content" key={refreshKey}>
+          <Outlet context={{ refreshKey, triggerRefresh: handleRefresh }} />
         </main>
 
       </div>
