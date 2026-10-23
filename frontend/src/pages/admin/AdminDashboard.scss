@@ -309,7 +309,7 @@
         .panel-link {
           font-size: 0.8rem;
           font-weight: 700;
-          color: $gold-hover;
+          color: $text-main;
           text-decoration: none;
           display: inline-flex;
           align-items: center;
@@ -317,7 +317,7 @@
           white-space: nowrap;
 
           &:hover {
-            color: $accent;
+            color: $text-muted;
           }
         }
       }

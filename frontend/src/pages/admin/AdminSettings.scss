@@ -85,7 +85,7 @@
         transition: border-color $transition-fast, box-shadow $transition-fast;
 
         &:focus {
-          border-color: $gold;
+          border-color: $accent;
           box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.08);
         }
       }
@@ -113,7 +113,7 @@
         box-shadow: $shadow-pill;
 
         svg {
-          color: $gold !important;
+          color: #FFFFFF !important;
         }
 
         span {

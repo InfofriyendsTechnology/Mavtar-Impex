@@ -119,7 +119,7 @@ const AdminLayout = () => {
                     `nav-link-pill ${isActive ? "active" : ""}`
                   }
                 >
-                  <Icon />
+                  <Icon className="sidebar-icon" size={18} />
                   <span>{item.name}</span>
                 </NavLink>
               );
