@@ -119,15 +119,15 @@
             @include pill-button;
             height: 36px;
             padding: 0 14px;
-            background-color: #22c55e;
+            background-color: #18181B;
             color: #FFFFFF !important;
-            box-shadow: 0 2px 8px rgba(34, 197, 94, 0.25);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 
             svg { color: #FFFFFF !important; }
             span { color: #FFFFFF !important; font-weight: 700; }
 
             &:hover {
-              background-color: #16a34a;
+              background-color: #27272A;
               transform: translateY(-1px);
             }
           }

@@ -50,7 +50,7 @@ const TrackOrder = () => {
         <span className="text-xs font-bold tracking-widest text-gold-600 uppercase">
           Real-Time Tracking
         </span>
-        <h1 className="font-serif text-3xl sm:text-5xl font-bold text-emerald-950">
+        <h1 className="font-serif text-3xl sm:text-5xl font-bold text-zinc-950">
           Track Your Handcrafted Order
         </h1>
         <p className="text-sm text-linen-600">
@@ -80,7 +80,7 @@ const TrackOrder = () => {
         <button
           type="submit"
           disabled={loading}
-          className="bg-emerald-900 hover:bg-emerald-800 text-gold-200 px-6 py-2.5 rounded-lg text-xs font-bold tracking-wide transition-colors"
+          className="bg-zinc-900 hover:bg-zinc-800 text-gold-200 px-6 py-2.5 rounded-lg text-xs font-bold tracking-wide transition-colors"
         >
           {loading ? "Tracking..." : "Track Status"}
         </button>
@@ -93,12 +93,12 @@ const TrackOrder = () => {
           <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-6 border-b border-linen-100 gap-4">
             <div>
               <span className="text-xs text-linen-500">Order Number</span>
-              <h2 className="font-serif text-2xl font-bold text-emerald-950 tracking-wider">
+              <h2 className="font-serif text-2xl font-bold text-zinc-950 tracking-wider">
                 {order.orderNumber}
               </h2>
             </div>
             <div className="flex items-center gap-2">
-              <span className="text-xs font-semibold px-3 py-1 rounded-full bg-emerald-100 text-emerald-900 border border-emerald-300">
+              <span className="text-xs font-semibold px-3 py-1 rounded-full bg-zinc-100 text-zinc-900 border border-zinc-300">
                 Status: {order.orderStatus}
               </span>
               <span className="text-xs font-semibold px-3 py-1 rounded-full bg-linen-100 text-linen-800">
@@ -109,8 +109,8 @@ const TrackOrder = () => {
 
           {/* Stepper */}
           <div className="space-y-6">
-            <h3 className="font-serif text-lg font-bold text-emerald-950 flex items-center gap-2">
-              <Clock className="w-5 h-5 text-emerald-800" />
+            <h3 className="font-serif text-lg font-bold text-zinc-950 flex items-center gap-2">
+              <Clock className="w-5 h-5 text-zinc-800" />
               <span>Production & Delivery Progress</span>
             </h3>
 
@@ -120,13 +120,13 @@ const TrackOrder = () => {
                   key={idx}
                   className={`p-4 rounded-xl border text-center space-y-2 transition-all ${
                     step.completed
-                      ? "bg-emerald-50/70 border-emerald-300 text-emerald-950 shadow-sm"
+                      ? "bg-zinc-50/70 border-zinc-300 text-zinc-950 shadow-sm"
                       : "bg-linen-50 border-linen-200 text-linen-400"
                   }`}
                 >
                   <div
                     className={`w-8 h-8 rounded-full mx-auto flex items-center justify-center text-xs font-bold ${
-                      step.completed ? "bg-emerald-900 text-gold-300" : "bg-linen-200 text-linen-500"
+                      step.completed ? "bg-zinc-900 text-gold-300" : "bg-linen-200 text-linen-500"
                     }`}
                   >
                     {step.completed ? "✓" : idx + 1}
@@ -148,7 +148,7 @@ const TrackOrder = () => {
           {/* Ordered Bags & Destination Details */}
           <div className="pt-6 border-t border-linen-100 grid grid-cols-1 md:grid-cols-2 gap-8 text-xs">
             <div>
-              <h4 className="font-bold text-emerald-950 uppercase tracking-wider mb-3">
+              <h4 className="font-bold text-zinc-950 uppercase tracking-wider mb-3">
                 Items in This Shipment ({order.items?.length || 0})
               </h4>
               <div className="divide-y divide-linen-100 space-y-2">
@@ -163,7 +163,7 @@ const TrackOrder = () => {
                       }}
                     />
                     <div>
-                      <p className="font-semibold text-emerald-950">{item.title}</p>
+                      <p className="font-semibold text-zinc-950">{item.title}</p>
                       <p className="text-linen-500">Quantity: {item.quantity}</p>
                       <p className="font-bold text-linen-800">₹{item.price * item.quantity}</p>
                     </div>
@@ -173,17 +173,17 @@ const TrackOrder = () => {
             </div>
 
             <div className="space-y-4">
-              <h4 className="font-bold text-emerald-950 uppercase tracking-wider mb-3">
+              <h4 className="font-bold text-zinc-950 uppercase tracking-wider mb-3">
                 Delivery Details
               </h4>
               <div className="p-4 bg-linen-50 rounded-lg space-y-1.5 text-linen-700">
-                <p className="font-bold text-emerald-950">{order.customerName}</p>
+                <p className="font-bold text-zinc-950">{order.customerName}</p>
                 <p>Phone: {order.customerPhone}</p>
                 <p>
                   {order.shippingAddress?.addressLine1}, {order.shippingAddress?.city},{" "}
                   {order.shippingAddress?.state} - {order.shippingAddress?.pincode}
                 </p>
-                <div className="pt-2 text-emerald-900 font-bold">
+                <div className="pt-2 text-zinc-900 font-bold">
                   Total Paid: ₹{order.totalAmount}
                 </div>
               </div>

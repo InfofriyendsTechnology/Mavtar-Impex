@@ -25,7 +25,7 @@ const OrderSuccess = () => {
   if (loading) {
     return (
       <div className="max-w-2xl mx-auto px-4 py-20 text-center">
-        <div className="w-10 h-10 border-4 border-emerald-900 border-t-gold-500 rounded-full animate-spin mx-auto" />
+        <div className="w-10 h-10 border-4 border-zinc-900 border-t-gold-500 rounded-full animate-spin mx-auto" />
       </div>
     );
   }
@@ -35,14 +35,14 @@ const OrderSuccess = () => {
       
       {/* Success Badge */}
       <div className="bg-white rounded-2xl p-8 border border-gold-500/30 text-center shadow-luxury space-y-4">
-        <div className="w-16 h-16 rounded-full bg-emerald-100 text-emerald-800 flex items-center justify-center mx-auto shadow-inner">
+        <div className="w-16 h-16 rounded-full bg-zinc-100 text-zinc-800 flex items-center justify-center mx-auto shadow-inner">
           <CheckCircle2 className="w-9 h-9" />
         </div>
 
         <span className="text-xs font-bold tracking-widest text-gold-600 uppercase">
           Order Successfully Placed
         </span>
-        <h1 className="font-serif text-3xl sm:text-4xl font-bold text-emerald-950">
+        <h1 className="font-serif text-3xl sm:text-4xl font-bold text-zinc-950">
           Thank You For Choosing Mavtar Impex
         </h1>
         <p className="text-sm text-linen-600 max-w-md mx-auto">
@@ -51,15 +51,15 @@ const OrderSuccess = () => {
 
         <div className="inline-block bg-linen-100 rounded-lg px-4 py-2 border border-linen-200 text-xs">
           <span className="text-linen-500">Order Reference: </span>
-          <strong className="text-emerald-950 font-bold tracking-wider">{orderNumber}</strong>
+          <strong className="text-zinc-950 font-bold tracking-wider">{orderNumber}</strong>
         </div>
       </div>
 
       {/* Live Tracking Stepper */}
       {order && (
         <div className="bg-white rounded-xl p-6 sm:p-8 border border-linen-200 shadow-sm space-y-6">
-          <h3 className="font-serif text-xl font-bold text-emerald-950 flex items-center gap-2">
-            <Package className="w-5 h-5 text-emerald-900" />
+          <h3 className="font-serif text-xl font-bold text-zinc-950 flex items-center gap-2">
+            <Package className="w-5 h-5 text-zinc-900" />
             <span>Artisan Production & Dispatch Timeline</span>
           </h3>
 
@@ -70,7 +70,7 @@ const OrderSuccess = () => {
                   <div
                     className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold ${
                       step.completed
-                        ? "bg-emerald-900 text-gold-300 shadow-sm"
+                        ? "bg-zinc-900 text-gold-300 shadow-sm"
                         : "bg-linen-200 text-linen-500"
                     }`}
                   >
@@ -79,7 +79,7 @@ const OrderSuccess = () => {
                   {idx < order.trackingSteps.length - 1 && (
                     <div
                       className={`w-0.5 h-10 ${
-                        step.completed ? "bg-emerald-800" : "bg-linen-200"
+                        step.completed ? "bg-zinc-800" : "bg-linen-200"
                       }`}
                     />
                   )}
@@ -87,7 +87,7 @@ const OrderSuccess = () => {
                 <div className="flex-1 pb-4">
                   <p
                     className={`text-sm font-bold ${
-                      step.completed ? "text-emerald-950" : "text-linen-400"
+                      step.completed ? "text-zinc-950" : "text-linen-400"
                     }`}
                   >
                     {step.title}
@@ -108,12 +108,12 @@ const OrderSuccess = () => {
           {/* Delivery Details */}
           <div className="pt-6 border-t border-linen-100 grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
             <div className="space-y-1">
-              <span className="font-bold text-emerald-950 uppercase tracking-wider">Recipient</span>
+              <span className="font-bold text-zinc-950 uppercase tracking-wider">Recipient</span>
               <p className="text-linen-800 font-semibold">{order.customerName}</p>
               <p className="text-linen-600">{order.customerPhone}</p>
             </div>
             <div className="space-y-1">
-              <span className="font-bold text-emerald-950 uppercase tracking-wider">Shipping Destination</span>
+              <span className="font-bold text-zinc-950 uppercase tracking-wider">Shipping Destination</span>
               <p className="text-linen-700">
                 {order.shippingAddress?.addressLine1}, {order.shippingAddress?.city}, {order.shippingAddress?.state} - {order.shippingAddress?.pincode}
               </p>
@@ -126,13 +126,13 @@ const OrderSuccess = () => {
       <div className="flex flex-col sm:flex-row gap-4 justify-center">
         <Link
           to="/shop"
-          className="bg-emerald-900 hover:bg-emerald-800 text-gold-200 px-6 py-3 rounded text-sm font-semibold tracking-wide text-center"
+          className="bg-zinc-900 hover:bg-zinc-800 text-gold-200 px-6 py-3 rounded text-sm font-semibold tracking-wide text-center"
         >
           Explore More Bags
         </Link>
         <Link
           to={`/track?order=${orderNumber}`}
-          className="border border-linen-300 hover:border-gold-500 text-emerald-950 px-6 py-3 rounded text-sm font-semibold text-center"
+          className="border border-linen-300 hover:border-gold-500 text-zinc-950 px-6 py-3 rounded text-sm font-semibold text-center"
         >
           Live Track Page
         </Link>

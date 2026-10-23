@@ -49,8 +49,8 @@ const AdminDashboard = () => {
           style={{
             width: 32,
             height: 32,
-            border: "3px solid #0B4633",
-            borderTopColor: "#C5A059",
+            border: "3px solid #E4E4E7",
+            borderTopColor: "#18181B",
             borderRadius: "50%",
             animation: "spin 0.8s linear infinite",
           }}
@@ -137,7 +137,7 @@ const AdminDashboard = () => {
         <div className="metric-card">
           <div className="card-top">
             <span className="card-label">Total Revenue</span>
-            <div className="card-icon-pill green">
+            <div className="card-icon-pill slate">
               <TrendingUp size={18} />
             </div>
           </div>
@@ -275,7 +275,7 @@ const AdminDashboard = () => {
           <div className="inventory-alert-list">
             {(!data?.lowStockProducts || data.lowStockProducts.length === 0) ? (
               <div className="empty-orders-state">
-                <CheckCircle2 size={36} className="text-emerald-600" />
+                <CheckCircle2 size={36} className="text-zinc-600" />
                 <span>All catalog items have healthy stock levels.</span>
               </div>
             ) : (

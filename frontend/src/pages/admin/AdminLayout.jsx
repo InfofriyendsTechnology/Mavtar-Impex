@@ -23,7 +23,7 @@ const AdminLayout = () => {
   if (loading) {
     return (
       <div style={{ minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", background: "#FAF7F2" }}>
-        <div style={{ width: 36, height: 36, border: "3px solid #0B4633", borderTopColor: "#C5A059", borderRadius: "50%", animation: "spin 0.8s linear infinite" }} />
+        <div style={{ width: 36, height: 36, border: "3px solid #E4E4E7", borderTopColor: "#18181B", borderRadius: "50%", animation: "spin 0.8s linear infinite" }} />
       </div>
     );
   }

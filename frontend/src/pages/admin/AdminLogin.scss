@@ -10,8 +10,8 @@
   box-sizing: border-box;
   position: relative;
   background-image: 
-    radial-gradient(at 100% 0%, rgba(197, 160, 89, 0.15) 0px, transparent 50%),
-    radial-gradient(at 0% 100%, rgba(11, 70, 51, 0.08) 0px, transparent 50%);
+    radial-gradient(at 100% 0%, rgba(0, 0, 0, 0.04) 0px, transparent 50%),
+    radial-gradient(at 0% 100%, rgba(0, 0, 0, 0.03) 0px, transparent 50%);
 
   /* Floating Centered Card */
   .bond-login-card {
@@ -38,7 +38,7 @@
         height: 52px;
         border-radius: 14px;
         background-color: $bg-pill-dark;
-        border: 1px solid rgba(197, 160, 89, 0.4);
+        border: 1px solid rgba(255, 255, 255, 0.15);
         display: flex;
         align-items: center;
         justify-content: center;
@@ -170,7 +170,7 @@
         margin-top: 6px;
         background-color: $bg-pill-dark;
         color: #FFFFFF !important;
-        border: 1px solid rgba(197, 160, 89, 0.4);
+        border: 1px solid rgba(255, 255, 255, 0.15);
         border-radius: $border-radius-pill;
         font-size: 0.92rem;
         font-weight: 700;
@@ -195,7 +195,7 @@
         &:hover:not(:disabled) {
           background-color: $accent-hover;
           transform: translateY(-1px);
-          box-shadow: 0 6px 18px rgba(11, 59, 43, 0.28);
+          box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
         }
 
         &:active:not(:disabled) {

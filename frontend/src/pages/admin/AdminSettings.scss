@@ -86,7 +86,7 @@
 
         &:focus {
           border-color: $gold;
-          box-shadow: 0 0 0 3px rgba(197, 160, 89, 0.15);
+          box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.08);
         }
       }
 
@@ -109,7 +109,7 @@
         padding: 0 28px;
         background-color: $bg-pill-dark;
         color: #FFFFFF !important;
-        border: 1px solid rgba(197, 160, 89, 0.35);
+        border: 1px solid rgba(255, 255, 255, 0.16);
         box-shadow: $shadow-pill;
 
         svg {

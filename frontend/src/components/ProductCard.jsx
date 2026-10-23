@@ -6,7 +6,6 @@ import { useCart } from "../context/CartContext";
 
 const ProductCard = ({ product }) => {
   const { addToCart } = useCart();
-
   const discountPercent = product.originalPrice && product.originalPrice > product.price
     ? Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)
     : 0;
@@ -15,12 +14,12 @@ const ProductCard = ({ product }) => {
 
   return (
     <motion.div
-      whileHover={{ y: -5 }}
-      transition={{ duration: 0.25, ease: "easeOut" }}
-      className="group bg-white rounded-xl overflow-hidden border border-linen-200 hover:border-gold-500/50 hover:shadow-xl transition-all duration-300 flex flex-col h-full"
+      whileHover={{ y: -4 }}
+      transition={{ duration: 0.2 }}
+      className="group bg-white rounded-xl overflow-hidden border border-zinc-200 hover:border-zinc-400 hover:shadow-xl transition-all duration-300 flex flex-col h-full"
     >
       {/* Image container */}
-      <Link to={`/product/${product.slug || product.id}`} className="relative block overflow-hidden bg-linen-100 aspect-[4/5]">
+      <Link to={`/product/${product.slug || product.id}`} className="relative block overflow-hidden bg-zinc-100 aspect-[4/5]">
         <img
           src={mainImage}
           alt={product.title}
@@ -33,7 +32,7 @@ const ProductCard = ({ product }) => {
         {/* Badges */}
         <div className="absolute top-3 left-3 flex flex-col gap-1.5 z-10">
           {product.isBestSeller && (
-            <span className="bg-emerald-950 text-gold-300 text-[10px] font-bold px-2 py-0.5 rounded tracking-wider uppercase shadow-sm">
+            <span className="bg-zinc-900 text-white text-[10px] font-bold px-2 py-0.5 rounded tracking-wider uppercase shadow-sm">
               Best Seller
             </span>
           )}
@@ -46,8 +45,8 @@ const ProductCard = ({ product }) => {
 
         {/* Quick View Pill on hover */}
         <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center pointer-events-none">
-          <span className="bg-white/95 text-emerald-950 text-xs font-semibold px-3 py-1.5 rounded-full shadow-md flex items-center gap-1.5 transform translate-y-2 group-hover:translate-y-0 transition-transform">
-            <Eye className="w-3.5 h-3.5 text-gold-600" />
+          <span className="bg-white text-zinc-900 text-xs font-semibold px-3 py-1.5 rounded-full shadow-md flex items-center gap-1.5 transform translate-y-2 group-hover:translate-y-0 transition-transform">
+            <Eye className="w-3.5 h-3.5 text-zinc-600" />
             <span>View Details</span>
           </span>
         </div>
@@ -56,17 +55,17 @@ const ProductCard = ({ product }) => {
       {/* Info Container */}
       <div className="p-4 flex-1 flex flex-col justify-between space-y-3">
         <div className="space-y-1.5">
-          <div className="text-[11px] font-semibold tracking-wider uppercase text-gold-600">
+          <div className="text-[11px] font-semibold tracking-wider uppercase text-zinc-500">
             {product.category || "Artisanal Linen"}
           </div>
 
           <Link to={`/product/${product.slug || product.id}`} className="block">
-            <h3 className="font-serif text-lg font-bold text-emerald-950 group-hover:text-gold-700 transition-colors line-clamp-1">
+            <h3 className="font-serif text-lg font-bold text-zinc-900 group-hover:text-zinc-600 transition-colors line-clamp-1">
               {product.title}
             </h3>
           </Link>
 
-          <p className="text-xs text-linen-600 line-clamp-2">
+          <p className="text-xs text-zinc-500 line-clamp-2">
             {product.shortDescription || product.description}
           </p>
         </div>
@@ -79,32 +78,32 @@ const ProductCard = ({ product }) => {
                 <Star
                   key={i}
                   className={`w-3.5 h-3.5 ${
-                    i < Math.floor(product.rating || 5) ? "fill-current" : "stroke-current text-linen-300"
+                    i < Math.floor(product.rating || 5) ? "fill-current" : "stroke-current text-zinc-300"
                   }`}
                 />
               ))}
             </div>
-            <span className="text-xs text-linen-500 font-medium ml-1">
+            <span className="text-xs text-zinc-500 font-medium ml-1">
               ({product.reviewsCount || 18})
             </span>
           </div>
 
           {/* Pricing & Add to cart button */}
-          <div className="flex items-center justify-between pt-2 border-t border-linen-100">
+          <div className="flex items-center justify-between pt-2 border-t border-zinc-100">
             <div className="flex items-baseline gap-2">
-              <span className="text-lg font-bold text-emerald-950">₹{product.price}</span>
+              <span className="text-lg font-bold text-zinc-900">₹{product.price}</span>
               {product.originalPrice > product.price && (
-                <span className="text-xs text-linen-400 line-through">₹{product.originalPrice}</span>
+                <span className="text-xs text-zinc-400 line-through">₹{product.originalPrice}</span>
               )}
             </div>
 
             <motion.button
               whileTap={{ scale: 0.92 }}
               onClick={() => addToCart(product, 1)}
-              className="bg-emerald-950 hover:bg-emerald-900 text-white px-3 py-2 rounded-lg transition-colors shadow-sm flex items-center justify-center gap-1.5 cursor-pointer font-semibold"
+              className="bg-zinc-900 hover:bg-black text-white px-3 py-2 rounded-lg transition-colors shadow-sm flex items-center justify-center gap-1.5 cursor-pointer font-semibold"
               title="Add to shopping bag"
             >
-              <ShoppingBag className="w-3.5 h-3.5 text-gold-400" />
+              <ShoppingBag className="w-3.5 h-3.5 text-zinc-300" />
               <span className="text-xs font-semibold">Add</span>
             </motion.button>
           </div>

@@ -29,7 +29,7 @@
       right: -10%;
       width: 340px;
       height: 340px;
-      background: radial-gradient(circle, rgba(197, 160, 89, 0.2) 0%, transparent 70%);
+      background: radial-gradient(circle, rgba(255, 255, 255, 0.08) 0%, transparent 70%);
       pointer-events: none;
     }
 
@@ -45,7 +45,7 @@
         align-items: center;
         gap: 8px;
         background: rgba(255, 255, 255, 0.08);
-        border: 1px solid rgba(197, 160, 89, 0.35);
+        border: 1px solid rgba(255, 255, 255, 0.16);
         padding: 5px 14px;
         border-radius: $border-radius-pill;
         font-size: 0.76rem;
@@ -242,9 +242,10 @@
           background-color: $bg-card-alt;
           color: $text-main;
 
-          &.green {
+          &.green,
+          &.slate {
             background-color: $accent-light;
-            color: $accent;
+            color: $text-main;
           }
 
           &.gold {
@@ -443,9 +444,9 @@
                   white-space: nowrap;
 
                   &.confirmed, &.completed, &.delivered {
-                    background-color: #DCFCE7;
-                    color: #15803D;
-                    border: 1px solid #BBF7D0;
+                    background-color: #18181B;
+                    color: #FFFFFF;
+                    border: 1px solid #27272A;
                   }
 
                   &.pending, &.in_production {

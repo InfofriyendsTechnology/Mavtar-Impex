@@ -202,7 +202,7 @@ const AdminProducts = () => {
       <div className="products-table-card">
         {loading ? (
           <div style={{ padding: "60px 0", textAlign: "center" }}>
-            <div style={{ width: 32, height: 32, border: "3px solid #0B4633", borderTopColor: "#C5A059", borderRadius: "50%", animation: "spin 0.8s linear infinite", margin: "0 auto" }} />
+            <div style={{ width: 32, height: 32, border: "3px solid #E4E4E7", borderTopColor: "#18181B", borderRadius: "50%", animation: "spin 0.8s linear infinite", margin: "0 auto" }} />
           </div>
         ) : filteredProducts.length === 0 ? (
           <div style={{ padding: "40px", textAlign: "center", color: "#6B7280" }}>

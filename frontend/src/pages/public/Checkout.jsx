@@ -31,9 +31,9 @@ const Checkout = () => {
   if (cart.length === 0) {
     return (
       <div className="max-w-xl mx-auto px-4 py-20 text-center space-y-4">
-        <h2 className="font-serif text-3xl font-bold text-emerald-950">Your Bag is Empty</h2>
+        <h2 className="font-serif text-3xl font-bold text-zinc-950">Your Bag is Empty</h2>
         <p className="text-sm text-linen-600">Please add products before checking out.</p>
-        <Link to="/shop" className="inline-block bg-emerald-900 text-gold-200 px-6 py-2.5 rounded text-xs font-semibold">
+        <Link to="/shop" className="inline-block bg-zinc-900 text-gold-200 px-6 py-2.5 rounded text-xs font-semibold">
           Explore Bags
         </Link>
       </div>
@@ -95,7 +95,7 @@ const Checkout = () => {
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-8">
       
       {/* Return to cart */}
-      <Link to="/shop" className="inline-flex items-center gap-1.5 text-xs text-linen-600 hover:text-emerald-900 font-semibold">
+      <Link to="/shop" className="inline-flex items-center gap-1.5 text-xs text-linen-600 hover:text-zinc-900 font-semibold">
         <ArrowLeft className="w-3.5 h-3.5" />
         <span>Continue Shopping</span>
       </Link>
@@ -106,8 +106,8 @@ const Checkout = () => {
         <div className="lg:col-span-7 space-y-6">
           <div className="bg-white p-6 sm:p-8 rounded-xl border border-linen-200 shadow-sm space-y-6">
             <div className="flex items-center gap-2 border-b border-linen-100 pb-4">
-              <Truck className="w-5 h-5 text-emerald-900" />
-              <h2 className="font-serif text-2xl font-bold text-emerald-950">Shipping & Delivery Details</h2>
+              <Truck className="w-5 h-5 text-zinc-900" />
+              <h2 className="font-serif text-2xl font-bold text-zinc-950">Shipping & Delivery Details</h2>
             </div>
 
             <form id="checkout-form" onSubmit={handleSubmit} className="space-y-4">
@@ -213,7 +213,7 @@ const Checkout = () => {
 
               {/* Payment Methods */}
               <div className="pt-4 border-t border-linen-100 space-y-3">
-                <label className="block text-xs font-bold text-emerald-950 uppercase tracking-wider">
+                <label className="block text-xs font-bold text-zinc-950 uppercase tracking-wider">
                   Payment Method
                 </label>
 
@@ -221,7 +221,7 @@ const Checkout = () => {
                   <label
                     className={`flex items-start gap-3 p-3.5 rounded-lg border cursor-pointer transition-all ${
                       formData.paymentMethod === "COD"
-                        ? "border-emerald-800 bg-emerald-50/50"
+                        ? "border-zinc-800 bg-zinc-50/50"
                         : "border-linen-300 hover:bg-linen-50"
                     }`}
                   >
@@ -231,11 +231,11 @@ const Checkout = () => {
                       value="COD"
                       checked={formData.paymentMethod === "COD"}
                       onChange={() => setFormData({ ...formData, paymentMethod: "COD" })}
-                      className="mt-0.5 accent-emerald-900"
+                      className="mt-0.5 accent-zinc-900"
                     />
                     <div>
-                      <div className="flex items-center gap-1.5 text-xs font-bold text-emerald-950">
-                        <Banknote className="w-4 h-4 text-emerald-800" />
+                      <div className="flex items-center gap-1.5 text-xs font-bold text-zinc-950">
+                        <Banknote className="w-4 h-4 text-zinc-800" />
                         <span>Cash on Delivery (COD)</span>
                       </div>
                       <p className="text-[11px] text-linen-500 mt-0.5">Pay in cash or UPI when delivered to your door.</p>
@@ -245,7 +245,7 @@ const Checkout = () => {
                   <label
                     className={`flex items-start gap-3 p-3.5 rounded-lg border cursor-pointer transition-all ${
                       formData.paymentMethod === "ONLINE_UPI"
-                        ? "border-emerald-800 bg-emerald-50/50"
+                        ? "border-zinc-800 bg-zinc-50/50"
                         : "border-linen-300 hover:bg-linen-50"
                     }`}
                   >
@@ -255,10 +255,10 @@ const Checkout = () => {
                       value="ONLINE_UPI"
                       checked={formData.paymentMethod === "ONLINE_UPI"}
                       onChange={() => setFormData({ ...formData, paymentMethod: "ONLINE_UPI" })}
-                      className="mt-0.5 accent-emerald-900"
+                      className="mt-0.5 accent-zinc-900"
                     />
                     <div>
-                      <div className="flex items-center gap-1.5 text-xs font-bold text-emerald-950">
+                      <div className="flex items-center gap-1.5 text-xs font-bold text-zinc-950">
                         <QrCode className="w-4 h-4 text-gold-600" />
                         <span>Instant UPI / QR Mock</span>
                       </div>
@@ -274,7 +274,7 @@ const Checkout = () => {
         {/* Order Summary (5 Cols) */}
         <div className="lg:col-span-5 space-y-6">
           <div className="bg-white p-6 rounded-xl border border-linen-200 shadow-sm space-y-4">
-            <h3 className="font-serif text-xl font-bold text-emerald-950 border-b border-linen-100 pb-3">
+            <h3 className="font-serif text-xl font-bold text-zinc-950 border-b border-linen-100 pb-3">
               Order Summary ({cart.length} items)
             </h3>
 
@@ -291,7 +291,7 @@ const Checkout = () => {
                     }}
                   />
                   <div className="flex-1 min-w-0">
-                    <p className="font-semibold text-emerald-950 truncate">{item.title}</p>
+                    <p className="font-semibold text-zinc-950 truncate">{item.title}</p>
                     <p className="text-linen-500">Qty: {item.quantity}</p>
                   </div>
                   <span className="font-bold text-linen-900 shrink-0">₹{item.price * item.quantity}</span>
@@ -310,7 +310,7 @@ const Checkout = () => {
               />
               <button
                 type="submit"
-                className="bg-linen-200 hover:bg-gold-500 hover:text-emerald-950 text-emerald-950 px-3 py-1.5 rounded text-xs font-bold transition-colors"
+                className="bg-linen-200 hover:bg-gold-500 hover:text-zinc-950 text-zinc-950 px-3 py-1.5 rounded text-xs font-bold transition-colors"
               >
                 Apply
               </button>
@@ -332,14 +332,14 @@ const Checkout = () => {
 
               <div className="flex justify-between text-linen-600">
                 <span>Pan-India Shipping</span>
-                <span className="font-semibold text-emerald-800">
+                <span className="font-semibold text-zinc-800">
                   {shippingFee === 0 ? "FREE" : `₹${shippingFee}`}
                 </span>
               </div>
 
-              <div className="pt-2 border-t border-linen-200 flex justify-between text-base font-bold text-emerald-950">
+              <div className="pt-2 border-t border-linen-200 flex justify-between text-base font-bold text-zinc-950">
                 <span>Grand Total</span>
-                <span className="text-xl text-emerald-950">₹{finalAmount}</span>
+                <span className="text-xl text-zinc-950">₹{finalAmount}</span>
               </div>
             </div>
 
@@ -348,17 +348,17 @@ const Checkout = () => {
               type="submit"
               form="checkout-form"
               disabled={loading}
-              className="w-full bg-emerald-900 hover:bg-emerald-800 text-gold-200 py-3.5 px-4 rounded-md font-bold text-sm tracking-wide transition-all shadow-md flex items-center justify-center gap-2 disabled:opacity-50"
+              className="w-full bg-zinc-900 hover:bg-black text-white py-3.5 px-4 rounded-full font-bold text-sm tracking-wide transition-all shadow-md flex items-center justify-center gap-2 disabled:opacity-50"
             >
               {loading ? (
-                <div className="w-5 h-5 border-2 border-gold-400 border-t-transparent rounded-full animate-spin" />
+                <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
               ) : (
                 <span>Confirm Order • ₹{finalAmount}</span>
               )}
             </button>
 
             <div className="flex items-center justify-center gap-2 text-[11px] text-linen-500 pt-1">
-              <ShieldCheck className="w-4 h-4 text-emerald-700" />
+              <ShieldCheck className="w-4 h-4 text-zinc-700" />
               <span>Certified Handcrafted Indian Linen Quality Guarantee</span>
             </div>
           </div>

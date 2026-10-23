@@ -47,7 +47,7 @@ const CustomInquiry = () => {
         <span className="text-xs font-bold tracking-widest text-gold-600 uppercase">
           Weddings • Corporate Hampers • Global Export
         </span>
-        <h1 className="font-serif text-3xl sm:text-5xl font-bold text-emerald-950">
+        <h1 className="font-serif text-3xl sm:text-5xl font-bold text-zinc-950">
           Custom & Bulk Gifting Orders
         </h1>
         <p className="text-sm text-linen-600 font-light">
@@ -59,7 +59,7 @@ const CustomInquiry = () => {
         
         {/* Info Column (5 Cols) */}
         <div className="lg:col-span-5 space-y-6">
-          <div className="bg-emerald-950 text-linen-100 p-8 rounded-2xl border border-gold-500/30 space-y-6">
+          <div className="bg-zinc-950 text-linen-100 p-8 rounded-2xl border border-gold-500/30 space-y-6">
             <h3 className="font-serif text-2xl font-bold text-white">
               Why Partner with Mavtar Impex?
             </h3>
@@ -90,15 +90,15 @@ const CustomInquiry = () => {
               </div>
             </div>
 
-            <div className="pt-4 border-t border-emerald-900 space-y-2 text-xs">
+            <div className="pt-4 border-t border-zinc-900 space-y-2 text-xs">
               <p className="text-gold-400 font-bold uppercase tracking-wider">Direct WhatsApp Inquiry</p>
               <a
                 href="https://wa.me/919512753471?text=Hello%20Mavtar%20Impex,%20I%20want%20to%20inquire%20about%20bulk%20bags"
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex items-center gap-2 bg-emerald-900 hover:bg-emerald-800 text-gold-200 px-4 py-2.5 rounded-lg font-semibold transition-colors"
+                className="inline-flex items-center gap-2 bg-zinc-900 hover:bg-zinc-800 text-gold-200 px-4 py-2.5 rounded-lg font-semibold transition-colors"
               >
-                <Phone className="w-4 h-4 text-emerald-400" />
+                <Phone className="w-4 h-4 text-zinc-400" />
                 <span>Chat on WhatsApp (+91 95127 53471)</span>
               </a>
             </div>
@@ -110,23 +110,23 @@ const CustomInquiry = () => {
           <div className="bg-white p-6 sm:p-8 rounded-2xl border border-linen-200 shadow-sm">
             {submitted ? (
               <div className="text-center py-12 space-y-4">
-                <div className="w-16 h-16 rounded-full bg-emerald-100 text-emerald-800 flex items-center justify-center mx-auto">
+                <div className="w-16 h-16 rounded-full bg-zinc-100 text-zinc-800 flex items-center justify-center mx-auto">
                   <CheckCircle2 className="w-8 h-8" />
                 </div>
-                <h3 className="font-serif text-2xl font-bold text-emerald-950">Inquiry Received</h3>
+                <h3 className="font-serif text-2xl font-bold text-zinc-950">Inquiry Received</h3>
                 <p className="text-xs text-linen-600 max-w-md mx-auto">
                   Thank you! Our master craft coordinator will review your requirements and reach out via WhatsApp / phone within 4 business hours.
                 </p>
                 <button
                   onClick={() => setSubmitted(false)}
-                  className="bg-emerald-900 text-gold-200 px-6 py-2 rounded text-xs font-semibold"
+                  className="bg-zinc-900 text-gold-200 px-6 py-2 rounded text-xs font-semibold"
                 >
                   Submit Another Inquiry
                 </button>
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-4">
-                <h3 className="font-serif text-xl font-bold text-emerald-950 border-b border-linen-100 pb-3">
+                <h3 className="font-serif text-xl font-bold text-zinc-950 border-b border-linen-100 pb-3">
                   Inquiry Form
                 </h3>
 
@@ -212,7 +212,7 @@ const CustomInquiry = () => {
                   <textarea
                     rows={4}
                     required
-                    placeholder="Tell us about your event theme, color palette preference (e.g. emerald green, beige linen), delivery timeline, etc."
+                    placeholder="Tell us about your event theme, color palette preference (e.g. charcoal grey, beige linen), delivery timeline, etc."
                     value={formData.message}
                     onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                     className="w-full bg-linen-50 border border-linen-300 rounded px-3 py-2 text-xs focus:outline-none focus:border-gold-500"
@@ -222,7 +222,7 @@ const CustomInquiry = () => {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full bg-emerald-900 hover:bg-emerald-800 text-gold-200 py-3 rounded-md font-semibold text-xs tracking-wider uppercase transition-colors flex items-center justify-center gap-2"
+                  className="w-full bg-zinc-900 hover:bg-zinc-800 text-gold-200 py-3 rounded-md font-semibold text-xs tracking-wider uppercase transition-colors flex items-center justify-center gap-2"
                 >
                   <Send className="w-4 h-4" />
                   <span>{loading ? "Submitting..." : "Submit Inquiry"}</span>

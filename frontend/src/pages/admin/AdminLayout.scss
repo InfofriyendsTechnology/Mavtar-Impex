@@ -39,7 +39,7 @@
         height: 42px;
         border-radius: 12px;
         background-color: $bg-pill-dark;
-        border: 1px solid rgba(197, 160, 89, 0.4);
+        border: 1px solid rgba(0, 0, 0, 0.08);
         display: flex;
         align-items: center;
         justify-content: center;
@@ -277,14 +277,14 @@
             width: 30px;
             height: 30px;
             border-radius: 50%;
-            background: linear-gradient(135deg, $accent 0%, #166534 100%);
+            background: linear-gradient(135deg, #18181B 0%, #27272A 100%);
             color: #FFFFFF;
             font-size: 0.74rem;
             font-weight: 700;
             display: flex;
             align-items: center;
             justify-content: center;
-            border: 2px solid #22c55e; // Green active status ring
+            border: 2px solid #52525B; // Sleek slate/titanium active status ring
           }
 
           .profile-display-name {

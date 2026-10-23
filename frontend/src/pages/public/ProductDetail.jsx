@@ -36,7 +36,7 @@ const ProductDetail = () => {
   if (loading) {
     return (
       <div className="max-w-7xl mx-auto px-4 py-20 flex justify-center">
-        <div className="w-12 h-12 border-4 border-emerald-900 border-t-gold-500 rounded-full animate-spin" />
+        <div className="w-12 h-12 border-4 border-zinc-900 border-t-gold-500 rounded-full animate-spin" />
       </div>
     );
   }
@@ -44,9 +44,9 @@ const ProductDetail = () => {
   if (!product) {
     return (
       <div className="max-w-7xl mx-auto px-4 py-20 text-center space-y-4">
-        <h2 className="font-serif text-3xl font-bold text-emerald-950">Product Not Found</h2>
+        <h2 className="font-serif text-3xl font-bold text-zinc-950">Product Not Found</h2>
         <p className="text-sm text-linen-600">The requested linen bag is no longer available.</p>
-        <Link to="/shop" className="inline-block bg-emerald-900 text-gold-200 px-6 py-2 rounded text-xs font-semibold">
+        <Link to="/shop" className="inline-block bg-zinc-900 text-gold-200 px-6 py-2 rounded text-xs font-semibold">
           Return to Shop
         </Link>
       </div>
@@ -76,11 +76,11 @@ const ProductDetail = () => {
       
       {/* Breadcrumb */}
       <nav className="text-xs text-linen-500 flex items-center gap-2">
-        <Link to="/" className="hover:text-emerald-900">Home</Link>
+        <Link to="/" className="hover:text-zinc-900">Home</Link>
         <span>/</span>
-        <Link to="/shop" className="hover:text-emerald-900">Bags</Link>
+        <Link to="/shop" className="hover:text-zinc-900">Bags</Link>
         <span>/</span>
-        <span className="text-emerald-950 font-medium truncate max-w-xs">{product.title}</span>
+        <span className="text-zinc-950 font-medium truncate max-w-xs">{product.title}</span>
       </nav>
 
       {/* Main Showcase Grid */}
@@ -136,7 +136,7 @@ const ProductDetail = () => {
             <div className="text-xs font-semibold tracking-widest uppercase text-gold-600 mb-1">
               {product.category || "Artisanal Linen Collection"}
             </div>
-            <h1 className="font-serif text-3xl sm:text-4xl font-bold text-emerald-950 leading-tight">
+            <h1 className="font-serif text-3xl sm:text-4xl font-bold text-zinc-950 leading-tight">
               {product.title}
             </h1>
             <div className="flex items-center gap-3 mt-2">
@@ -148,7 +148,7 @@ const ProductDetail = () => {
               <span className="text-xs font-semibold text-linen-700">
                 4.9 ({product.reviewsCount || 28} Verified Reviews)
               </span>
-              <span className="text-xs text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded font-medium border border-emerald-200">
+              <span className="text-xs text-zinc-700 bg-zinc-50 px-2 py-0.5 rounded font-medium border border-zinc-200">
                 SKU: {product.sku || "MAVTAR-7841"}
               </span>
             </div>
@@ -157,7 +157,7 @@ const ProductDetail = () => {
           {/* Pricing */}
           <div className="p-4 rounded-lg bg-linen-100/70 border border-linen-200 space-y-1">
             <div className="flex items-baseline gap-3">
-              <span className="text-3xl font-bold text-emerald-950">₹{product.price}</span>
+              <span className="text-3xl font-bold text-zinc-950">₹{product.price}</span>
               {product.originalPrice > product.price && (
                 <span className="text-base text-linen-400 line-through">₹{product.originalPrice}</span>
               )}
@@ -179,7 +179,7 @@ const ProductDetail = () => {
 
           {/* Specifications Table */}
           <div className="border border-linen-200 rounded-lg overflow-hidden text-xs">
-            <div className="bg-linen-100/80 px-4 py-2 font-bold text-emerald-950 uppercase tracking-wider">
+            <div className="bg-linen-100/80 px-4 py-2 font-bold text-zinc-950 uppercase tracking-wider">
               Handcrafted Specifications
             </div>
             <div className="divide-y divide-linen-100 bg-white">
@@ -231,18 +231,18 @@ const ProductDetail = () => {
 
               <button
                 onClick={() => addToCart(product, quantity)}
-                className="flex-1 bg-emerald-900 hover:bg-emerald-800 text-gold-200 py-3.5 px-6 rounded-md font-semibold text-sm tracking-wide transition-all shadow-md flex items-center justify-center gap-2"
+                className="flex-1 bg-zinc-900 hover:bg-black text-white py-3.5 px-6 rounded-full font-semibold text-sm tracking-wide transition-all shadow-md flex items-center justify-center gap-2"
               >
-                <ShoppingBag className="w-4 h-4" />
+                <ShoppingBag className="w-4 h-4 text-zinc-300" />
                 <span>Add to Bag • ₹{product.price * quantity}</span>
               </button>
             </div>
 
             <button
               onClick={handleBuyNow}
-              className="w-full bg-gold-500 hover:bg-gold-600 text-emerald-950 py-3 px-6 rounded-md font-bold text-sm tracking-wide transition-all flex items-center justify-center gap-2"
+              className="w-full bg-zinc-100 hover:bg-zinc-200 text-zinc-900 border border-zinc-300 py-3 px-6 rounded-full font-bold text-sm tracking-wide transition-all flex items-center justify-center gap-2"
             >
-              <Zap className="w-4 h-4" />
+              <Zap className="w-4 h-4 text-zinc-700" />
               <span>Buy Now with 1-Click</span>
             </button>
           </div>
@@ -263,14 +263,14 @@ const ProductDetail = () => {
               </div>
               <button
                 type="submit"
-                className="bg-linen-200 hover:bg-linen-300 text-emerald-950 px-4 py-2 rounded-md text-xs font-semibold transition-colors"
+                className="bg-linen-200 hover:bg-linen-300 text-zinc-950 px-4 py-2 rounded-md text-xs font-semibold transition-colors"
               >
                 Check Delivery
               </button>
             </form>
             {pincodeStatus && (
-              <p className="text-xs text-emerald-800 font-medium mt-2 flex items-center gap-1.5">
-                <Check className="w-3.5 h-3.5 text-emerald-600" />
+              <p className="text-xs text-zinc-800 font-medium mt-2 flex items-center gap-1.5">
+                <Check className="w-3.5 h-3.5 text-zinc-600" />
                 <span>{pincodeStatus}</span>
               </p>
             )}

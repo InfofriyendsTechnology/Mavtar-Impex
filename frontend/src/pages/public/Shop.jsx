@@ -82,7 +82,7 @@ const Shop = () => {
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-8">
       
       {/* Header Banner */}
-      <div className="bg-emerald-950 text-linen-100 rounded-xl p-8 sm:p-10 border border-gold-500/30">
+      <div className="bg-zinc-950 text-linen-100 rounded-xl p-8 sm:p-10 border border-gold-500/30">
         <span className="text-xs font-bold tracking-widest text-gold-400 uppercase">
           Artisanal Catalog
         </span>
@@ -102,7 +102,7 @@ const Shop = () => {
           {/* Mobile Filter Toggle */}
           <button
             onClick={() => setShowMobileFilters(!showMobileFilters)}
-            className="lg:hidden w-full flex items-center justify-between bg-white border border-linen-300 p-3 rounded-lg text-sm font-semibold text-emerald-950"
+            className="lg:hidden w-full flex items-center justify-between bg-white border border-linen-300 p-3 rounded-lg text-sm font-semibold text-zinc-950"
           >
             <span className="flex items-center gap-2">
               <SlidersHorizontal className="w-4 h-4" />
@@ -127,7 +127,7 @@ const Shop = () => {
 
             {/* Categories */}
             <div className="space-y-2">
-              <h3 className="font-serif text-base font-bold text-emerald-950 border-b border-linen-100 pb-2">
+              <h3 className="font-serif text-base font-bold text-zinc-950 border-b border-linen-100 pb-2">
                 Categories
               </h3>
               <div className="space-y-1">
@@ -137,7 +137,7 @@ const Shop = () => {
                     onClick={() => handleCategorySelect(cat.slug)}
                     className={`w-full text-left px-3 py-2 rounded text-xs transition-colors flex items-center justify-between ${
                       selectedCategory === cat.slug
-                        ? "bg-emerald-900 text-gold-300 font-semibold"
+                        ? "bg-zinc-900 text-gold-300 font-semibold"
                         : "text-linen-700 hover:bg-linen-100"
                     }`}
                   >
@@ -150,10 +150,10 @@ const Shop = () => {
             {/* Price Filter Slider: ₹600 - ₹2,000 */}
             <div className="space-y-3">
               <div className="flex justify-between items-center border-b border-linen-100 pb-2">
-                <h3 className="font-serif text-base font-bold text-emerald-950">
+                <h3 className="font-serif text-base font-bold text-zinc-950">
                   Max Price
                 </h3>
-                <span className="text-xs font-bold text-emerald-900">Up to ₹{priceRange}</span>
+                <span className="text-xs font-bold text-zinc-900">Up to ₹{priceRange}</span>
               </div>
               <input
                 type="range"
@@ -162,7 +162,7 @@ const Shop = () => {
                 step="50"
                 value={priceRange}
                 onChange={(e) => setPriceRange(Number(e.target.value))}
-                className="w-full accent-emerald-900 cursor-pointer"
+                className="w-full accent-zinc-900 cursor-pointer"
               />
               <div className="flex justify-between text-[11px] text-linen-500 font-medium">
                 <span>₹600</span>
@@ -189,7 +189,7 @@ const Shop = () => {
           {/* Top Sort & Count Bar */}
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white p-4 rounded-lg border border-linen-200">
             <div className="text-xs text-linen-600">
-              Showing <strong className="text-emerald-950">{filteredProducts.length}</strong> handcrafted linen bags
+              Showing <strong className="text-zinc-950">{filteredProducts.length}</strong> handcrafted linen bags
             </div>
 
             <div className="flex items-center gap-2">
@@ -216,13 +216,13 @@ const Shop = () => {
             </div>
           ) : filteredProducts.length === 0 ? (
             <div className="bg-white rounded-xl p-12 text-center space-y-4 border border-linen-200">
-              <h3 className="font-serif text-2xl font-bold text-emerald-950">No linen bags found</h3>
+              <h3 className="font-serif text-2xl font-bold text-zinc-950">No linen bags found</h3>
               <p className="text-sm text-linen-600 max-w-md mx-auto">
                 Try adjusting your price filter or search query to explore other styles from our collection.
               </p>
               <button
                 onClick={resetFilters}
-                className="bg-emerald-900 text-gold-200 px-6 py-2 rounded text-xs font-semibold"
+                className="bg-zinc-900 text-gold-200 px-6 py-2 rounded text-xs font-semibold"
               >
                 Reset Filters
               </button>
