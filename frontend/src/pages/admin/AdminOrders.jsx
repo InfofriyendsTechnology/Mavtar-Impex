@@ -107,76 +107,129 @@ const AdminOrders = () => {
             No orders match the current search or status filter.
           </div>
         ) : (
-          <div className="table-container">
-            <table>
-              <thead>
-                <tr>
-                  <th>Order Ref</th>
-                  <th>Date</th>
-                  <th>Customer</th>
-                  <th>Destination</th>
-                  <th>Amount</th>
-                  <th>Payment</th>
-                  <th>Order Status</th>
-                  <th style={{ textAlign: "right" }}>Invoice</th>
-                </tr>
-              </thead>
-              <tbody>
-                {filteredOrders.map((ord) => (
-                  <tr key={ord.id}>
-                    <td>
-                      <span className="order-ref">{ord.orderNumber}</span>
-                    </td>
-                    <td>
-                      <span className="date-text">
-                        {new Date(ord.createdAt).toLocaleDateString("en-IN", {
-                          day: "numeric",
-                          month: "short",
-                        })}
-                      </span>
-                    </td>
-                    <td>
-                      <div className="cust-name">{ord.customerName}</div>
-                      <div className="cust-phone">{ord.customerPhone}</div>
-                    </td>
-                    <td style={{ color: "#4B5563" }}>
-                      {ord.shippingAddress?.city}, {ord.shippingAddress?.pincode}
-                    </td>
-                    <td>
-                      <span className="amount-tag">₹{ord.totalAmount}</span>
-                    </td>
-                    <td>
-                      <span className="method-pill">{ord.paymentMethod}</span>
-                    </td>
-                    <td>
-                      <select
-                        value={ord.orderStatus}
-                        onChange={(e) => handleStatusChange(ord.id, e.target.value)}
-                        className="status-select"
-                      >
-                        <option value="CONFIRMED">CONFIRMED</option>
-                        <option value="IN_PRODUCTION">IN_PRODUCTION</option>
-                        <option value="SHIPPED">SHIPPED</option>
-                        <option value="DELIVERED">DELIVERED</option>
-                        <option value="CANCELLED">CANCELLED</option>
-                      </select>
-                    </td>
-                    <td style={{ textAlign: "right" }}>
-                      <button
-                        onClick={() => setSelectedOrder(ord)}
-                        className="btn-pill-secondary"
-                        style={{ height: "32px", padding: "0 10px", fontSize: "0.75rem" }}
-                        title="View invoice"
-                      >
-                        <Eye size={14} />
-                        <span>View</span>
-                      </button>
-                    </td>
+          <>
+            {/* Desktop Table View */}
+            <div className="desktop-table-wrapper">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Order Ref</th>
+                    <th>Date</th>
+                    <th>Customer</th>
+                    <th>Destination</th>
+                    <th>Amount</th>
+                    <th>Payment</th>
+                    <th>Order Status</th>
+                    <th style={{ textAlign: "right" }}>Invoice</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+                </thead>
+                <tbody>
+                  {filteredOrders.map((ord) => (
+                    <tr key={ord.id}>
+                      <td>
+                        <span className="order-ref">{ord.orderNumber}</span>
+                      </td>
+                      <td>
+                        <span className="date-text">
+                          {new Date(ord.createdAt).toLocaleDateString("en-IN", {
+                            day: "numeric",
+                            month: "short",
+                          })}
+                        </span>
+                      </td>
+                      <td>
+                        <div className="cust-name">{ord.customerName}</div>
+                        <div className="cust-phone">{ord.customerPhone}</div>
+                      </td>
+                      <td style={{ color: "#4B5563" }}>
+                        {ord.shippingAddress?.city}, {ord.shippingAddress?.pincode}
+                      </td>
+                      <td>
+                        <span className="amount-tag">₹{ord.totalAmount}</span>
+                      </td>
+                      <td>
+                        <span className="method-pill">{ord.paymentMethod}</span>
+                      </td>
+                      <td>
+                        <select
+                          value={ord.orderStatus}
+                          onChange={(e) => handleStatusChange(ord.id, e.target.value)}
+                          className="status-select"
+                        >
+                          <option value="CONFIRMED">CONFIRMED</option>
+                          <option value="IN_PRODUCTION">IN PRODUCTION</option>
+                          <option value="SHIPPED">SHIPPED</option>
+                          <option value="DELIVERED">DELIVERED</option>
+                          <option value="CANCELLED">CANCELLED</option>
+                        </select>
+                      </td>
+                      <td style={{ textAlign: "right" }}>
+                        <button
+                          onClick={() => setSelectedOrder(ord)}
+                          className="btn-pill-secondary"
+                          style={{ height: "32px", padding: "0 10px", fontSize: "0.75rem" }}
+                          title="View invoice"
+                        >
+                          <Eye size={14} />
+                          <span>View</span>
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+            {/* Mobile Order Cards View (Zero horizontal scroll, zero text overload) */}
+            <div className="mobile-orders-list">
+              {filteredOrders.map((ord) => (
+                <div key={ord.id} className="mobile-order-card">
+                  <div className="card-top-row">
+                    <span className="order-ref">{ord.orderNumber}</span>
+                    <span className="date-text">
+                      {new Date(ord.createdAt).toLocaleDateString("en-IN", {
+                        day: "numeric",
+                        month: "short",
+                      })}
+                    </span>
+                  </div>
+
+                  <div className="card-mid-row">
+                    <div className="customer-info">
+                      <div className="cust-name">{ord.customerName}</div>
+                      <div className="cust-loc">{ord.shippingAddress?.city || "Gujarat"}, {ord.shippingAddress?.pincode}</div>
+                    </div>
+                    <div className="amount-info">
+                      <span className="amount-tag">₹{ord.totalAmount}</span>
+                    </div>
+                  </div>
+
+                  <div className="card-bot-row">
+                    <select
+                      value={ord.orderStatus}
+                      onChange={(e) => handleStatusChange(ord.id, e.target.value)}
+                      className="status-select"
+                    >
+                      <option value="CONFIRMED">CONFIRMED</option>
+                      <option value="IN_PRODUCTION">IN PRODUCTION</option>
+                      <option value="SHIPPED">SHIPPED</option>
+                      <option value="DELIVERED">DELIVERED</option>
+                      <option value="CANCELLED">CANCELLED</option>
+                    </select>
+
+                    <button
+                      onClick={() => setSelectedOrder(ord)}
+                      className="btn-pill-secondary"
+                      style={{ height: "32px", padding: "0 10px", fontSize: "0.75rem" }}
+                    >
+                      <Eye size={14} />
+                      <span>Invoice</span>
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </>
         )}
       </div>
 

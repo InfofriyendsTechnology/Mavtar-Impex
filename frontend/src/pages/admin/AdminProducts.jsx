@@ -198,7 +198,7 @@ const AdminProducts = () => {
         </span>
       </div>
 
-      {/* Products Table Card */}
+      {/* Products Display Card (Desktop Table + Mobile Clean Card Rows) */}
       <div className="products-table-card">
         {loading ? (
           <div style={{ padding: "60px 0", textAlign: "center" }}>
@@ -209,74 +209,137 @@ const AdminProducts = () => {
             No products found matching your search.
           </div>
         ) : (
-          <div className="table-container">
-            <table>
-              <thead>
-                <tr>
-                  <th>Bag Image</th>
-                  <th>Title & SKU</th>
-                  <th>Category</th>
-                  <th>Selling Price</th>
-                  <th>Stock</th>
-                  <th>Status</th>
-                  <th style={{ textAlign: "right" }}>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {filteredProducts.map((p) => (
-                  <tr key={p.id}>
-                    <td>
-                      <img
-                        src={p.images?.[0] || "/products/royal-elephant-green-tote.jpg"}
-                        alt={p.title}
-                        className="product-thumb"
-                        onError={(e) => {
-                          e.target.src = "/products/royal-elephant-green-tote.jpg";
-                        }}
-                      />
-                    </td>
-                    <td>
-                      <div className="prod-title">{p.title}</div>
-                      <div className="prod-sku">{p.sku || "MAVTAR-7801"}</div>
-                    </td>
-                    <td style={{ color: "#4B5563" }}>{p.category}</td>
-                    <td>
-                      <div className="price-tag">₹{p.price}</div>
-                      {p.originalPrice > p.price && (
-                        <div style={{ fontSize: "0.72rem", color: "#9CA3AF", textDecoration: "line-through" }}>
-                          ₹{p.originalPrice}
-                        </div>
-                      )}
-                    </td>
-                    <td>
-                      <span className={`badge ${p.stock > 15 ? "in-stock" : "low-stock"}`}>
-                        {p.stock} in stock
-                      </span>
-                    </td>
-                    <td>
-                      {p.isBestSeller && <span className="badge featured">Best Seller</span>}
-                    </td>
-                    <td style={{ textAlign: "right" }}>
-                      <button
-                        onClick={() => handleOpenEdit(p)}
-                        className="action-icon-btn"
-                        title="Edit product"
-                      >
-                        <Edit2 size={16} />
-                      </button>
-                      <button
-                        onClick={() => handleDelete(p.id, p.title)}
-                        className="action-icon-btn delete"
-                        title="Delete product"
-                      >
-                        <Trash2 size={16} />
-                      </button>
-                    </td>
+          <>
+            {/* Desktop Table View (Spacious, fixed-width columns) */}
+            <div className="desktop-table-wrapper">
+              <table>
+                <thead>
+                  <tr>
+                    <th style={{ width: "64px" }}>Bag</th>
+                    <th>Product Title & Code</th>
+                    <th style={{ width: "170px" }}>Category</th>
+                    <th style={{ width: "130px" }}>Selling Price</th>
+                    <th style={{ width: "130px" }}>Stock</th>
+                    <th style={{ width: "110px" }}>Edition</th>
+                    <th style={{ width: "100px", textAlign: "right" }}>Actions</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+                </thead>
+                <tbody>
+                  {filteredProducts.map((p) => (
+                    <tr key={p.id}>
+                      <td>
+                        <img
+                          src={p.images?.[0] || "/products/royal-elephant-green-tote.jpg"}
+                          alt={p.title}
+                          className="product-thumb"
+                          onError={(e) => {
+                            e.target.src = "/products/royal-elephant-green-tote.jpg";
+                          }}
+                        />
+                      </td>
+                      <td>
+                        <div className="prod-title">{p.title}</div>
+                        <span className="sku-chip">{p.sku || "MVT-7801"}</span>
+                      </td>
+                      <td>
+                        <span className="cat-chip">{p.category}</span>
+                      </td>
+                      <td>
+                        <span className="price-tag">₹{p.price}</span>
+                        {p.originalPrice > p.price && (
+                          <span className="price-strike">₹{p.originalPrice}</span>
+                        )}
+                      </td>
+                      <td>
+                        <span className={`stock-pill ${p.stock > 15 ? "in-stock" : "low-stock"}`}>
+                          {p.stock} units
+                        </span>
+                      </td>
+                      <td>
+                        {p.isBestSeller ? (
+                          <span className="badge-bestseller">Best Seller</span>
+                        ) : (
+                          <span className="badge-standard">Standard</span>
+                        )}
+                      </td>
+                      <td style={{ textAlign: "right" }}>
+                        <div className="action-buttons-wrap">
+                          <button
+                            onClick={() => handleOpenEdit(p)}
+                            className="action-icon-btn"
+                            title="Edit product"
+                          >
+                            <Edit2 size={15} />
+                          </button>
+                          <button
+                            onClick={() => handleDelete(p.id, p.title)}
+                            className="action-icon-btn delete"
+                            title="Delete product"
+                          >
+                            <Trash2 size={15} />
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+            {/* Mobile Responsive Card Rows (Zero horizontal scroll, zero text overload) */}
+            <div className="mobile-products-list">
+              {filteredProducts.map((p) => (
+                <div key={p.id} className="mobile-product-card">
+                  <img
+                    src={p.images?.[0] || "/products/royal-elephant-green-tote.jpg"}
+                    alt={p.title}
+                    className="mobile-card-thumb"
+                    onError={(e) => {
+                      e.target.src = "/products/royal-elephant-green-tote.jpg";
+                    }}
+                  />
+
+                  <div className="mobile-card-info">
+                    <div className="mobile-card-title">{p.title}</div>
+
+                    <div className="mobile-card-chips">
+                      <span className="sku-chip">{p.sku || "MVT-7801"}</span>
+                      <span className="cat-chip">{p.category}</span>
+                    </div>
+
+                    <div className="mobile-card-bottom">
+                      <div className="mobile-card-price">
+                        <span className="curr-price">₹{p.price}</span>
+                        {p.originalPrice > p.price && (
+                          <span className="orig-price">₹{p.originalPrice}</span>
+                        )}
+                      </div>
+                      <span className={`stock-pill ${p.stock > 15 ? "in-stock" : "low-stock"}`}>
+                        {p.stock} units
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="mobile-card-actions">
+                    <button
+                      onClick={() => handleOpenEdit(p)}
+                      className="action-icon-btn"
+                      title="Edit product"
+                    >
+                      <Edit2 size={15} />
+                    </button>
+                    <button
+                      onClick={() => handleDelete(p.id, p.title)}
+                      className="action-icon-btn delete"
+                      title="Delete product"
+                    >
+                      <Trash2 size={15} />
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </>
         )}
       </div>
 

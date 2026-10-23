@@ -105,14 +105,12 @@
       }
     }
 
-    .table-container {
+    .desktop-table-wrapper {
       overflow-x: auto;
-      -webkit-overflow-scrolling: touch;
       width: 100%;
 
       table {
         width: 100%;
-        min-width: 820px;
         border-collapse: collapse;
         font-size: 0.84rem;
 
@@ -190,6 +188,110 @@
 
         tbody tr:hover {
           background-color: $bg-card-hover;
+        }
+      }
+    }
+
+    /* Mobile Orders Card List (Zero text overload) */
+    .mobile-orders-list {
+      display: none;
+      flex-direction: column;
+      gap: 10px;
+      padding: 12px;
+
+      .mobile-order-card {
+        background-color: $bg-card;
+        border: 1px solid $border-main;
+        border-radius: 14px;
+        padding: 14px;
+        box-shadow: $shadow-sm;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+
+        .card-top-row {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+
+          .order-ref {
+            font-size: 0.86rem;
+            font-weight: 800;
+            color: $text-main;
+          }
+
+          .date-text {
+            font-size: 0.72rem;
+            color: $text-muted;
+            background-color: $bg-card-alt;
+            padding: 2px 8px;
+            border-radius: 4px;
+          }
+        }
+
+        .card-mid-row {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 8px 0;
+          border-top: 1px solid $border-muted;
+          border-bottom: 1px solid $border-muted;
+
+          .customer-info {
+            .cust-name {
+              font-size: 0.86rem;
+              font-weight: 700;
+              color: $text-main;
+            }
+
+            .cust-loc {
+              font-size: 0.72rem;
+              color: $text-muted;
+            }
+          }
+
+          .amount-info {
+            .amount-tag {
+              font-size: 1rem;
+              font-weight: 800;
+              color: $text-main;
+            }
+          }
+        }
+
+        .card-bot-row {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 10px;
+
+          select.status-select {
+            padding: 6px 10px;
+            border-radius: $border-radius-pill;
+            border: 1px solid $border-main;
+            background-color: $bg-card-alt;
+            font-size: 0.74rem;
+            font-weight: 700;
+            color: $text-main;
+            cursor: pointer;
+            outline: none;
+            flex: 1;
+          }
+
+          .btn-pill-secondary {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            height: 32px;
+            padding: 0 12px;
+            border-radius: $border-radius-pill;
+            background-color: $bg-card-alt;
+            border: 1px solid $border-main;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: $text-main;
+            cursor: pointer;
+          }
         }
       }
     }
@@ -343,6 +445,14 @@
 
     .orders-card {
       border-radius: 16px;
+
+      .desktop-table-wrapper {
+        display: none !important;
+      }
+
+      .mobile-orders-list {
+        display: flex !important;
+      }
 
       .search-box {
         padding: 12px;

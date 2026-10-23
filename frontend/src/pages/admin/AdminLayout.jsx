@@ -71,10 +71,9 @@ const AdminLayout = () => {
     if (isRefreshing) return;
     setIsRefreshing(true);
     setRefreshKey((prev) => prev + 1);
-    toast.success("Page refreshed", { id: "outlet-refresh", duration: 1500 });
     setTimeout(() => {
       setIsRefreshing(false);
-    }, 600);
+    }, 500);
   };
 
   const displayName = admin?.name || "Krish Vaghani";

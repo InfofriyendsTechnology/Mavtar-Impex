@@ -78,53 +78,31 @@ const AdminDashboard = () => {
   return (
     <div className="admin-dashboard-page">
       
-      {/* 1. Super Admin Welcome & Executive Greetings */}
+      {/* 1. Sleek Minimalist Executive Bar */}
       <div className="super-admin-greeting-card">
         <div className="greeting-content">
           <div className="greeting-badge">
-            <Sparkles size={14} className="badge-sparkle" />
-            <span>Mavtar Impex Executive Suite</span>
-            <span className="badge-divider">•</span>
-            <span className="owner-tag">
-              <Crown size={13} className="text-zinc-200" />
-              Krish Vaghani (Super Admin)
-            </span>
+            <Sparkles size={13} />
+            <span>Executive Atelier Suite • Live Production</span>
           </div>
 
           <h1 className="greeting-heading">
-            {getDynamicGreeting()}, Krish Vaghani
+            {getDynamicGreeting()}, Krish
           </h1>
 
           <p className="greeting-description">
-            Your artisanal linen bag catalog, computerized multi-head embroidery production, and customer dispatches are running in full rhythm.
+            Artisanal linen catalog, multi-head zari embroidery, and pan-India dispatches.
           </p>
-
-          <div className="system-status-pills">
-            <span className="status-pill active">
-              <Database size={13} />
-              <span className="status-dot"></span>
-              Neon PostgreSQL Connected
-            </span>
-            <span className="status-pill active">
-              <Activity size={13} />
-              <span className="status-dot"></span>
-              Zari & Resham Embroidery Live
-            </span>
-            <span className="status-pill date">
-              <Calendar size={13} />
-              {todayFormatted}
-            </span>
-          </div>
         </div>
 
         <div className="greeting-quick-actions">
           <Link to="/admin/products" className="hero-pill-btn primary">
-            <ShoppingBag size={15} />
+            <ShoppingBag size={14} />
             <span>Manage Catalog</span>
           </Link>
 
           <Link to="/admin/orders" className="hero-pill-btn secondary">
-            <Package size={15} />
+            <Package size={14} />
             <span>Orders ({stats.pendingOrdersCount} Pending)</span>
           </Link>
         </div>
