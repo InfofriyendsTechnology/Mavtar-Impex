@@ -115,9 +115,9 @@
             .status-dot {
               width: 7px;
               height: 7px;
-              background-color: #22C55E;
+              background-color: #FAFAFA;
               border-radius: 50%;
-              box-shadow: 0 0 8px #22C55E;
+              box-shadow: 0 0 8px rgba(255, 255, 255, 0.8);
               animation: pulse 2s infinite;
             }
           }
@@ -242,7 +242,6 @@
           background-color: $bg-card-alt;
           color: $text-main;
 
-          &.green,
           &.slate {
             background-color: $accent-light;
             color: $text-main;

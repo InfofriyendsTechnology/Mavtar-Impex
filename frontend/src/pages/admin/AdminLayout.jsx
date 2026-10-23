@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Link, NavLink, Outlet, useNavigate, useLocation } from "react-router-dom";
 import {
   LayoutDashboard,
@@ -9,7 +9,10 @@ import {
   LogOut,
   Menu,
   ShieldCheck,
-  Crown,
+  ChevronDown,
+  RotateCw,
+  ExternalLink,
+  Store,
 } from "lucide-react";
 import { useAuth } from "../../context/AuthContext";
 import "./AdminLayout.scss";
@@ -17,8 +20,22 @@ import "./AdminLayout.scss";
 const AdminLayout = () => {
   const { admin, isAuthenticated, loading, logout } = useAuth();
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isRefreshing, setIsRefreshing] = useState(false);
+  const dropdownRef = useRef(null);
   const navigate = useNavigate();
   const location = useLocation();
+
+  // Close dropdown on click outside
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
+        setIsDropdownOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   if (loading) {
     return (
@@ -47,6 +64,21 @@ const AdminLayout = () => {
     );
     return current ? current.name : "Dashboard";
   };
+
+  const handleRefresh = () => {
+    setIsRefreshing(true);
+    setTimeout(() => {
+      window.location.reload();
+    }, 300);
+  };
+
+  const displayName = admin?.name || "Krish Vaghani";
+  const avatarInitials = displayName
+    .split(" ")
+    .map((n) => n[0])
+    .join("")
+    .slice(0, 2)
+    .toUpperCase() || "KV";
 
   return (
     <div className="dashboard-layout">
@@ -107,7 +139,7 @@ const AdminLayout = () => {
       {/* Main Workspace */}
       <div className="dashboard-main">
         
-        {/* Floating Capsule Header */}
+        {/* Floating Capsule Header matching Rent360 */}
         <header className="dashboard-header-capsule">
           
           <div className="header-left-wrap">
@@ -126,22 +158,99 @@ const AdminLayout = () => {
             </div>
           </div>
 
-          <div className="header-right-wrap">
-            {/* Clean Professional User Profile Capsule */}
-            <div className="user-profile-capsule">
-              <div className="profile-avatar">
-                <span>KV</span>
-              </div>
-              <div style={{ display: "flex", flexDirection: "column", textAlign: "left", lineHeight: 1.2 }}>
-                <span className="profile-display-name" style={{ fontWeight: 700, fontSize: "0.85rem", color: "var(--text-main)" }}>
-                  {admin?.name || "Krish Vaghani"}
-                </span>
-                <span className="role-badge" style={{ fontSize: "0.68rem", color: "#C5A059", fontWeight: 700, letterSpacing: "0.05em", textTransform: "uppercase", display: "inline-flex", alignItems: "center", gap: 3 }}>
-                  <Crown size={11} />
-                  <span>Super Admin</span>
-                </span>
-              </div>
+          {/* Right Header Controls matching Rent360 CRM style */}
+          <div className="header-actions">
+            
+            {/* 1. Refresh Button with Smooth Spin */}
+            <button
+              type="button"
+              className={`header-action-icon refresh-btn ${isRefreshing ? "spinning" : ""}`}
+              onClick={handleRefresh}
+              title="Refresh Data"
+              aria-label="Refresh Data"
+            >
+              <RotateCw size={16} />
+            </button>
+
+            {/* 2. View Store Button */}
+            <a
+              href="/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="header-action-pill store-link"
+              title="View Public Store"
+            >
+              <Store size={15} />
+              <span>View Store</span>
+            </a>
+
+            {/* 3. Luxury User Profile Capsule with Interactive Dropdown */}
+            <div className="profile-dropdown-container" ref={dropdownRef}>
+              <button
+                type="button"
+                className="user-profile-capsule"
+                onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                aria-label="User menu"
+                aria-expanded={isDropdownOpen}
+              >
+                <div className="profile-avatar">
+                  <span>{avatarInitials}</span>
+                </div>
+                <span className="profile-display-name">{displayName}</span>
+                <ChevronDown size={14} className={`chevron-icon ${isDropdownOpen ? "rotated" : ""}`} />
+              </button>
+
+              {/* Floating Dropdown Menu */}
+              {isDropdownOpen && (
+                <div className="profile-dropdown-menu">
+                  <div className="dropdown-header">
+                    <div className="dropdown-user-name">{displayName}</div>
+                    <div className="dropdown-role-pill">SUPER ADMIN</div>
+                    <div className="dropdown-store-sub">Mavtar Impex Workspace</div>
+                  </div>
+
+                  <div className="dropdown-divider" />
+
+                  <button
+                    type="button"
+                    className="dropdown-item"
+                    onClick={() => {
+                      setIsDropdownOpen(false);
+                      navigate("/admin/settings");
+                    }}
+                  >
+                    <Settings size={15} className="item-icon" />
+                    <span>Store Settings</span>
+                  </button>
+
+                  <a
+                    href="/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="dropdown-item"
+                    onClick={() => setIsDropdownOpen(false)}
+                  >
+                    <ExternalLink size={15} className="item-icon" />
+                    <span>Open Live Store</span>
+                  </a>
+
+                  <div className="dropdown-divider" />
+
+                  <button
+                    type="button"
+                    className="dropdown-item logout-item"
+                    onClick={() => {
+                      setIsDropdownOpen(false);
+                      logout();
+                    }}
+                  >
+                    <LogOut size={15} className="item-icon" />
+                    <span>Sign Out</span>
+                  </button>
+                </div>
+              )}
             </div>
+
           </div>
 
         </header>
