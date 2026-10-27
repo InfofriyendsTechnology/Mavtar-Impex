@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { CheckCircle2, Package, ArrowRight, Clock, MapPin } from "lucide-react";
 import { orderApi } from "../../services/api";
+import { Skeleton } from "../../components/common/Skeleton";
 import "./OrderSuccess.scss";
 
 const OrderSuccess = () => {
@@ -25,8 +26,9 @@ const OrderSuccess = () => {
 
   if (loading) {
     return (
-      <div className="order-success-page flex justify-center items-center" style={{ minHeight: "50vh" }}>
-        <div style={{ width: 40, height: 40, border: "3px solid #E4E4E7", borderTopColor: "#18181B", borderRadius: "50%", animation: "spin 0.8s linear infinite" }} />
+      <div className="order-success-page" style={{ maxWidth: "680px", margin: "40px auto", padding: "0 20px", display: "flex", flexDirection: "column", gap: "20px" }}>
+        <Skeleton height="220px" borderRadius="20px" />
+        <Skeleton height="160px" borderRadius="18px" />
       </div>
     );
   }

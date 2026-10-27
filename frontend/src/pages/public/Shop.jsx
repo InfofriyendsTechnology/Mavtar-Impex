@@ -3,6 +3,7 @@ import { useSearchParams } from "react-router-dom";
 import { Search, RotateCcw } from "lucide-react";
 import { motion } from "framer-motion";
 import ProductCard from "../../components/ProductCard";
+import { SkeletonProductGrid } from "../../components/common/Skeleton";
 import { productApi } from "../../services/api";
 import "./Shop.scss";
 
@@ -174,11 +175,7 @@ const Shop = () => {
 
           {/* Grid */}
           {loading ? (
-            <div className="shop-grid">
-              {[1, 2, 3, 4, 5, 6].map((n) => (
-                <div key={n} className="skeleton-card" />
-              ))}
-            </div>
+            <SkeletonProductGrid count={6} />
           ) : filteredProducts.length === 0 ? (
             <div className="empty-state">
               <h3>No bags found</h3>

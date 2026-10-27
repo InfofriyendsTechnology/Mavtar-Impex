@@ -63,16 +63,20 @@ function App() {
       <CartProvider>
         <Router>
           <Toaster
-            position="top-right"
+            position="top-center"
             toastOptions={{
-              duration: 3500,
+              duration: 2000,
               style: {
                 background: "#18181B",
                 color: "#FFFFFF",
-                border: "1px solid #3F3F46",
                 borderRadius: "9999px",
-                fontSize: "13px",
-                padding: "10px 18px",
+                fontSize: "12px",
+                fontWeight: "500",
+                padding: "8px 16px",
+                maxWidth: "260px",
+                textAlign: "center",
+                boxShadow: "0 6px 20px rgba(0, 0, 0, 0.3)",
+                border: "1px solid #3F3F46",
               },
             }}
           />

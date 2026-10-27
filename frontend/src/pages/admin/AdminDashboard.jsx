@@ -28,6 +28,7 @@ import {
   Layers,
 } from "lucide-react";
 import { analyticsApi } from "../../services/api";
+import { SkeletonDashboard } from "../../components/common/Skeleton";
 import "./AdminDashboard.scss";
 
 const AdminDashboard = () => {
@@ -59,20 +60,7 @@ const AdminDashboard = () => {
   };
 
   if (loading) {
-    return (
-      <div style={{ display: "flex", justifyContent: "center", padding: "80px 0" }}>
-        <div
-          style={{
-            width: 32,
-            height: 32,
-            border: "3px solid #E4E4E7",
-            borderTopColor: "#18181B",
-            borderRadius: "50%",
-            animation: "spin 0.8s linear infinite",
-          }}
-        />
-      </div>
-    );
+    return <SkeletonDashboard />;
   }
 
   const stats = {

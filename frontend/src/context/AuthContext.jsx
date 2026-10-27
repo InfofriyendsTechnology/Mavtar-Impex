@@ -76,32 +76,12 @@ export const AuthProvider = ({ children }) => {
         localStorage.setItem("mavtar_admin_token", res.data.token);
         localStorage.setItem("mavtar_admin_user", JSON.stringify(userData));
         dispatch(loginSuccess({ user: userData, token: res.data.token }));
-
-        toast.success(`Welcome back, ${userData?.name || "Krish"}!`, {
-          style: {
-            background: "#18181B",
-            color: "#FFFFFF",
-            border: "1px solid #3F3F46",
-            borderRadius: "9999px",
-            fontSize: "13px",
-            padding: "10px 18px",
-          },
-        });
+        toast.success("Welcome back");
         return true;
       }
       return false;
     } catch (err) {
-      const msg = err.response?.data?.message || "Invalid login credentials";
-      toast.error(msg, {
-        style: {
-          background: "#18181B",
-          color: "#FFFFFF",
-          border: "1px solid #3F3F46",
-          borderRadius: "9999px",
-          fontSize: "13px",
-          padding: "10px 18px",
-        },
-      });
+      toast.error("Invalid credentials");
       return false;
     }
   };
@@ -112,14 +92,7 @@ export const AuthProvider = ({ children }) => {
     localStorage.removeItem("mavtar_admin_token");
     localStorage.removeItem("mavtar_admin_user");
     dispatch(reduxLogout());
-    toast("Logged out securely", {
-      style: {
-        background: "#18181B",
-        color: "#A1A1AA",
-        borderRadius: "9999px",
-        fontSize: "13px",
-      },
-    });
+    toast.success("Signed out");
   };
 
   // Customer Google Login
@@ -132,32 +105,11 @@ export const AuthProvider = ({ children }) => {
         setCustomerToken(res.data.token);
         localStorage.setItem("mavtar_customer_user", JSON.stringify(user));
         localStorage.setItem("mavtar_customer_token", res.data.token);
-        setIsAuthModalOpen(false);
-
-        toast.success(`Welcome to Mavtar Impex, ${user.name}!`, {
-          style: {
-            background: "#18181B",
-            color: "#FFFFFF",
-            border: "1px solid #3F3F46",
-            borderRadius: "9999px",
-            fontSize: "13px",
-            padding: "10px 18px",
-          },
-        });
         return true;
       }
       return false;
     } catch (err) {
-      const msg = err.response?.data?.message || "Google authentication failed";
-      toast.error(msg, {
-        style: {
-          background: "#18181B",
-          color: "#FFFFFF",
-          border: "1px solid #3F3F46",
-          borderRadius: "9999px",
-          fontSize: "13px",
-        },
-      });
+      toast.error("Google sign in failed");
       return false;
     }
   };
@@ -172,32 +124,11 @@ export const AuthProvider = ({ children }) => {
         setCustomerToken(res.data.token);
         localStorage.setItem("mavtar_customer_user", JSON.stringify(user));
         localStorage.setItem("mavtar_customer_token", res.data.token);
-        setIsAuthModalOpen(false);
-
-        toast.success(`Welcome back, ${user.name}!`, {
-          style: {
-            background: "#18181B",
-            color: "#FFFFFF",
-            border: "1px solid #3F3F46",
-            borderRadius: "9999px",
-            fontSize: "13px",
-            padding: "10px 18px",
-          },
-        });
         return true;
       }
       return false;
     } catch (err) {
-      const msg = err.response?.data?.message || "Sign in failed";
-      toast.error(msg, {
-        style: {
-          background: "#18181B",
-          color: "#FFFFFF",
-          border: "1px solid #3F3F46",
-          borderRadius: "9999px",
-          fontSize: "13px",
-        },
-      });
+      toast.error("Sign in failed");
       return false;
     }
   };

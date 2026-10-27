@@ -7,40 +7,63 @@ const Craftsmanship = () => {
   const PROCESS_STAGES = [
     {
       step: "01",
-      icon: <Layers size={22} />,
+      icon: <Layers size={18} />,
       title: "Raw Flax Sourcing",
-      subtitle: "100% Natural Belgian Flax",
-      desc: "Carefully selected heavy-GSM pure flax linen that offers superior tensile strength, natural fiber texture, and heirloom breathability.",
+      subtitle: "100% Belgian Flax",
+      desc: "Carefully selected heavy-GSM pure flax linen woven on high-density air-jet looms for natural texture and strength.",
       img: "/products/process-01.png",
-      metric: "450+ GSM Heavyweight Weave",
+      specs: [
+        { label: "Material", val: "100% Flax" },
+        { label: "Density", val: "450+ GSM" }
+      ],
+      metric: "450+ GSM Weave",
     },
     {
       step: "02",
-      icon: <Cpu size={22} />,
+      icon: <Cpu size={18} />,
       title: "Vector Digitization",
-      subtitle: "Multi-Head Computerized Embroidery",
-      desc: "Our Surat designers digitize royal ceremonial elephant and peacock motifs, ensuring millimeter-precise multi-needle threadwork.",
+      subtitle: "Surat Embroidery",
+      desc: "Our Surat designers digitize royal elephant and peacock motifs, ensuring millimeter-precise multi-needle threadwork.",
       img: "/products/process-02.png",
-      metric: "28,000+ High-Density Stitches",
+      specs: [
+        { label: "Needles", val: "Multi-Head" },
+        { label: "Count", val: "28k+ Stitches" }
+      ],
+      metric: "28,000+ Stitches",
     },
     {
       step: "03",
-      icon: <Sparkles size={22} />,
+      icon: <Sparkles size={18} />,
       title: "Zari & Velvet Applique",
-      subtitle: "Metallic Cord & Raised Relief",
-      desc: "Artisans hand-guide imported gold and silver bullion threads over plush velvet cutouts to create unmistakable royal texture.",
+      subtitle: "Bullion Relief",
+      desc: "Artisans hand-guide metallic gold and silver threads over plush velvet cutouts to create an unmistakable royal relief.",
       img: "/products/process-03.png",
-      metric: "Zero Pucker Tactile Relief",
+      specs: [
+        { label: "Craft", val: "Hand Zardozi" },
+        { label: "QC", val: "Zero Snag" }
+      ],
+      metric: "Zero-Snag Tactile",
     },
     {
       step: "04",
-      icon: <ShieldCheck size={22} />,
+      icon: <ShieldCheck size={18} />,
       title: "Master Tailoring",
-      subtitle: "Load-Bearing Dual Handle Seams",
-      desc: "Double-stitched boxed gussets, water-resistant cotton lining, and reinforced load-bearing handles tested to hold up to 10kg.",
+      subtitle: "Reinforced Seams",
+      desc: "Double-stitched boxed gussets, water-resistant cotton lining, and load-bearing handles tested to hold up to 10kg.",
       img: "/products/process-04.png",
-      metric: "10kg Load-Tested Guarantee",
+      specs: [
+        { label: "Stitch", val: "Dual Box Seam" },
+        { label: "Stress", val: "10kg Tested" }
+      ],
+      metric: "10kg Load Tested",
     },
+  ];
+
+  const QUALITY_BENCHMARKS = [
+    { num: "450+", unit: "GSM", title: "Flax Linen Density", desc: "Dense unbleached heavyweight natural weave" },
+    { num: "28k+", unit: "Stitches", title: "Embroidery Precision", desc: "High-density multi-head vector needlework" },
+    { num: "10 kg", unit: "Capacity", title: "Load Stress Verified", desc: "Dual reinforced seams tested for heavy carrying" },
+    { num: "100%", unit: "Inspected", title: "Surat Atelier QC", desc: "Every piece hand-examined before dispatch" },
   ];
 
   return (
@@ -48,14 +71,14 @@ const Craftsmanship = () => {
       
       {/* 1. Hero Section */}
       <section className="craft-hero-section">
-        <span className="craft-tag">Surat Atelier Looms</span>
+        <span className="craft-tag">✦ Surat Atelier Looms</span>
         <h1>The Craft of Linen & Thread</h1>
         <p>
           How Mavtar Impex pairs dense organic flax linen with computerized embroidery and traditional Gujarati needlework to create heirloom carryalls.
         </p>
       </section>
 
-      {/* 2. Editorial Showcase Frame (Clean Natural Containment - No Over-Zoom) */}
+      {/* 2. Editorial Showcase Frame (Clean Natural Containment) */}
       <div className="craft-showcase-frame">
         <img
           src="/products/craft-banner-wide.png"
@@ -96,6 +119,15 @@ const Craftsmanship = () => {
                 </div>
                 <h3>{item.title}</h3>
                 <p>{item.desc}</p>
+
+                <div className="step-specs-row">
+                  {item.specs.map((sp, sIdx) => (
+                    <span key={sIdx} className="step-spec-pill">
+                      <strong>{sp.label}:</strong> {sp.val}
+                    </span>
+                  ))}
+                </div>
+
                 <div className="step-metric-chip">
                   <CheckCircle2 size={13} />
                   <span>{item.metric}</span>
@@ -106,56 +138,25 @@ const Craftsmanship = () => {
         </div>
       </section>
 
-      {/* 4. Comprehensive Artisanal Process Benchmark Table */}
-      <section className="process-table-section">
+      {/* 4. Atelier Quality Benchmarks (Replacing bulky unresponsive table with sleek responsive cards) */}
+      <section className="craft-benchmarks-section">
         <div className="section-title-wrap">
-          <span className="sub-title">Technical Specifications</span>
-          <h2>Artisanal Process Matrix</h2>
-          <p>Standardized quality benchmarks adhered to at our Surat manufacturing facility.</p>
+          <span className="sub-title">Sensible Engineering</span>
+          <h2>Quality Benchmarks</h2>
+          <p>Standardized quality standards tested and adhered to at our Surat facility.</p>
         </div>
 
-        <div className="table-responsive-wrapper">
-          <table className="process-matrix-table">
-            <thead>
-              <tr>
-                <th>Stage</th>
-                <th>Craftsmanship Phase</th>
-                <th>Technique & Machinery</th>
-                <th>Material Specification</th>
-                <th>Quality Benchmark</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td><span className="badge-stage">Phase 01</span></td>
-                <td><strong>Linen Weaving & Prep</strong></td>
-                <td>High-density air-jet looms</td>
-                <td>100% Unbleached Belgian Flax</td>
-                <td>450+ GSM certified weight</td>
-              </tr>
-              <tr>
-                <td><span className="badge-stage">Phase 02</span></td>
-                <td><strong>Motif Digitization</strong></td>
-                <td>Multi-head high-precision embroidery</td>
-                <td>Resham silk & metallic threads</td>
-                <td>28,000+ stitches per motif</td>
-              </tr>
-              <tr>
-                <td><span className="badge-stage">Phase 03</span></td>
-                <td><strong>Zari & Velvet Applique</strong></td>
-                <td>Hand-framed zardozi needlework</td>
-                <td>Lustrous micro-sequins & velvet</td>
-                <td>Zero thread slippage / snag test</td>
-              </tr>
-              <tr>
-                <td><span className="badge-stage">Phase 04</span></td>
-                <td><strong>Tailoring & QC</strong></td>
-                <td>Heavy-duty computerized lockstitch</td>
-                <td>Water-resistant khadi cotton lining</td>
-                <td>10 kg load stress verified</td>
-              </tr>
-            </tbody>
-          </table>
+        <div className="benchmarks-grid">
+          {QUALITY_BENCHMARKS.map((b, i) => (
+            <div key={i} className="benchmark-card">
+              <div className="bench-number-wrap">
+                <span className="bench-num">{b.num}</span>
+                <span className="bench-unit">{b.unit}</span>
+              </div>
+              <h4 className="bench-title">{b.title}</h4>
+              <p className="bench-desc">{b.desc}</p>
+            </div>
+          ))}
         </div>
       </section>
 

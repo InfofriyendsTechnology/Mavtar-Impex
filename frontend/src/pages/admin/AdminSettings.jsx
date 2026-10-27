@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Settings, Save, ShieldCheck, Check } from "lucide-react";
 import { settingsApi } from "../../services/api";
+import { Skeleton } from "../../components/common/Skeleton";
 import toast from "react-hot-toast";
 import "./AdminSettings.scss";
 
@@ -50,18 +51,9 @@ const AdminSettings = () => {
 
   if (loading) {
     return (
-      <div style={{ padding: "48px", textAlign: "center" }}>
-        <div
-          style={{
-            width: 32,
-            height: 32,
-            border: "4px solid var(--accent)",
-            borderTopColor: "var(--gold)",
-            borderRadius: "50%",
-            animation: "spin 1s linear infinite",
-            margin: "0 auto",
-          }}
-        />
+      <div className="admin-settings-page" style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
+        <Skeleton height="80px" borderRadius="18px" />
+        <Skeleton height="320px" borderRadius="18px" />
       </div>
     );
   }

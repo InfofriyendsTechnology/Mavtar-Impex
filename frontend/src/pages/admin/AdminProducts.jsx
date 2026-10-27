@@ -8,8 +8,12 @@ import {
   X,
   ShoppingBag,
   ExternalLink,
+  LayoutGrid,
+  LayoutList,
+  AlertTriangle,
 } from "lucide-react";
 import { productApi, uploadApi } from "../../services/api";
+import { SkeletonProductGrid, SkeletonTable } from "../../components/common/Skeleton";
 import toast from "react-hot-toast";
 import "./AdminProducts.scss";
 
@@ -17,8 +21,12 @@ const AdminProducts = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
+  const [categoryFilter, setCategoryFilter] = useState("ALL");
+  const [stockFilter, setStockFilter] = useState("ALL");
+  const [viewMode, setViewMode] = useState("grid"); // "grid" or "row"
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingProduct, setEditingProduct] = useState(null);
+  const [deleteConfirmItem, setDeleteConfirmItem] = useState(null);
   const [uploadingImage, setUploadingImage] = useState(false);
 
   const initialForm = {
@@ -88,17 +96,17 @@ const AdminProducts = () => {
     setIsModalOpen(true);
   };
 
-  const handleDelete = async (id, title) => {
-    if (!window.confirm(`Are you sure you want to delete "${title}"?`)) return;
-
+  const confirmDelete = async () => {
+    if (!deleteConfirmItem) return;
     try {
-      const res = await productApi.delete(id);
+      const res = await productApi.delete(deleteConfirmItem.id);
       if (res.success) {
-        setProducts(products.filter((p) => p.id !== id));
-        toast.success("Product deleted successfully");
+        setProducts(products.filter((p) => p.id !== deleteConfirmItem.id));
+        toast.success("Product deleted");
+        setDeleteConfirmItem(null);
       }
     } catch (err) {
-      toast.error("Failed to delete product");
+      toast.error("Delete failed");
     }
   };
 
@@ -116,10 +124,10 @@ const AdminProducts = () => {
             ...prev,
             images: [res.data.url, ...(prev.images || [])],
           }));
-          toast.success("Image uploaded to Cloudinary!");
+          toast.success("Image uploaded");
         }
       } catch (err) {
-        toast.error("Cloud image upload failed");
+        toast.error("Upload failed");
       } finally {
         setUploadingImage(false);
       }
@@ -133,29 +141,45 @@ const AdminProducts = () => {
       if (editingProduct) {
         const res = await productApi.update(editingProduct.id, formData);
         if (res.success) {
-          toast.success("Product updated successfully");
+          toast.success("Product updated");
           setIsModalOpen(false);
           fetchProducts();
         }
       } else {
         const res = await productApi.create(formData);
         if (res.success) {
-          toast.success("New linen bag added to catalog!");
+          toast.success("Product added");
           setIsModalOpen(false);
           fetchProducts();
         }
       }
     } catch (err) {
-      toast.error(err.response?.data?.message || "Failed to save product");
+      toast.error(err.response?.data?.message || "Save failed");
     }
   };
 
-  const filteredProducts = products.filter(
-    (p) =>
-      p.title.toLowerCase().includes(search.toLowerCase()) ||
+  const categories = [
+    "ALL",
+    ...Array.from(new Set(products.map((p) => p.category).filter(Boolean))),
+  ];
+
+  const filteredProducts = products.filter((p) => {
+    const matchesSearch =
+      !search ||
+      p.title?.toLowerCase().includes(search.toLowerCase()) ||
       p.category?.toLowerCase().includes(search.toLowerCase()) ||
-      p.sku?.toLowerCase().includes(search.toLowerCase())
-  );
+      p.sku?.toLowerCase().includes(search.toLowerCase());
+
+    const matchesCategory =
+      categoryFilter === "ALL" || p.category === categoryFilter;
+
+    const matchesStock =
+      stockFilter === "ALL" ||
+      (stockFilter === "IN_STOCK" && p.stock > 15) ||
+      (stockFilter === "LOW_STOCK" && p.stock <= 15);
+
+    return matchesSearch && matchesCategory && matchesStock;
+  });
 
   return (
     <div className="admin-products-page">
@@ -175,197 +199,387 @@ const AdminProducts = () => {
         </button>
       </div>
 
-      {/* Filter / Search Bar */}
+      {/* Spacious, Thick Luxury Search & Filter Bar */}
       <div className="search-action-bar">
+        {/* Top: Thick, Spacious Search Input */}
         <div className="search-input-wrapper">
-          <Search size={16} />
+          <Search size={18} className="search-icon" />
           <input
             type="text"
-            placeholder="Search by title, SKU, or category..."
+            placeholder="Search catalog by title, SKU (e.g. MVT-), or category..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />
+          {search && (
+            <button
+              type="button"
+              className="search-clear-btn"
+              onClick={() => setSearch("")}
+              title="Clear search"
+            >
+              <X size={15} />
+            </button>
+          )}
         </div>
 
-        <span className="count-indicator">
-          Showing <strong>{filteredProducts.length}</strong> of {products.length} products
-        </span>
+        {/* Bottom Controls Row: Filters + Grid/Row Switcher + Count */}
+        <div className="search-filter-controls-row">
+          <div className="filter-selects-group">
+            <select
+              className="admin-select-filter"
+              value={categoryFilter}
+              onChange={(e) => setCategoryFilter(e.target.value)}
+              title="Filter by Category"
+            >
+              {categories.map((c) => (
+                <option key={c} value={c}>
+                  {c === "ALL" ? "All Categories" : c}
+                </option>
+              ))}
+            </select>
+
+            <select
+              className="admin-select-filter"
+              value={stockFilter}
+              onChange={(e) => setStockFilter(e.target.value)}
+              title="Filter by Stock Status"
+            >
+              <option value="ALL">All Stock Levels</option>
+              <option value="IN_STOCK">In Stock (&gt;15)</option>
+              <option value="LOW_STOCK">Low Stock (≤15)</option>
+            </select>
+          </div>
+
+          <div className="search-actions-right">
+            {/* Workable Grid & Row View Toggle Buttons */}
+            <div className="view-mode-toggle" title="Switch View Mode">
+              <button
+                type="button"
+                className={`view-btn ${viewMode === "grid" ? "active" : ""}`}
+                onClick={() => setViewMode("grid")}
+                title="Grid Cards View"
+              >
+                <LayoutGrid size={15} />
+                <span>Grid</span>
+              </button>
+              <button
+                type="button"
+                className={`view-btn ${viewMode === "row" ? "active" : ""}`}
+                onClick={() => setViewMode("row")}
+                title="Row Cards View"
+              >
+                <LayoutList size={15} />
+                <span>Row</span>
+              </button>
+            </div>
+
+            <span className="count-indicator">
+              <strong>{filteredProducts.length}</strong> of {products.length} bags
+            </span>
+
+            {(search || categoryFilter !== "ALL" || stockFilter !== "ALL") && (
+              <button
+                type="button"
+                className="btn-reset-filters"
+                onClick={() => {
+                  setSearch("");
+                  setCategoryFilter("ALL");
+                  setStockFilter("ALL");
+                }}
+              >
+                <X size={12} />
+                <span>Reset</span>
+              </button>
+            )}
+          </div>
+        </div>
       </div>
 
-      {/* Products Display Card (Desktop Table + Mobile Clean Card Rows) */}
+      {/* Products Display Container (Fully Responsive Grid & Table View) */}
       <div className="products-table-card">
         {loading ? (
-          <div style={{ padding: "60px 0", textAlign: "center" }}>
-            <div style={{ width: 32, height: 32, border: "3px solid #E4E4E7", borderTopColor: "#18181B", borderRadius: "50%", animation: "spin 0.8s linear infinite", margin: "0 auto" }} />
-          </div>
+          viewMode === "grid" ? (
+            <SkeletonProductGrid count={6} />
+          ) : (
+            <div style={{ padding: "16px" }}>
+              <SkeletonTable rows={7} cols={6} />
+            </div>
+          )
         ) : filteredProducts.length === 0 ? (
           <div style={{ padding: "40px", textAlign: "center", color: "#6B7280" }}>
             No products found matching your search.
           </div>
-        ) : (
-          <>
-            {/* Desktop Table View (Spacious, fixed-width columns) */}
-            <div className="desktop-table-wrapper">
-              <table>
-                <thead>
-                  <tr>
-                    <th style={{ width: "64px" }}>Bag</th>
-                    <th>Product Title & Code</th>
-                    <th style={{ width: "170px" }}>Category</th>
-                    <th style={{ width: "130px" }}>Selling Price</th>
-                    <th style={{ width: "130px" }}>Stock</th>
-                    <th style={{ width: "110px" }}>Edition</th>
-                    <th style={{ width: "100px", textAlign: "right" }}>Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {filteredProducts.map((p) => (
-                    <tr key={p.id}>
-                      <td>
-                        <img
-                          src={p.images?.[0] || "/products/Bag001.png"}
-                          alt={p.title}
-                          className="product-thumb"
-                          onError={(e) => {
-                            e.target.src = "/products/Bag001.png";
-                          }}
-                        />
-                      </td>
-                      <td>
-                        <div className="prod-title">
-                          <a
-                            href={`/product/${p.slug || p.id}`}
-                            target="_blank"
-                            rel="noreferrer"
-                            title="View product live on storefront"
-                            style={{ color: "inherit", textDecoration: "none" }}
-                          >
-                            {p.title}
-                          </a>
-                        </div>
-                        <span className="sku-chip">{p.sku || "MVT-7801"}</span>
-                      </td>
-                      <td>
-                        <span className="cat-chip">{p.category}</span>
-                      </td>
-                      <td>
-                        <span className="price-tag">₹{p.price}</span>
-                        {p.originalPrice > p.price && (
-                          <span className="price-strike">₹{p.originalPrice}</span>
-                        )}
-                      </td>
-                      <td>
-                        <span className={`stock-pill ${p.stock > 15 ? "in-stock" : "low-stock"}`}>
-                          {p.stock} units
-                        </span>
-                      </td>
-                      <td>
-                        {p.isBestSeller ? (
-                          <span className="badge-bestseller">Best Seller</span>
-                        ) : (
-                          <span className="badge-standard">Standard</span>
-                        )}
-                      </td>
-                      <td style={{ textAlign: "right" }}>
-                        <div className="action-buttons-wrap">
-                          <a
-                            href={`/product/${p.slug || p.id}`}
-                            target="_blank"
-                            rel="noreferrer"
-                            className="action-icon-btn"
-                            title="View product live on storefront"
-                          >
-                            <ExternalLink size={15} />
-                          </a>
-                          <button
-                            onClick={() => handleOpenEdit(p)}
-                            className="action-icon-btn"
-                            title="Edit product"
-                          >
-                            <Edit2 size={15} />
-                          </button>
-                          <button
-                            onClick={() => handleDelete(p.id, p.title)}
-                            className="action-icon-btn delete"
-                            title="Delete product"
-                          >
-                            <Trash2 size={15} />
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+        ) : viewMode === "grid" ? (
+          /* 1. Grid Cards View */
+          <div className="luxury-products-container view-grid">
+            {filteredProducts.map((p) => {
+              const discountPct =
+                p.originalPrice > p.price
+                  ? Math.round(((p.originalPrice - p.price) / p.originalPrice) * 100)
+                  : 0;
 
-            {/* Mobile Responsive Card Rows (Zero horizontal scroll, zero text overload) */}
-            <div className="mobile-products-list">
-              {filteredProducts.map((p) => (
-                <div key={p.id} className="mobile-product-card">
-                  <img
-                    src={p.images?.[0] || "/products/Bag001.png"}
-                    alt={p.title}
-                    className="mobile-card-thumb"
-                    onError={(e) => {
-                      e.target.src = "/products/Bag001.png";
-                    }}
-                  />
+              return (
+                <div key={p.id} className="admin-product-luxury-card">
+                  {/* Top: Dedicated Image Showcase Media Box */}
+                  <div className="card-media-box">
+                    <img
+                      src={p.images?.[0] || "/products/Bag001.png"}
+                      alt={p.title}
+                      className="card-product-img"
+                      onError={(e) => {
+                        e.target.src = "/products/Bag001.png";
+                      }}
+                    />
+                    {p.isBestSeller && (
+                      <span className="badge-corner-bestseller">Best Seller</span>
+                    )}
+                    <span className={`stock-badge-overlay ${p.stock > 15 ? "in-stock" : "low-stock"}`}>
+                      <span className="status-dot" />
+                      {p.stock > 15 ? `${p.stock} in stock` : `Only ${p.stock} left`}
+                    </span>
+                  </div>
 
-                  <div className="mobile-card-info">
-                    <div className="mobile-card-title">{p.title}</div>
-
-                    <div className="mobile-card-chips">
+                  {/* Body: Head Details & Pricing */}
+                  <div className="card-body-content">
+                    <div className="card-badges-line">
                       <span className="sku-chip">{p.sku || "MVT-7801"}</span>
                       <span className="cat-chip">{p.category}</span>
                     </div>
 
-                    <div className="mobile-card-bottom">
-                      <div className="mobile-card-price">
-                        <span className="curr-price">₹{p.price}</span>
-                        {p.originalPrice > p.price && (
-                          <span className="orig-price">₹{p.originalPrice}</span>
-                        )}
-                      </div>
-                      <span className={`stock-pill ${p.stock > 15 ? "in-stock" : "low-stock"}`}>
-                        {p.stock} units
-                      </span>
+                    <h3 className="card-title">
+                      <a
+                        href={`/product/${p.slug || p.id}`}
+                        target="_blank"
+                        rel="noreferrer"
+                        title="View live on storefront"
+                      >
+                        {p.title}
+                      </a>
+                    </h3>
+
+                    <div className="card-price-group">
+                      <span className="card-price-main">₹{p.price?.toLocaleString()}</span>
+                      {p.originalPrice > p.price && (
+                        <span className="card-price-strike">₹{p.originalPrice?.toLocaleString()}</span>
+                      )}
+                      {discountPct > 0 && (
+                        <span className="card-discount-tag">-{discountPct}%</span>
+                      )}
                     </div>
                   </div>
 
-                  <div className="mobile-card-actions">
+                  {/* Bottom: Action Buttons */}
+                  <div className="card-action-bar">
                     <a
                       href={`/product/${p.slug || p.id}`}
                       target="_blank"
                       rel="noreferrer"
-                      className="action-icon-btn"
-                      title="View product live on storefront"
+                      className="btn-card-action btn-preview"
+                      title="Preview live on storefront"
                     >
-                      <ExternalLink size={15} />
+                      <ExternalLink size={13} />
+                      <span>Preview</span>
                     </a>
+
                     <button
+                      type="button"
                       onClick={() => handleOpenEdit(p)}
-                      className="action-icon-btn"
+                      className="btn-card-action btn-edit"
                       title="Edit product"
                     >
-                      <Edit2 size={15} />
+                      <Edit2 size={13} />
+                      <span>Edit</span>
                     </button>
+
                     <button
-                      onClick={() => handleDelete(p.id, p.title)}
-                      className="action-icon-btn delete"
+                      type="button"
+                      onClick={() => setDeleteConfirmItem(p)}
+                      className="btn-card-action btn-delete"
                       title="Delete product"
                     >
-                      <Trash2 size={15} />
+                      <Trash2 size={13} />
+                      <span>Delete</span>
                     </button>
                   </div>
                 </div>
-              ))}
+              );
+            })}
+          </div>
+        ) : (
+          /* 2. Row View: One-Line Table with Visible Horizontal Scrollbar */
+          <div className="products-table-scroll-container">
+            <table className="admin-products-table">
+              <thead>
+                <tr>
+                  <th className="th-product" style={{ minWidth: "300px" }}>Product</th>
+                  <th className="th-category" style={{ minWidth: "180px" }}>Category</th>
+                  <th className="th-stock" style={{ minWidth: "140px" }}>Stock</th>
+                  <th className="th-price" style={{ minWidth: "150px" }}>Price</th>
+                  <th className="th-badge" style={{ minWidth: "120px" }}>Badge</th>
+                  <th className="th-actions" style={{ minWidth: "180px", textAlign: "right" }}>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {filteredProducts.map((p) => {
+                  const discountPct =
+                    p.originalPrice > p.price
+                      ? Math.round(((p.originalPrice - p.price) / p.originalPrice) * 100)
+                      : 0;
+
+                  return (
+                    <tr key={p.id} className="admin-product-table-row">
+                      {/* 1. Product (Thumb + Title + SKU in single line) */}
+                      <td className="cell-product-info">
+                        <div className="table-product-flex">
+                          <div className="table-product-thumb">
+                            <img
+                              src={p.images?.[0] || "/products/Bag001.png"}
+                              alt={p.title}
+                              onError={(e) => {
+                                e.target.src = "/products/Bag001.png";
+                              }}
+                            />
+                          </div>
+                          <div className="table-title-sku">
+                            <a
+                              href={`/product/${p.slug || p.id}`}
+                              target="_blank"
+                              rel="noreferrer"
+                              className="table-product-title"
+                              title="View live on storefront"
+                            >
+                              {p.title}
+                            </a>
+                            <span className="table-sku-chip">{p.sku || "MVT-7801"}</span>
+                          </div>
+                        </div>
+                      </td>
+
+                      {/* 2. Category */}
+                      <td className="cell-category">
+                        <span className="table-cat-badge">{p.category}</span>
+                      </td>
+
+                      {/* 3. Stock */}
+                      <td className="cell-stock">
+                        <span className={`table-stock-pill ${p.stock > 15 ? "in-stock" : "low-stock"}`}>
+                          <span className="status-dot" />
+                          <strong>{p.stock}</strong> units
+                        </span>
+                      </td>
+
+                      {/* 4. Price */}
+                      <td className="cell-price">
+                        <div className="table-price-flex">
+                          <span className="table-price-main">₹{p.price?.toLocaleString()}</span>
+                          {p.originalPrice > p.price && (
+                            <span className="table-price-strike">₹{p.originalPrice?.toLocaleString()}</span>
+                          )}
+                          {discountPct > 0 && (
+                            <span className="table-discount-chip">-{discountPct}%</span>
+                          )}
+                        </div>
+                      </td>
+
+                      {/* 5. Badge */}
+                      <td className="cell-badge">
+                        {p.isBestSeller ? (
+                          <span className="table-badge-bestseller">Best Seller</span>
+                        ) : (
+                          <span className="table-badge-regular">Standard</span>
+                        )}
+                      </td>
+
+                      {/* 6. Actions */}
+                      <td className="cell-actions" style={{ textAlign: "right" }}>
+                        <div className="table-actions-group">
+                          <a
+                            href={`/product/${p.slug || p.id}`}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="btn-tbl-action btn-tbl-preview"
+                            title="Preview live on storefront"
+                          >
+                            <ExternalLink size={13} />
+                            <span>View</span>
+                          </a>
+                          <button
+                            type="button"
+                            onClick={() => handleOpenEdit(p)}
+                            className="btn-tbl-action btn-tbl-edit"
+                            title="Edit product"
+                          >
+                            <Edit2 size={13} />
+                            <span>Edit</span>
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => setDeleteConfirmItem(p)}
+                            className="btn-tbl-action btn-tbl-delete"
+                            title="Delete product"
+                          >
+                            <Trash2 size={13} />
+                            <span>Delete</span>
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+
+            {/* Bottom Scrollbar Dock & Status Bar */}
+            <div className="table-scroll-dock">
+              <span className="dock-count">
+                Showing <strong>{filteredProducts.length}</strong> one-line rows
+              </span>
+              <span className="dock-hint">
+                ⇄ Scroll horizontally to view all columns
+              </span>
             </div>
-          </>
+          </div>
         )}
       </div>
 
-      {/* Modern Atelier Modal */}
+      {/* In-App Confirmation Modal (Zero Browser window.confirm) */}
+      {deleteConfirmItem && (
+        <div
+          className="modal-backdrop"
+          onClick={() => setDeleteConfirmItem(null)}
+        >
+          <div
+            className="delete-modal-card"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="delete-modal-icon">
+              <AlertTriangle size={24} />
+            </div>
+            <h3>Delete Product?</h3>
+            <p>
+              Are you sure you want to remove <strong>"{deleteConfirmItem.title}"</strong> from the catalog?
+            </p>
+            <div className="delete-modal-actions">
+              <button
+                type="button"
+                onClick={() => setDeleteConfirmItem(null)}
+                className="btn-cancel-action"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                onClick={confirmDelete}
+                className="btn-confirm-delete-action"
+              >
+                Delete Product
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Modern Atelier Edit/Create Modal */}
       {isModalOpen && (
         <div
           className="modal-backdrop"
@@ -437,44 +651,44 @@ const AdminProducts = () => {
                     />
                   </div>
                   <div className="form-group">
-                    <label>Fabric Grade</label>
+                    <label>Category</label>
+                    <select
+                      value={formData.category}
+                      onChange={(e) => setFormData({ ...formData, category: e.target.value })}
+                    >
+                      <option value="Royal Heritage Embroidery">Royal Heritage Embroidery</option>
+                      <option value="Everyday Minimal Luxury">Everyday Minimal Luxury</option>
+                      <option value="Festive & Bridal Keepsakes">Festive & Bridal Keepsakes</option>
+                      <option value="Ceremonial Velvet Applique">Ceremonial Velvet Applique</option>
+                    </select>
+                  </div>
+                </div>
+
+                {/* Dimensions & Closure */}
+                <div className="form-row-2">
+                  <div className="form-group">
+                    <label>Dimensions</label>
                     <input
                       type="text"
-                      placeholder="e.g. 100% Belgian Flax"
-                      value={formData.fabric}
-                      onChange={(e) => setFormData({ ...formData, fabric: e.target.value })}
+                      placeholder='e.g. 15"H x 16"W x 5.5"D'
+                      value={formData.dimensions}
+                      onChange={(e) => setFormData({ ...formData, dimensions: e.target.value })}
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label>Closure Type</label>
+                    <input
+                      type="text"
+                      placeholder="e.g. Magnetic Brass Snap"
+                      value={formData.closure}
+                      onChange={(e) => setFormData({ ...formData, closure: e.target.value })}
                     />
                   </div>
                 </div>
 
-                {/* Category Selection */}
+                {/* Image Upload Row */}
                 <div className="form-group">
-                  <label>Category</label>
-                  <select
-                    value={formData.category}
-                    onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-                  >
-                    <option value="Royal Heritage Embroidery">Royal Heritage Embroidery</option>
-                    <option value="Everyday Minimal Linen">Everyday Minimal Linen</option>
-                    <option value="Festive & Wedding Gifting">Festive & Wedding Gifting</option>
-                    <option value="Artisanal Potlis & Clutches">Artisanal Potlis & Clutches</option>
-                  </select>
-                </div>
-
-                {/* Embroidery Style */}
-                <div className="form-group">
-                  <label>Embroidery Style & Technique</label>
-                  <input
-                    type="text"
-                    placeholder="e.g. Multi-Head Computerized Zari & Velvet Applique"
-                    value={formData.embroideryType}
-                    onChange={(e) => setFormData({ ...formData, embroideryType: e.target.value })}
-                  />
-                </div>
-
-                {/* Photo URL & Upload with Live Thumbnail */}
-                <div className="form-group">
-                  <label>Product Image / Media Asset</label>
+                  <label>Primary Bag Image</label>
                   <div className="image-upload-wrapper">
                     {formData.images?.[0] && (
                       <img
@@ -482,93 +696,68 @@ const AdminProducts = () => {
                         alt="Preview"
                         className="preview-thumb"
                         onError={(e) => {
-                          e.target.style.display = "none";
+                          e.target.src = "/products/Bag001.png";
                         }}
                       />
                     )}
                     <input
                       type="text"
-                      placeholder="/products/bag-image.jpg or CDN link"
-                      value={formData.images[0] || ""}
+                      placeholder="Image URL or upload below"
+                      value={formData.images?.[0] || ""}
                       onChange={(e) => setFormData({ ...formData, images: [e.target.value] })}
                     />
                     <label className="upload-btn-label">
-                      <Upload size={13} />
+                      <Upload size={14} />
                       <span>{uploadingImage ? "Uploading..." : "Upload"}</span>
                       <input
                         type="file"
                         accept="image/*"
                         onChange={handleImageFileUpload}
                         style={{ display: "none" }}
+                        disabled={uploadingImage}
                       />
                     </label>
                   </div>
                 </div>
 
-                {/* Short Headline */}
-                <div className="form-group">
-                  <label>Short Headline</label>
-                  <input
-                    type="text"
-                    placeholder="Brief 1-sentence luxury artisan summary"
-                    value={formData.shortDescription}
-                    onChange={(e) => setFormData({ ...formData, shortDescription: e.target.value })}
-                  />
-                </div>
+                {/* Badges Toggles */}
+                <div className="badge-toggles-grid">
+                  <label className={`toggle-card ${formData.isBestSeller ? "active" : ""}`}>
+                    <input
+                      type="checkbox"
+                      checked={formData.isBestSeller}
+                      onChange={(e) => setFormData({ ...formData, isBestSeller: e.target.checked })}
+                    />
+                    <div className="toggle-info">
+                      <span className="toggle-title">Best Seller Edition</span>
+                      <span className="toggle-desc">Highlights on storefront</span>
+                    </div>
+                  </label>
 
-                {/* Full Description */}
-                <div className="form-group">
-                  <label>Craftsmanship & Detailing</label>
-                  <textarea
-                    rows={2}
-                    placeholder="Detailed craftsmanship, weave texture, and closure details..."
-                    value={formData.description}
-                    onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                  />
-                </div>
-
-                {/* Interactive Placement Toggles */}
-                <div className="form-group">
-                  <label>Merchandising Placement</label>
-                  <div className="badge-toggles-grid">
-                    <label className={`toggle-card ${formData.isFeatured ? "active" : ""}`}>
-                      <input
-                        type="checkbox"
-                        checked={formData.isFeatured}
-                        onChange={(e) => setFormData({ ...formData, isFeatured: e.target.checked })}
-                      />
-                      <div className="toggle-info">
-                        <span className="toggle-title">Featured Showcase</span>
-                        <span className="toggle-desc">Display in hero collections</span>
-                      </div>
-                    </label>
-
-                    <label className={`toggle-card ${formData.isBestSeller ? "active" : ""}`}>
-                      <input
-                        type="checkbox"
-                        checked={formData.isBestSeller}
-                        onChange={(e) => setFormData({ ...formData, isBestSeller: e.target.checked })}
-                      />
-                      <div className="toggle-info">
-                        <span className="toggle-title">Best Seller Tag</span>
-                        <span className="toggle-desc">Highlight with top artisan badge</span>
-                      </div>
-                    </label>
-                  </div>
+                  <label className={`toggle-card ${formData.isFeatured ? "active" : ""}`}>
+                    <input
+                      type="checkbox"
+                      checked={formData.isFeatured}
+                      onChange={(e) => setFormData({ ...formData, isFeatured: e.target.checked })}
+                    />
+                    <div className="toggle-info">
+                      <span className="toggle-title">Featured Showcase</span>
+                      <span className="toggle-desc">Shows in hero curation</span>
+                    </div>
+                  </label>
                 </div>
               </div>
 
-              {/* Sticky Footer Action Bar */}
               <div className="modal-actions">
                 <button
                   type="button"
                   onClick={() => setIsModalOpen(false)}
-                  className="btn-pill-secondary"
+                  className="btn-cancel"
                 >
-                  <span>Cancel</span>
+                  Cancel
                 </button>
-                <button type="submit" className="btn-pill-primary">
-                  <span>{editingProduct ? "Save Changes" : "Create Product"}</span>
+                <button type="submit" className="btn-submit">
+                  {editingProduct ? "Save Changes" : "Create Linen Bag"}
                 </button>
               </div>
             </form>

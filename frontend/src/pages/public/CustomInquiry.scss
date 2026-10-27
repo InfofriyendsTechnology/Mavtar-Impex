@@ -26,15 +26,17 @@
     gap: 12px;
 
     .inquiry-badge {
-      font-size: 0.72rem;
-      font-weight: 700;
-      letter-spacing: 0.1em;
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
       text-transform: uppercase;
       color: #18181B;
-      background: #F4F4F5;
+      background: #FAFAFA;
       padding: 5px 14px;
       border-radius: 9999px;
       border: 1px solid #E4E4E7;
+      white-space: nowrap;
+      display: inline-block;
     }
 
     .inquiry-title {

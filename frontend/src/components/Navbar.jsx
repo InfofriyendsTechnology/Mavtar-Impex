@@ -1,13 +1,15 @@
 import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { ShoppingBag, Menu, X, PhoneCall, Home, LayoutGrid, Sparkles, Layers, MessageSquare, Truck, User } from "lucide-react";
+import { ShoppingBag, Menu, X, PhoneCall, Home, LayoutGrid, Sparkles, Layers, MessageSquare, Truck, User, LogOut } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useCart } from "../context/CartContext";
 import { useAuth } from "../context/AuthContext";
+import toast from "react-hot-toast";
 import "./Navbar.scss";
 
 const Navbar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [showAccountDropdown, setShowAccountDropdown] = useState(false);
   const { totalItemsCount, setIsCartOpen } = useCart();
   const { customer, isCustomerLoggedIn, openAuthModal, logoutCustomer } = useAuth();
   const location = useLocation();
@@ -83,29 +85,51 @@ const Navbar = () => {
               <span>WhatsApp Support</span>
             </a>
 
-            {/* Patron Account / Login Trigger */}
-            <button
-              onClick={() => {
-                if (isCustomerLoggedIn) {
-                  if (window.confirm(`Signed in as ${customer?.name || "Patron"}. Would you like to sign out?`)) {
-                    logoutCustomer();
+            {/* Patron Account / Login Trigger (Zero window.confirm) */}
+            <div className="patron-auth-wrapper" style={{ position: "relative" }}>
+              <button
+                onClick={() => {
+                  if (isCustomerLoggedIn) {
+                    setShowAccountDropdown((prev) => !prev);
+                  } else {
+                    openAuthModal("header");
                   }
-                } else {
-                  openAuthModal("header");
-                }
-              }}
-              className="btn-patron-auth"
-              title={isCustomerLoggedIn ? `Patron: ${customer?.name || "Account"}` : "Sign In / Continue with Google"}
-              aria-label="Patron Account"
-            >
-              {isCustomerLoggedIn && customer?.avatar ? (
-                <img src={customer.avatar} alt={customer.name} className="patron-avatar-img" />
-              ) : isCustomerLoggedIn ? (
-                <span className="patron-avatar-initial">{(customer?.name || "P").charAt(0)}</span>
-              ) : (
-                <User size={18} />
+                }}
+                className="btn-patron-auth"
+                title={isCustomerLoggedIn ? `Patron: ${customer?.name || "Account"}` : "Sign In / Continue with Google"}
+                aria-label="Patron Account"
+              >
+                {isCustomerLoggedIn && customer?.avatar ? (
+                  <img src={customer.avatar} alt={customer.name} className="patron-avatar-img" />
+                ) : isCustomerLoggedIn ? (
+                  <span className="patron-avatar-initial">{(customer?.name || "P").charAt(0)}</span>
+                ) : (
+                  <User size={18} />
+                )}
+              </button>
+
+              {/* In-App Patron Menu (Zero browser alert/confirm) */}
+              {showAccountDropdown && isCustomerLoggedIn && (
+                <div className="patron-dropdown-card">
+                  <div className="dropdown-patron-header">
+                    <strong>{customer?.name || "Patron Member"}</strong>
+                    <span>{customer?.email || "Connected Account"}</span>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      logoutCustomer();
+                      setShowAccountDropdown(false);
+                      toast.success("Signed out");
+                    }}
+                    className="dropdown-signout-btn"
+                  >
+                    <LogOut size={14} />
+                    <span>Sign Out</span>
+                  </button>
+                </div>
               )}
-            </button>
+            </div>
 
             <button
               onClick={() => setIsCartOpen(true)}

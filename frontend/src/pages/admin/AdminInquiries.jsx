@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { MessageSquare, Phone, Calendar, CheckCircle2, Search, ExternalLink } from "lucide-react";
 import { inquiryApi } from "../../services/api";
+import { SkeletonInquiries } from "../../components/common/Skeleton";
 import toast from "react-hot-toast";
 import "./AdminInquiries.scss";
 
@@ -74,19 +75,7 @@ const AdminInquiries = () => {
       {/* List */}
       <div className="inquiries-list">
         {loading ? (
-          <div style={{ padding: "48px", textAlign: "center" }}>
-            <div
-              style={{
-                width: 32,
-                height: 32,
-                border: "4px solid var(--accent)",
-                borderTopColor: "var(--gold)",
-                borderRadius: "50%",
-                animation: "spin 1s linear infinite",
-                margin: "0 auto",
-              }}
-            />
-          </div>
+          <SkeletonInquiries count={4} />
         ) : filteredInquiries.length === 0 ? (
           <div style={{
             backgroundColor: "var(--bg-card)",

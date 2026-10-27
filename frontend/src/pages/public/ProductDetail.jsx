@@ -3,6 +3,7 @@ import { useParams, Link, useNavigate } from "react-router-dom";
 import { Star, ShoppingBag, Zap, ShieldCheck, Check, MapPin, MessageSquare } from "lucide-react";
 import { productApi } from "../../services/api";
 import { useCart } from "../../context/CartContext";
+import { SkeletonProductDetail } from "../../components/common/Skeleton";
 import toast from "react-hot-toast";
 import "./ProductDetail.scss";
 
@@ -35,11 +36,7 @@ const ProductDetail = () => {
   }, [id]);
 
   if (loading) {
-    return (
-      <div className="product-detail-page flex justify-center items-center" style={{ minHeight: "50vh" }}>
-        <div style={{ width: 40, height: 40, border: "3px solid #E4E4E7", borderTopColor: "#18181B", borderRadius: "50%", animation: "spin 0.8s linear infinite" }} />
-      </div>
-    );
+    return <SkeletonProductDetail />;
   }
 
   if (!product) {
@@ -69,7 +66,6 @@ const ProductDetail = () => {
 
   const handleAddToCart = () => {
     addToCart(product, quantity);
-    toast.success(`Added ${quantity} x "${product.title}" to your bag!`);
   };
 
   const handleBuyNow = () => {

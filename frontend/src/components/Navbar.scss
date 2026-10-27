@@ -114,9 +114,10 @@
       }
 
       &.active {
-        color: #18181B;
+        color: #FFFFFF;
         font-weight: 600;
-        background: #F4F4F5;
+        background: #18181B;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.14);
       }
     }
   }
@@ -180,6 +181,61 @@
         font-size: 0.82rem;
         font-weight: 600;
         color: #18181B;
+      }
+    }
+
+    .patron-dropdown-card {
+      position: absolute;
+      top: calc(100% + 8px);
+      right: 0;
+      width: 220px;
+      background: #FFFFFF;
+      border: 1px solid #E4E4E7;
+      border-radius: 16px;
+      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.12);
+      padding: 14px;
+      z-index: 100;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+
+      .dropdown-patron-header {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+        padding-bottom: 8px;
+        border-bottom: 1px solid #F4F4F5;
+
+        strong {
+          font-size: 0.86rem;
+          color: #18181B;
+        }
+
+        span {
+          font-size: 0.72rem;
+          color: #71717A;
+          word-break: break-all;
+        }
+      }
+
+      .dropdown-signout-btn {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 12px;
+        border-radius: 8px;
+        background: #FAFAFA;
+        border: 1px solid #E4E4E7;
+        color: #DC2626;
+        font-size: 0.78rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.15s ease;
+
+        &:hover {
+          background: #FEE2E2;
+          border-color: #FCA5A5;
+        }
       }
     }
 
@@ -269,12 +325,22 @@
       }
 
       &.active {
-        background: #F4F4F5;
-        color: #18181B;
+        background: #18181B;
+        color: #FFFFFF;
         font-weight: 600;
+        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.16);
 
         .link-icon-box {
-          color: #18181B;
+          color: #FFFFFF;
+        }
+
+        .link-text {
+          color: #FFFFFF;
+        }
+
+        .active-dot {
+          background: #FFFFFF;
+          box-shadow: 0 0 6px rgba(255, 255, 255, 0.7);
         }
       }
 

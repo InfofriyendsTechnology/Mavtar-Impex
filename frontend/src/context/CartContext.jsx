@@ -72,21 +72,7 @@ export const CartProvider = ({ children }) => {
         .catch(() => {});
     } catch {}
 
-    toast.success(`${product.title} added to your bag!`, {
-      style: {
-        background: "#18181B",
-        color: "#FFFFFF",
-        border: "1px solid #3F3F46",
-        borderRadius: "9999px",
-        padding: "10px 18px",
-        fontSize: "13px",
-        fontWeight: "500",
-      },
-      iconTheme: {
-        primary: "#FFFFFF",
-        secondary: "#18181B",
-      },
-    });
+    toast.success("Added to bag");
 
     // If guest patron, prompt login popup as requested; otherwise open cart drawer directly
     if (!isCustomerLoggedIn) {
@@ -112,16 +98,7 @@ export const CartProvider = ({ children }) => {
   const removeFromCart = (id) => {
     setCart((prev) => prev.filter((item) => item.id !== id));
     dispatch(reduxRemoveFromCart(id));
-    toast.error("Item removed from bag", {
-      style: {
-        background: "#18181B",
-        color: "#FFFFFF",
-        border: "1px solid #3F3F46",
-        borderRadius: "9999px",
-        padding: "10px 18px",
-        fontSize: "13px",
-      },
-    });
+    toast.success("Item removed");
   };
 
   const clearCart = () => {

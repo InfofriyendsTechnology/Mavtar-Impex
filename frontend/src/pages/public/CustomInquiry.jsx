@@ -22,7 +22,7 @@ const CustomInquiry = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!formData.customerName || !formData.customerPhone || !formData.message) {
-      toast.error("Please fill in your name, phone number, and message");
+      toast.error("Fill required fields");
       return;
     }
 
@@ -31,10 +31,10 @@ const CustomInquiry = () => {
       const res = await inquiryApi.create(formData);
       if (res.success) {
         setSubmitted(true);
-        toast.success("Inquiry submitted successfully!");
+        toast.success("Inquiry sent");
       }
     } catch (err) {
-      toast.error(err.response?.data?.message || "Failed to submit inquiry");
+      toast.error(err.response?.data?.message || "Inquiry failed");
     } finally {
       setLoading(false);
     }
@@ -46,11 +46,11 @@ const CustomInquiry = () => {
       {/* Page Header */}
       <div className="inquiry-header">
         <span className="inquiry-badge">
-          Weddings • Corporate Hampers • Global Export
+          ✦ Bespoke & Bulk Orders
         </span>
-        <h1 className="inquiry-title">Custom & Bulk Gifting Orders</h1>
+        <h1 className="inquiry-title">Custom & Bulk Gifting</h1>
         <p className="inquiry-desc">
-          We craft personalized embroidered linen bags with your family monogram, wedding initials, or corporate branding. Manufactured with speed in Surat, Gujarat.
+          Personalized embroidered linen bags with custom monograms, wedding crests, or corporate branding. Direct from our Surat looms.
         </p>
       </div>
 

@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { ArrowRight, PhoneCall, Sparkles, Shield, Layers, Star, CheckCircle2, Quote } from "lucide-react";
 import { motion } from "framer-motion";
 import ProductCard from "../../components/ProductCard";
+import { SkeletonProductGrid } from "../../components/common/Skeleton";
 import { productApi } from "../../services/api";
 import bannerImg from "../../assets/Banner.png";
 import "./Home.scss";
@@ -239,11 +240,7 @@ const Home = () => {
         </div>
 
         {loading ? (
-          <div className="products-grid-catalog">
-            {[1, 2, 3, 4].map((n) => (
-              <div key={n} className="skeleton-card" />
-            ))}
-          </div>
+          <SkeletonProductGrid count={4} />
         ) : (
           <motion.div
             initial={{ opacity: 0 }}

@@ -17,6 +17,7 @@ import {
   HardDrive,
 } from "lucide-react";
 import { useAuth } from "../../context/AuthContext";
+import { Skeleton, SkeletonProductGrid } from "../../components/common/Skeleton";
 import "./AdminLayout.scss";
 
 const AdminLayout = () => {
@@ -42,8 +43,16 @@ const AdminLayout = () => {
 
   if (loading) {
     return (
-      <div style={{ minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", background: "#FAF7F2" }}>
-        <div style={{ width: 36, height: 36, border: "3px solid #E4E4E7", borderTopColor: "#18181B", borderRadius: "50%", animation: "spin 0.8s linear infinite" }} />
+      <div style={{ minHeight: "100vh", display: "flex", background: "#FAF7F2" }}>
+        {/* Main Content Area Skeleton */}
+        <div style={{ flex: 1, padding: "20px", display: "flex", flexDirection: "column", gap: "20px", maxWidth: "1400px", margin: "0 auto", width: "100%", boxSizing: "border-box" }}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+            <Skeleton width="180px" height="32px" borderRadius="8px" />
+            <Skeleton width="120px" height="38px" borderRadius="9999px" />
+          </div>
+          <Skeleton height="52px" borderRadius="14px" />
+          <SkeletonProductGrid count={6} />
+        </div>
       </div>
     );
   }

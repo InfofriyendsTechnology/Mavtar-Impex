@@ -286,5 +286,150 @@
       color: #A1A1AA;
       text-align: center;
     }
+
+    /* Big Popup Modal with Rich Messages upon Profile Connection */
+    &.patron-welcome-large-card {
+      max-width: 480px;
+      padding: 34px 26px;
+      text-align: center;
+
+      @media (min-width: 640px) {
+        padding: 38px 32px;
+      }
+
+      .patron-badge-chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background: #F4F4F5;
+        border: 1px solid #E4E4E7;
+        color: #18181B;
+        font-size: 0.7rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        padding: 5px 14px;
+        border-radius: 9999px;
+        margin-bottom: 16px;
+      }
+
+      .patron-avatar-display {
+        position: relative;
+        width: 72px;
+        height: 72px;
+        margin: 0 auto 12px auto;
+
+        img {
+          width: 100%;
+          height: 100%;
+          border-radius: 50%;
+          object-fit: cover;
+          border: 2px solid #18181B;
+          box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+        }
+
+        .google-badge-circle {
+          position: absolute;
+          bottom: -2px;
+          right: -2px;
+          width: 24px;
+          height: 24px;
+          border-radius: 50%;
+          background: #FFFFFF;
+          border: 1.5px solid #E4E4E7;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        }
+      }
+
+      .patron-welcome-title {
+        font-family: $font-serif;
+        font-size: 1.45rem;
+        font-weight: 600;
+        color: #18181B;
+        margin: 4px 0 2px 0;
+        line-height: 1.25;
+      }
+
+      .patron-welcome-email {
+        font-size: 0.8rem;
+        color: #71717A;
+        margin-bottom: 20px;
+        font-family: monospace;
+      }
+
+      .patron-messages-container {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        text-align: left;
+        margin-bottom: 22px;
+
+        .patron-msg-card {
+          background: #FAFAFA;
+          border: 1px solid #E4E4E7;
+          border-radius: 14px;
+          padding: 12px 14px;
+          display: flex;
+          align-items: flex-start;
+          gap: 12px;
+
+          .msg-icon-box {
+            width: 32px;
+            height: 32px;
+            border-radius: 10px;
+            background: #18181B;
+            color: #FFFFFF;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            margin-top: 1px;
+          }
+
+          .msg-content {
+            flex: 1;
+
+            h4 {
+              font-size: 0.82rem;
+              font-weight: 600;
+              color: #18181B;
+              margin: 0 0 2px 0;
+            }
+
+            p {
+              font-size: 0.74rem;
+              color: #52525B;
+              line-height: 1.45;
+              margin: 0;
+            }
+          }
+        }
+      }
+
+      .btn-patron-continue {
+        width: 100%;
+        height: 46px;
+        border-radius: 9999px;
+        background: #18181B;
+        color: #FFFFFF;
+        font-size: 0.88rem;
+        font-weight: 600;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        border: none;
+        cursor: pointer;
+        transition: all 0.2s ease;
+
+        &:hover {
+          background: #27272A;
+          transform: translateY(-1px);
+        }
+      }
+    }
   }
 }

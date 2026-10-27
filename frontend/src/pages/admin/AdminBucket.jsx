@@ -18,6 +18,7 @@ import {
 } from "lucide-react";
 import toast from "react-hot-toast";
 import { bucketApi, uploadApi } from "../../services/api";
+import { Skeleton } from "../../components/common/Skeleton";
 import "./AdminBucket.scss";
 
 export const AdminBucket = () => {
@@ -256,9 +257,10 @@ export const AdminBucket = () => {
         {/* Content Explorer Area */}
         <div className="explorer-body">
           {loading ? (
-            <div className="loading-state">
-              <RefreshCw size={28} className="spin" />
-              <span>Loading cloud assets from Cloudinary...</span>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(180px, 1fr))", gap: "16px", padding: "16px" }}>
+              {Array.from({ length: 8 }).map((_, i) => (
+                <Skeleton key={i} height="140px" borderRadius="14px" />
+              ))}
             </div>
           ) : (
             <>

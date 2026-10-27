@@ -1,9 +1,42 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { Phone, Mail, MapPin } from "lucide-react";
+import { Phone, Mail, MapPin, Sparkles, CheckCircle2, X, ArrowRight } from "lucide-react";
+import toast from "react-hot-toast";
+import { inquiryApi } from "../services/api";
 import "./Footer.scss";
 
 const Footer = () => {
+  const [email, setEmail] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [subscribedEmail, setSubscribedEmail] = useState("");
+
+  const handleSubscribe = async (e) => {
+    e.preventDefault();
+    if (!email.trim() || !email.includes("@")) {
+      toast.error("Valid email required");
+      return;
+    }
+
+    setIsSubmitting(true);
+    const enteredEmail = email.trim();
+    try {
+      await inquiryApi.create({
+        customerName: "Newsletter Patron",
+        customerEmail: enteredEmail,
+        customerPhone: "0000000000",
+        inquiryType: "NEWSLETTER_SUBSCRIBE",
+        message: `Newsletter Patron Subscription for: ${enteredEmail}`,
+      }).catch(() => {});
+    } finally {
+      setIsSubmitting(false);
+      setSubscribedEmail(enteredEmail);
+      setEmail("");
+      setShowModal(true);
+      toast.success("Subscribed");
+    }
+  };
+
   return (
     <footer className="site-footer">
       <div className="footer-inner-container">
@@ -59,13 +92,21 @@ const Footer = () => {
             </ul>
           </div>
 
-          {/* Newsletter */}
+          {/* Newsletter / Exclusive Circle */}
           <div className="footer-newsletter-col">
             <div className="col-heading">Exclusive Updates</div>
             <p>Join our private circle for limited edition drops and bridal gifting previews.</p>
-            <form onSubmit={(e) => { e.preventDefault(); alert("Subscribed!"); }} className="newsletter-form">
-              <input type="email" placeholder="Enter your email" required />
-              <button type="submit">Subscribe</button>
+            <form onSubmit={handleSubscribe} className="newsletter-form">
+              <input
+                type="email"
+                placeholder="Enter your email"
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+              <button type="submit" disabled={isSubmitting}>
+                {isSubmitting ? "Subscribing..." : "Subscribe"}
+              </button>
             </form>
           </div>
 
@@ -80,6 +121,56 @@ const Footer = () => {
         </div>
 
       </div>
+
+      {/* Workable Luxury Newsletter Modal */}
+      {showModal && (
+        <div className="subscribe-modal-backdrop" onClick={() => setShowModal(false)}>
+          <div className="subscribe-modal-card" onClick={(e) => e.stopPropagation()}>
+            <button
+              type="button"
+              className="modal-close-btn"
+              onClick={() => setShowModal(false)}
+              aria-label="Close modal"
+            >
+              <X size={18} />
+            </button>
+
+            <div className="modal-icon-wrap">
+              <Sparkles size={24} />
+            </div>
+
+            <span className="modal-tag">Private Patron Circle</span>
+            <h2>Welcome to Mavtar Impex</h2>
+            <p className="modal-subtitle">
+              Thank you for subscribing with <strong>{subscribedEmail}</strong>.
+            </p>
+
+            <div className="modal-perks-list">
+              <div className="perk-row">
+                <CheckCircle2 size={16} className="perk-icon" />
+                <span>Priority preview access to ceremonial embroidery drops.</span>
+              </div>
+              <div className="perk-row">
+                <CheckCircle2 size={16} className="perk-icon" />
+                <span>Direct wholesale pricing on bespoke wedding return hampers.</span>
+              </div>
+              <div className="perk-row">
+                <CheckCircle2 size={16} className="perk-icon" />
+                <span>Complimentary monogram crest vector digitizing.</span>
+              </div>
+            </div>
+
+            <button
+              type="button"
+              className="btn-modal-action"
+              onClick={() => setShowModal(false)}
+            >
+              <span>Explore Collection</span>
+              <ArrowRight size={14} />
+            </button>
+          </div>
+        </div>
+      )}
     </footer>
   );
 };

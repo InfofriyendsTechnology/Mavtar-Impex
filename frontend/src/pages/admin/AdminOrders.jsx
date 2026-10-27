@@ -6,6 +6,7 @@ import {
   Eye,
 } from "lucide-react";
 import { orderApi } from "../../services/api";
+import { SkeletonTable } from "../../components/common/Skeleton";
 import toast from "react-hot-toast";
 import "./AdminOrders.scss";
 
@@ -99,8 +100,8 @@ const AdminOrders = () => {
         </div>
 
         {loading ? (
-          <div style={{ padding: "60px 0", textAlign: "center" }}>
-            <div style={{ width: 32, height: 32, border: "3px solid #E4E4E7", borderTopColor: "#18181B", borderRadius: "50%", animation: "spin 0.8s linear infinite", margin: "0 auto" }} />
+          <div style={{ padding: "16px" }}>
+            <SkeletonTable rows={6} cols={8} />
           </div>
         ) : filteredOrders.length === 0 ? (
           <div style={{ padding: "40px", textAlign: "center", color: "#6B7280" }}>

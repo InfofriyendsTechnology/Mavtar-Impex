@@ -54,9 +54,9 @@ const Checkout = () => {
       const discount = Math.round(subtotal * 0.1);
       setCouponDiscount(discount);
       setCouponApplied(true);
-      toast.success("Coupon MAVTAR10 applied! 10% discount subtracted.");
+      toast.success("Coupon applied (10% off)");
     } else {
-      toast.error("Invalid coupon code. Try 'MAVTAR10'");
+      toast.error("Invalid coupon code");
     }
   };
 
@@ -65,7 +65,7 @@ const Checkout = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!formData.customerName || !formData.customerPhone || !formData.addressLine1 || !formData.pincode) {
-      toast.error("Please fill in all required delivery details");
+      toast.error("Required fields missing");
       return;
     }
 
@@ -93,7 +93,7 @@ const Checkout = () => {
       }
     } catch (err) {
       console.error("Order error:", err);
-      toast.error(err.response?.data?.message || "Failed to place order. Please try again.");
+      toast.error(err.response?.data?.message || "Order failed");
     } finally {
       setLoading(false);
     }
