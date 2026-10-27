@@ -1,0 +1,418 @@
+import fs from "fs";
+import path from "path";
+import prisma from "../utils/prisma";
+import cloudinary, { getAssetFolder } from "../utils/cloudinaryHelper";
+import { setupSuperAdmin } from "../utils/setupSuperAdmin";
+
+const initialCategories = [
+  {
+    name: "Royal Heritage Embroidery",
+    slug: "royal-heritage",
+    description: "Opulent gold zari and ceremonial zardozi embroidery on premium linen",
+    image: "/products/Bag001.png",
+  },
+  {
+    name: "Everyday Minimal Linen",
+    slug: "everyday-minimal",
+    description: "Structured pure linen totes for sustainable daily chic",
+    image: "/products/Bag005.png",
+  },
+  {
+    name: "Festive & Wedding Gifting",
+    slug: "festive-gifting",
+    description: "Exquisite embroidered bags perfect for wedding favors and festivities",
+    image: "/products/Bag004.png",
+  },
+  {
+    name: "Artisanal Potlis & Clutches",
+    slug: "potlis-clutches",
+    description: "Handcrafted evening wear bags with intricate motif work",
+    image: "/products/Bag010.png",
+  },
+];
+
+const initialProducts = [
+  {
+    sku: "MVT-HAATHI-001",
+    title: "The Royal Haathi Ivory Linen Tote",
+    slug: "royal-haathi-ivory-linen-tote",
+    shortDescription:
+      "Signature pure ivory linen tote featuring an ornate royal ceremonial elephant embellished with intricate gold zardozi and jewel-tone borders.",
+    description:
+      "Inspired by royal Rajasthani heritage and majestic royal processions, The Royal Haathi Ivory Tote is handcrafted from high-density pure Belgian linen fabric in an authentic unbleached natural ivory hue. The centerpiece is a masterfully digitized, high-density embroidered ceremonial elephant (Airavata) embellished with metallic gold zari threadwork, micro-sequin borders, and regal howdah accents. Built with reinforced double-stitched linen handles capable of carrying up to 10kg, a spacious structured interior lined with water-resistant cotton, and secure zipper pockets for modern luxury daily carry.",
+    price: 1499,
+    originalPrice: 2299,
+    stock: 45,
+    category: "Royal Heritage Embroidery",
+    categorySlug: "royal-heritage",
+    fabric: "100% Heavy-GSM Belgian Pure Ivory Linen",
+    embroideryType: "Multi-Head Computerized Gold Zari & Zardozi Needlework",
+    dimensions: '15"H x 16"W x 5.5"D (Handle Drop: 9.5")',
+    closure: "Concealed Magnetic Brass Snap + Inner YKK Zip Pocket",
+    lining: "Water-Resistant Organic Khadi Cotton Lining",
+    careInstructions: "Spot clean with damp muslin cloth or dry clean only.",
+    localImage: "Bag001.png",
+    fallbackUrl: "/products/Bag001.png",
+    isFeatured: true,
+    isBestSeller: true,
+    rating: 4.9,
+    reviewsCount: 58,
+  },
+  {
+    sku: "MVT-MAYURA-002",
+    title: "Mayura Dancing Peacock Oatmeal Linen Tote",
+    slug: "mayura-dancing-peacock-oatmeal-linen-tote",
+    shortDescription:
+      "Regal dancing peacock with antique gold zari crest and vibrant iridescent teal-emerald feather plumes on natural oatmeal linen.",
+    description:
+      "Graceful and majestic, the Mayura Oatmeal Linen Tote captures India's national bird in full royal courtship display. Embroidered with antique gold metallic cord and rich emerald-turquoise resham silk threads upon heavy unbleached oatmeal flax linen, this tote blends traditional palace iconography with minimalist everyday functionality.",
+    price: 1399,
+    originalPrice: 1999,
+    stock: 40,
+    category: "Royal Heritage Embroidery",
+    categorySlug: "royal-heritage",
+    fabric: "100% Textured Natural Oatmeal Flax Linen",
+    embroideryType: "Antique Gold Zari Cord & Emerald Resham Threadwork",
+    dimensions: '15"H x 15.5"W x 5"D (Handle Drop: 9.5")',
+    closure: "Concealed Magnetic Snap + Interior Zip Compartment",
+    lining: "Soft Beige Khadi Cotton Interior",
+    careInstructions: "Spot clean with damp cloth or professional dry clean.",
+    localImage: "Bag002.png",
+    fallbackUrl: "/products/Bag002.png",
+    isFeatured: true,
+    isBestSeller: true,
+    rating: 4.9,
+    reviewsCount: 42,
+  },
+  {
+    sku: "MVT-MUGHAL-003",
+    title: "Mughal Jali Royal Navy Blue Linen Tote",
+    slug: "mughal-jali-royal-navy-blue-linen-tote",
+    shortDescription:
+      "Deep navy pure linen tote with imperial Mughal architectural jali arches and blooming lotus filigree in gleaming gold zari.",
+    description:
+      "Channeling the timeless elegance of Fatehpur Sikri and Agra palace architecture, this deep navy blue linen tote features an ornate Mughal arched jali window framework. At its heart blooms a sacred lotus medallion encircled by delicate botanical arabesques rendered in high-relief metallic gold zari embroidery.",
+    price: 1599,
+    originalPrice: 2499,
+    stock: 35,
+    category: "Royal Heritage Embroidery",
+    categorySlug: "royal-heritage",
+    fabric: "High-Density Midnight Navy Pure Linen",
+    embroideryType: "Raised Gold Zari Architectural Filigree & Lotus Medallion",
+    dimensions: '15.5"H x 16"W x 5.5"D (Handle Drop: 9.5")',
+    closure: "Magnetic Brass Snap + YKK Zipper Compartment",
+    lining: "Midnight Navy Sateen Khadi Lining",
+    careInstructions: "Professional dry clean only.",
+    localImage: "Bag003.png",
+    fallbackUrl: "/products/Bag003.png",
+    isFeatured: true,
+    isBestSeller: false,
+    rating: 4.8,
+    reviewsCount: 31,
+  },
+  {
+    sku: "MVT-GULBAGH-004",
+    title: "Gulbagh Lotus Ruby Red Linen Tote",
+    slug: "gulbagh-lotus-ruby-red-linen-tote",
+    shortDescription:
+      "Festive crimson red linen tote framed with blooming Mughal lotus flowers, spiraling botanical vines, and fine gold zari detailing.",
+    description:
+      "A statement piece crafted for festive soirees, wedding celebrations, and cultural galas. Hand-tailored from deep crimson ruby pure linen and embellished with a blooming Mughal royal lotus surrounded by lush botanical vines and fine gold zari cordwork. Fully lined with water-resistant cotton.",
+    price: 1499,
+    originalPrice: 2199,
+    stock: 50,
+    category: "Festive & Wedding Gifting",
+    categorySlug: "festive-gifting",
+    fabric: "Rich Imperial Ruby Red Pure Linen",
+    embroideryType: "Mughal Floral Arabesque & Micro-Pearl Gold Zari Work",
+    dimensions: '15"H x 15"W x 5"D (Handle Drop: 9.5")',
+    closure: "Concealed Magnetic Clasp & Inner Zip Pocket",
+    lining: "Water-Resistant Crimson Khadi Cotton",
+    careInstructions: "Spot clean only or gentle dry clean.",
+    localImage: "Bag004.png",
+    fallbackUrl: "/products/Bag004.png",
+    isFeatured: true,
+    isBestSeller: true,
+    rating: 4.9,
+    reviewsCount: 47,
+  },
+  {
+    sku: "MVT-KUTCH-005",
+    title: "Kutch Kalka Paisley Ochre Linen Tote",
+    slug: "kutch-kalka-paisley-ochre-linen-tote",
+    shortDescription:
+      "Warm mustard ochre linen tote featuring traditional Gujarati Kutch paisley (kalka) motifs with reflective mirror-work embroidery.",
+    description:
+      "Paying homage to Gujarat’s world-renowned artisan heritage, this warm ochre linen tote features a bold traditional mango paisley (kalka) silhouette embroidered with geometric borders and reflective abhala mirror-work accents. Spacious, durable, and effortlessly stylish for beach holidays, farmer markets, and casual brunches.",
+    price: 1299,
+    originalPrice: 1899,
+    stock: 45,
+    category: "Everyday Minimal Linen",
+    categorySlug: "everyday-minimal",
+    fabric: "100% Textured Mustard Ochre Linen Canvas",
+    embroideryType: "Gujarati Paisley & Shishadar Royal Mirror-Work Embroidery",
+    dimensions: '15"H x 16"W x 5"D (Handle Drop: 9.5")',
+    closure: "Open Top with Magnetic Center Clasp & Security Zip Pocket",
+    lining: "Heavy Cotton Canvas Interior",
+    careInstructions: "Gentle cold spot wash or dry clean.",
+    localImage: "Bag005.png",
+    fallbackUrl: "/products/Bag005.png",
+    isFeatured: false,
+    isBestSeller: true,
+    rating: 4.8,
+    reviewsCount: 28,
+  },
+  {
+    sku: "MVT-SURYA-006",
+    title: "Suryanarayana Sun Mandala Rust Linen Tote",
+    slug: "suryanarayana-sun-mandala-rust-linen-tote",
+    shortDescription:
+      "Earthy terracotta rust linen tote showcasing a radiating Vedic sun mandala embroidered in luminous metallic gold thread.",
+    description:
+      "Inspired by Konark sun temple carvings and ancient Vedic astronomy, this terracotta rust linen bag highlights the Suryanarayana solar mandala. Concentric rings of golden sunburst rays and geometric petal borders create a hypnotic optical balance over the textured linen weave.",
+    price: 1249,
+    originalPrice: 1799,
+    stock: 30,
+    category: "Everyday Minimal Linen",
+    categorySlug: "everyday-minimal",
+    fabric: "Earthy Terracotta Rust Pure Flax Linen",
+    embroideryType: "Sunburst Circular Mandala & Gold Filament Needlework",
+    dimensions: '15"H x 15"W x 4.5"D (Handle Drop: 9.5")',
+    closure: "Magnetic Brass Snap Button",
+    lining: "Warm Sand Khadi Cotton Lining",
+    careInstructions: "Spot clean with damp cloth.",
+    localImage: "Bah006.png",
+    fallbackUrl: "/products/Bah006.png",
+    isFeatured: false,
+    isBestSeller: false,
+    rating: 4.7,
+    reviewsCount: 21,
+  },
+  {
+    sku: "MVT-KALPA-007",
+    title: "Kalpavriksha Tree of Life Sage Linen Tote",
+    slug: "kalpavriksha-tree-of-life-sage-linen-tote",
+    shortDescription:
+      "Serene sage olive green linen tote with the sacred Kalpavriksha (Tree of Life) embroidered in lustrous sprawling gold branches.",
+    description:
+      "Rooted in Indian mythology, the Kalpavriksha represents the wish-fulfilling divine tree of prosperity and rejuvenation. Embroidered on calm sage olive green linen with delicate golden branches, leaf rosettes, and perched birds, this tote radiates tranquility and understated luxury.",
+    price: 1549,
+    originalPrice: 2299,
+    stock: 40,
+    category: "Royal Heritage Embroidery",
+    categorySlug: "royal-heritage",
+    fabric: "Deep Sage Olive Premium Linen",
+    embroideryType: "Golden Tree of Life Filament & Botanical Resham Work",
+    dimensions: '15.5"H x 16"W x 5"D (Handle Drop: 9.5")',
+    closure: "Concealed Magnetic Clasp + Zippered Wall Pocket",
+    lining: "Forest Green Organic Khadi Cotton",
+    careInstructions: "Professional dry clean recommended.",
+    localImage: "Bag007.png",
+    fallbackUrl: "/products/Bag007.png",
+    isFeatured: true,
+    isBestSeller: true,
+    rating: 4.9,
+    reviewsCount: 39,
+  },
+  {
+    sku: "MVT-LIONS-008",
+    title: "Imperial Heraldic Twin Lions Obsidian Linen Tote",
+    slug: "imperial-heraldic-twin-lions-obsidian-linen-tote",
+    shortDescription:
+      "Jet black structured linen tote showcasing majestic imperial heraldic twin lions supporting a royal coronet in heavy gold bullion embroidery.",
+    description:
+      "A masterpiece of regal power and European-Mughal colonial court insignia. Symmetrical rampant golden lions flank an ornate royal coronet framed by intricate baroque scrollwork. Handcrafted from heavyweight obsidian black linen, this statement bag commands admiration in boardroom meetings and high-society dinners alike.",
+    price: 1699,
+    originalPrice: 2599,
+    stock: 25,
+    category: "Royal Heritage Embroidery",
+    categorySlug: "royal-heritage",
+    fabric: "Heavy Jet Black Obsidian Linen Canvas",
+    embroideryType: "Heavy Gold Bullion & Metallic Zari Heraldic Embroidery",
+    dimensions: '16"H x 16"W x 5.5"D (Handle Drop: 10")',
+    closure: "Heavy Duty Magnetic Snap & Reinforced Base",
+    lining: "Black Satin Twill with Padded Device Sleeve",
+    careInstructions: "Professional dry clean only.",
+    localImage: "BaG008.png",
+    fallbackUrl: "/products/BaG008.png",
+    isFeatured: true,
+    isBestSeller: false,
+    rating: 4.9,
+    reviewsCount: 34,
+  },
+  {
+    sku: "MVT-TRELLIS-009",
+    title: "Contemporary Royal Trellis Slate Grey Linen Tote",
+    slug: "contemporary-royal-trellis-slate-grey-linen-tote",
+    shortDescription:
+      "Modern slate grey linen tote with dual-tone champagne gold and silver geometric trellis embroidery for clean minimalist sophistication.",
+    description:
+      "Designed for urban professionals who appreciate traditional craftsmanship in a contemporary language. Featuring a refined Moroccan-inspired geometric lattice stitched with dual-tone champagne gold and silver threads against tailored slate grey linen canvas.",
+    price: 1199,
+    originalPrice: 1699,
+    stock: 35,
+    category: "Everyday Minimal Linen",
+    categorySlug: "everyday-minimal",
+    fabric: "Woven Slate Grey Tailored Pure Linen",
+    embroideryType: "Dual-Tone Champagne Gold & Sterling Silver Zari Embroidery",
+    dimensions: '15"H x 15"W x 4.5"D (Handle Drop: 9.5")',
+    closure: "Brass Magnetic Snap + Key Leash & Mobile Slip Pocket",
+    lining: "Light Charcoal Cotton Canvas Lining",
+    careInstructions: "Machine wash cold on gentle or dry clean.",
+    localImage: "Bag009.png",
+    fallbackUrl: "/products/Bag009.png",
+    isFeatured: false,
+    isBestSeller: false,
+    rating: 4.7,
+    reviewsCount: 18,
+  },
+  {
+    sku: "MVT-PEACOCK-010",
+    title: "Imperial Twin Peacock Royal Aubergine Linen Tote",
+    slug: "imperial-twin-peacock-royal-aubergine-linen-tote",
+    shortDescription:
+      "Majestic aubergine purple linen tote featuring symmetrical twin peacocks flanking an imperial urn with lotus blossoms and ornate gold filigree.",
+    description:
+      "An opulent royal heirloom bag in rich deep aubergine purple linen. Mirrored royal peacocks with arched crests stand symmetrically alongside a classical ceremonial urn blooming with lotus blossoms. Embroidered in rich antique gold zari with micro-sequin highlights, this bag is a coveted gift for luxury weddings and grand celebrations.",
+    price: 1599,
+    originalPrice: 2399,
+    stock: 38,
+    category: "Festive & Wedding Gifting",
+    categorySlug: "festive-gifting",
+    fabric: "Lustrous Royal Aubergine Purple Pure Linen",
+    embroideryType: "Antique Gold Zari & Micro-Sequin Symmetrical Needlework",
+    dimensions: '15.5"H x 16"W x 5"D (Handle Drop: 9.5")',
+    closure: "Magnetic Button + Premium YKK Inner Compartment",
+    lining: "Plum Sateen Khadi Cotton Lining",
+    careInstructions: "Spot clean or dry clean only.",
+    localImage: "Bag010.png",
+    fallbackUrl: "/products/Bag010.png",
+    isFeatured: true,
+    isBestSeller: true,
+    rating: 4.9,
+    reviewsCount: 51,
+  },
+];
+
+const seed = async () => {
+  try {
+    console.log("==================================================");
+    console.log(" Starting Mavtar Impex Database Seeding (Prisma)");
+    console.log(" Target: Neon PostgreSQL (Schema: mavtar)");
+    console.log("==================================================");
+
+    // 1. Setup Super Admin
+    await setupSuperAdmin();
+
+    // 2. Seed Categories
+    console.log("Seeding product categories...");
+    for (const cat of initialCategories) {
+      await prisma.category.upsert({
+        where: { slug: cat.slug },
+        update: cat,
+        create: cat,
+      });
+      console.log(` Category ready: ${cat.name}`);
+    }
+
+    // 3. Seed Products
+    console.log("\nSeeding 10 authentic luxury linen bags...");
+    const localBagDir = path.resolve(__dirname, "../../../frontend/src/assets/Bag");
+
+    for (let i = 0; i < initialProducts.length; i++) {
+      const p = initialProducts[i];
+      let imageUrls = [p.fallbackUrl];
+
+      // Try uploading to Cloudinary
+      const localFilePath = path.join(localBagDir, p.localImage);
+      if (fs.existsSync(localFilePath)) {
+        try {
+          console.log(`Uploading ${p.localImage} to Cloudinary...`);
+          const base64Data = `data:image/png;base64,${fs.readFileSync(
+            localFilePath,
+            "base64"
+          )}`;
+          const folder = getAssetFolder("products");
+          const publicId = `Bag${String(i + 1).padStart(3, "0")}`;
+
+          const uploadRes = await cloudinary.uploader.upload(base64Data, {
+            folder,
+            public_id: publicId,
+            format: "webp",
+            overwrite: true,
+            invalidate: true,
+          });
+
+          if (uploadRes && uploadRes.secure_url) {
+            imageUrls = [uploadRes.secure_url, p.fallbackUrl];
+            console.log(` Cloudinary URL generated: ${uploadRes.secure_url}`);
+          }
+        } catch (cloudErr: any) {
+          console.warn(`Cloudinary upload skipped for ${p.sku}:`, cloudErr.message);
+        }
+      }
+
+      await prisma.product.upsert({
+        where: { sku: p.sku },
+        update: {
+          title: p.title,
+          slug: p.slug,
+          shortDescription: p.shortDescription,
+          description: p.description,
+          price: p.price,
+          originalPrice: p.originalPrice,
+          stock: p.stock,
+          category: p.category,
+          categorySlug: p.categorySlug,
+          fabric: p.fabric,
+          embroideryType: p.embroideryType,
+          dimensions: p.dimensions,
+          closure: p.closure,
+          lining: p.lining,
+          careInstructions: p.careInstructions,
+          images: imageUrls,
+          isFeatured: p.isFeatured,
+          isBestSeller: p.isBestSeller,
+          rating: p.rating,
+          reviewsCount: p.reviewsCount,
+        },
+        create: {
+          sku: p.sku,
+          title: p.title,
+          slug: p.slug,
+          shortDescription: p.shortDescription,
+          description: p.description,
+          price: p.price,
+          originalPrice: p.originalPrice,
+          stock: p.stock,
+          category: p.category,
+          categorySlug: p.categorySlug,
+          fabric: p.fabric,
+          embroideryType: p.embroideryType,
+          dimensions: p.dimensions,
+          closure: p.closure,
+          lining: p.lining,
+          careInstructions: p.careInstructions,
+          images: imageUrls,
+          isFeatured: p.isFeatured,
+          isBestSeller: p.isBestSeller,
+          rating: p.rating,
+          reviewsCount: p.reviewsCount,
+        },
+      });
+
+      console.log(` Product ${i + 1}/10 saved: [${p.sku}] ${p.title} (₹${p.price})`);
+    }
+
+    console.log("\n==================================================");
+    console.log(" Seeding completed successfully!");
+    console.log(" All 10 luxury linen products are active in DB & Cloud.");
+    console.log("==================================================");
+  } catch (error) {
+    console.error("Seeding error:", error);
+  } finally {
+    await prisma.$disconnect();
+  }
+};
+
+seed();

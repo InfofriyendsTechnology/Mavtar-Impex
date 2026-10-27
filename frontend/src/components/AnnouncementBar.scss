@@ -1,0 +1,79 @@
+.announcement-bar-strip {
+  background: #111216;
+  color: #D4D4D8;
+  height: 38px;
+  line-height: 38px;
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-weight: 500;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .announcement-track {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    white-space: nowrap;
+    overflow: hidden;
+
+    @media (max-width: 640px) {
+      justify-content: flex-start;
+      overflow-x: auto;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+      &::-webkit-scrollbar {
+        display: none;
+      }
+    }
+  }
+
+  .announcement-content {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    white-space: nowrap;
+    padding: 0 16px;
+
+    @media (max-width: 640px) {
+      font-size: 0.65rem;
+      gap: 6px;
+      animation: announceScroll 24s linear infinite;
+    }
+
+    .dot {
+      color: #71717A;
+      font-size: 0.8rem;
+    }
+
+    strong {
+      color: #FFFFFF;
+      letter-spacing: 0.1em;
+      font-weight: 700;
+      text-decoration: underline;
+    }
+
+    .strip-icon {
+      color: #A1A1AA;
+      flex-shrink: 0;
+    }
+  }
+}
+
+@keyframes announceScroll {
+  0% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(-35%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}

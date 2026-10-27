@@ -1,21 +1,24 @@
 import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { ShoppingBag, Menu, X, PhoneCall } from "lucide-react";
+import { ShoppingBag, Menu, X, PhoneCall, Home, LayoutGrid, Sparkles, Layers, MessageSquare, Truck, User } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useCart } from "../context/CartContext";
+import { useAuth } from "../context/AuthContext";
+import "./Navbar.scss";
 
 const Navbar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { totalItemsCount, setIsCartOpen } = useCart();
+  const { customer, isCustomerLoggedIn, openAuthModal, logoutCustomer } = useAuth();
   const location = useLocation();
 
   const navLinks = [
-    { name: "Home", path: "/" },
-    { name: "Collection", path: "/shop" },
-    { name: "Royal Edition", path: "/shop?category=royal-heritage" },
-    { name: "Our Craft", path: "/craftsmanship" },
-    { name: "Bespoke & Bulk", path: "/bulk-inquiry" },
-    { name: "Track Order", path: "/track" },
+    { name: "Home", path: "/", icon: <Home size={16} /> },
+    { name: "Collection", path: "/shop", icon: <LayoutGrid size={16} /> },
+    { name: "Royal Edition", path: "/shop?category=royal-heritage", icon: <Sparkles size={16} /> },
+    { name: "Our Craft", path: "/craftsmanship", icon: <Layers size={16} /> },
+    { name: "Bespoke & Bulk", path: "/bulk-inquiry", icon: <MessageSquare size={16} /> },
+    { name: "Track Order", path: "/track", icon: <Truck size={16} /> },
   ];
 
   const isActive = (path) => {
@@ -24,142 +27,156 @@ const Navbar = () => {
   };
 
   return (
-    <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-zinc-200 transition-all shadow-[0_1px_8px_rgba(0,0,0,0.03)]">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-20 gap-4">
+    <header className="site-header">
+      <div className="nav-inner-container">
+        <div className="nav-bar-row">
           
-          {/* Mobile Menu Button */}
-          <div className="flex items-center xl:hidden">
-            <button
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-2 rounded-lg text-zinc-700 hover:text-zinc-900 hover:bg-zinc-100 transition-colors focus:outline-none"
-              aria-label="Toggle menu"
+          {/* Mobile Menu Button with smooth icon state */}
+          <button
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className="mobile-menu-btn"
+            aria-label="Toggle navigation menu"
+          >
+            <motion.div
+              key={mobileMenuOpen ? "close" : "open"}
+              initial={{ rotate: -90, opacity: 0 }}
+              animate={{ rotate: 0, opacity: 1 }}
+              exit={{ rotate: 90, opacity: 0 }}
+              transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
             >
-              {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-            </button>
-          </div>
+              {mobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
+            </motion.div>
+          </button>
 
           {/* Brand Logo */}
-          <div className="flex-shrink-0 min-w-0">
-            <Link to="/" className="inline-block group text-left">
-              <span className="text-xl sm:text-2xl lg:text-3xl font-serif font-bold tracking-tight text-zinc-900 group-hover:text-zinc-700 transition-colors whitespace-nowrap block">
-                MAVTAR IMPEX
-              </span>
-              <span className="text-[8px] sm:text-[9.5px] tracking-[0.2em] sm:tracking-[0.25em] uppercase text-zinc-500 font-semibold block -mt-0.5 whitespace-nowrap">
-                Artisanal Linen & Royal Embroidery
-              </span>
-            </Link>
-          </div>
+          <Link to="/" className="nav-brand-link">
+            <span className="brand-name">MAVTAR IMPEX</span>
+            <span className="brand-sub">Handcrafted Linen</span>
+          </Link>
 
-          {/* Desktop Navigation with Framer Motion Active Indicator */}
-          <nav className="hidden xl:flex items-center gap-1 lg:gap-2">
+          {/* Desktop Navigation Links */}
+          <nav className="nav-links-desktop">
             {navLinks.map((link) => {
               const active = isActive(link.path);
               return (
                 <Link
                   key={link.path}
                   to={link.path}
-                  className={`relative px-4 py-2 text-sm font-medium tracking-wide whitespace-nowrap transition-colors rounded-full ${
-                    active
-                      ? "text-zinc-900 font-bold"
-                      : "text-zinc-600 hover:text-zinc-900 hover:bg-zinc-100/70"
-                  }`}
+                  className={`nav-link-pill ${active ? "active" : ""}`}
                 >
-                  <span className="relative z-10">{link.name}</span>
-                  {active && (
-                    <motion.div
-                      layoutId="active-nav-pill"
-                      className="absolute inset-0 bg-zinc-100 border border-zinc-300 rounded-full"
-                      transition={{ type: "spring", stiffness: 400, damping: 30 }}
-                    />
-                  )}
+                  {link.name}
                 </Link>
               );
             })}
           </nav>
 
           {/* Right Action Icons */}
-          <div className="flex items-center gap-3 sm:gap-4 flex-shrink-0">
-            
-            {/* Direct WhatsApp Concierge Button */}
-            <motion.a
-              whileHover={{ scale: 1.03 }}
-              whileTap={{ scale: 0.97 }}
+          <div className="nav-right-actions">
+            <a
               href="https://wa.me/919512753471?text=Hello%20Mavtar%20Impex,%20I%20have%20an%20inquiry%20regarding%20your%20luxury%20embroidered%20linen%20bags."
               target="_blank"
               rel="noreferrer"
-              className="hidden sm:inline-flex items-center gap-2 text-xs text-zinc-900 hover:text-black px-3.5 py-2 rounded-full border border-zinc-300 hover:border-zinc-400 bg-zinc-50 hover:bg-white transition-all font-semibold whitespace-nowrap shadow-sm"
+              className="btn-concierge"
               title="WhatsApp Concierge"
             >
-              <PhoneCall className="w-3.5 h-3.5 text-zinc-600 flex-shrink-0" />
+              <PhoneCall size={13} />
               <span>WhatsApp Support</span>
-            </motion.a>
+            </a>
 
-            {/* Shopping Cart Trigger */}
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
+            {/* Patron Account / Login Trigger */}
+            <button
+              onClick={() => {
+                if (isCustomerLoggedIn) {
+                  if (window.confirm(`Signed in as ${customer?.name || "Patron"}. Would you like to sign out?`)) {
+                    logoutCustomer();
+                  }
+                } else {
+                  openAuthModal("header");
+                }
+              }}
+              className="btn-patron-auth"
+              title={isCustomerLoggedIn ? `Patron: ${customer?.name || "Account"}` : "Sign In / Continue with Google"}
+              aria-label="Patron Account"
+            >
+              {isCustomerLoggedIn && customer?.avatar ? (
+                <img src={customer.avatar} alt={customer.name} className="patron-avatar-img" />
+              ) : isCustomerLoggedIn ? (
+                <span className="patron-avatar-initial">{(customer?.name || "P").charAt(0)}</span>
+              ) : (
+                <User size={18} />
+              )}
+            </button>
+
+            <button
               onClick={() => setIsCartOpen(true)}
-              className="relative p-2.5 text-zinc-900 hover:text-black transition-colors rounded-full hover:bg-zinc-100 flex items-center justify-center border border-zinc-200 shadow-sm"
+              className="btn-cart-trigger"
               aria-label="View Cart"
             >
-              <ShoppingBag className="w-5 h-5 text-zinc-900" />
-              {totalItemsCount > 0 && (
-                <motion.span
-                  initial={{ scale: 0 }}
-                  animate={{ scale: 1 }}
-                  className="absolute -top-1 -right-1 bg-zinc-900 text-white text-[11px] font-bold w-5 h-5 rounded-full flex items-center justify-center border-2 border-white shadow-md"
-                >
-                  {totalItemsCount}
-                </motion.span>
-              )}
-            </motion.button>
+              <ShoppingBag size={18} />
+              {totalItemsCount > 0 && <span className="cart-badge">{totalItemsCount}</span>}
+            </button>
           </div>
+
         </div>
       </div>
 
-      {/* Mobile Drawer Menu with Smooth Framer Motion Accordion */}
+      {/* Silky Smooth Luxury Mobile Drawer Menu with AnimatePresence */}
       <AnimatePresence>
         {mobileMenuOpen && (
           <motion.div
+            key="mobile-drawer"
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.25, ease: "easeInOut" }}
-            className="xl:hidden overflow-hidden border-t border-zinc-200 bg-white shadow-lg"
+            transition={{ duration: 0.42, ease: [0.16, 1, 0.3, 1] }}
+            className="mobile-drawer-menu"
           >
-            <div className="px-4 pt-3 pb-6 space-y-1.5">
-              {navLinks.map((link) => {
+            <motion.div 
+              className="mobile-drawer-inner"
+              initial={{ y: -6, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              exit={{ y: -6, opacity: 0 }}
+              transition={{ duration: 0.32, ease: [0.16, 1, 0.3, 1] }}
+            >
+              {navLinks.map((link, idx) => {
                 const active = isActive(link.path);
                 return (
-                  <Link
+                  <motion.div
                     key={link.path}
-                    to={link.path}
-                    onClick={() => setMobileMenuOpen(false)}
-                    className={`block px-4 py-3 rounded-lg text-sm font-medium tracking-wide whitespace-nowrap transition-colors ${
-                      active
-                        ? "bg-zinc-900 text-white font-bold"
-                        : "text-zinc-700 hover:bg-zinc-100"
-                    }`}
+                    initial={{ opacity: 0, x: -10 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.04 * idx + 0.06, duration: 0.32, ease: [0.16, 1, 0.3, 1] }}
                   >
-                    {link.name}
-                  </Link>
+                    <Link
+                      to={link.path}
+                      onClick={() => setMobileMenuOpen(false)}
+                      className={`mobile-nav-link ${active ? "active" : ""}`}
+                    >
+                      <span className="link-icon-box">{link.icon}</span>
+                      <span className="link-text">{link.name}</span>
+                      {active && <span className="active-dot" />}
+                    </Link>
+                  </motion.div>
                 );
               })}
 
-              <div className="pt-3 mt-2 border-t border-zinc-100">
+              <motion.div
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.04 * navLinks.length + 0.08, duration: 0.32, ease: [0.16, 1, 0.3, 1] }}
+                className="mobile-concierge-link"
+              >
                 <a
                   href="https://wa.me/919512753471?text=Hello%20Mavtar%20Impex,%20I%20have%20an%20inquiry%20regarding%20your%20luxury%20embroidered%20linen%20bags."
                   target="_blank"
                   rel="noreferrer"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="flex items-center gap-2.5 px-4 py-3 text-sm text-zinc-900 font-bold bg-zinc-100 rounded-lg hover:bg-zinc-200 transition-colors"
                 >
-                  <PhoneCall className="w-4 h-4 text-zinc-600" />
-                  <span>Direct WhatsApp Concierge</span>
+                  <PhoneCall size={14} />
+                  <span>WhatsApp Concierge (+91 95127 53471)</span>
                 </a>
-              </div>
-            </div>
+              </motion.div>
+            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>

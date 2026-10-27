@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
-import { Search, Package, CheckCircle2, Clock, Truck, ShieldCheck, MapPin } from "lucide-react";
+import { Search, Clock, MessageSquare, CheckCircle, Package } from "lucide-react";
 import { orderApi } from "../../services/api";
+import "./TrackOrder.scss";
 
 const TrackOrder = () => {
   const [searchParams] = useSearchParams();
@@ -36,169 +37,180 @@ const TrackOrder = () => {
       }
     } catch (err) {
       setOrder(null);
-      setErrorMsg("No active order found with this Order ID or Phone number. Please verify.");
+      setErrorMsg("No active order found with this Order ID or Phone number. Please check the spelling or contact support.");
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="max-w-4xl mx-auto px-4 sm:px-6 py-12 space-y-10">
+    <div className="track-order-page animate-fadeIn">
       
-      {/* Header */}
-      <div className="text-center max-w-xl mx-auto space-y-3">
-        <span className="text-xs font-bold tracking-widest text-gold-600 uppercase">
-          Real-Time Tracking
-        </span>
-        <h1 className="font-serif text-3xl sm:text-5xl font-bold text-zinc-950">
-          Track Your Handcrafted Order
-        </h1>
-        <p className="text-sm text-linen-600">
-          Enter your 6-digit Order Reference Number (e.g. <code>MVT-849201</code>) or your 10-digit mobile number.
+      {/* 1. Header */}
+      <div className="track-header">
+        <span className="track-badge">Live Shipment Tracking</span>
+        <h1 className="track-title">Track Your Handcrafted Order</h1>
+        <p className="track-subtitle">
+          Enter your 6-digit Order Reference (e.g. <code>MVT-849201</code>) or your 10-digit mobile number.
         </p>
       </div>
 
-      {/* Search Input Box */}
+      {/* 2. Luxury Search Box */}
       <form
         onSubmit={(e) => {
           e.preventDefault();
           handleTrack();
         }}
-        className="max-w-xl mx-auto flex gap-2 bg-white p-2 rounded-xl border border-linen-300 shadow-sm"
+        className="track-search-card"
       >
-        <div className="relative flex-1">
+        <div className="input-wrapper">
+          <Search className="search-icon" />
           <input
             type="text"
             required
-            placeholder="Enter Order ID (e.g. MVT-...) or Phone Number"
+            placeholder="Order ID (e.g. MVT-849201) or 10-digit Mobile Number"
             value={identifier}
             onChange={(e) => setIdentifier(e.target.value)}
-            className="w-full pl-9 pr-3 py-2.5 text-xs text-linen-900 rounded focus:outline-none"
+            className="search-input"
           />
-          <Search className="w-4 h-4 text-linen-400 absolute left-3 top-3" />
         </div>
-        <button
-          type="submit"
-          disabled={loading}
-          className="bg-zinc-900 hover:bg-zinc-800 text-gold-200 px-6 py-2.5 rounded-lg text-xs font-bold tracking-wide transition-colors"
-        >
-          {loading ? "Tracking..." : "Track Status"}
+        <button type="submit" disabled={loading} className="btn-track-submit">
+          {loading ? "Tracking..." : "Track Order"}
         </button>
       </form>
 
-      {/* Result Container */}
+      {/* 3. Order Result Container */}
       {order && (
-        <div className="bg-white rounded-2xl p-6 sm:p-10 border border-gold-500/30 shadow-luxury space-y-8 animate-fadeIn">
+        <div className="track-result-card animate-fadeIn">
           
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-6 border-b border-linen-100 gap-4">
-            <div>
-              <span className="text-xs text-linen-500">Order Number</span>
-              <h2 className="font-serif text-2xl font-bold text-zinc-950 tracking-wider">
-                {order.orderNumber}
-              </h2>
+          {/* Result Header */}
+          <div className="result-header-row">
+            <div className="header-info">
+              <span className="order-meta-label">Order Reference</span>
+              <h2 className="order-number-heading">{order.orderNumber}</h2>
             </div>
-            <div className="flex items-center gap-2">
-              <span className="text-xs font-semibold px-3 py-1 rounded-full bg-zinc-100 text-zinc-900 border border-zinc-300">
-                Status: {order.orderStatus}
+            <div className="status-pills">
+              <span className="pill-status status-active">
+                Status: {order.orderStatus || "In Production"}
               </span>
-              <span className="text-xs font-semibold px-3 py-1 rounded-full bg-linen-100 text-linen-800">
-                Payment: {order.paymentStatus}
+              <span className={`pill-status ${order.paymentStatus === "PAID" ? "status-payment" : "status-pending"}`}>
+                Payment: {order.paymentStatus || "COD"}
               </span>
             </div>
           </div>
 
-          {/* Stepper */}
-          <div className="space-y-6">
-            <h3 className="font-serif text-lg font-bold text-zinc-950 flex items-center gap-2">
-              <Clock className="w-5 h-5 text-zinc-800" />
+          {/* Stepper / Timeline */}
+          <div className="stepper-section">
+            <h3 className="stepper-heading">
+              <Clock style={{ width: 20, height: 20 }} />
               <span>Production & Delivery Progress</span>
             </h3>
 
-            <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
+            <div className="stepper-grid">
               {order.trackingSteps?.map((step, idx) => (
                 <div
                   key={idx}
-                  className={`p-4 rounded-xl border text-center space-y-2 transition-all ${
-                    step.completed
-                      ? "bg-zinc-50/70 border-zinc-300 text-zinc-950 shadow-sm"
-                      : "bg-linen-50 border-linen-200 text-linen-400"
-                  }`}
+                  className={`step-item ${step.completed ? "step-completed" : ""}`}
                 >
-                  <div
-                    className={`w-8 h-8 rounded-full mx-auto flex items-center justify-center text-xs font-bold ${
-                      step.completed ? "bg-zinc-900 text-gold-300" : "bg-linen-200 text-linen-500"
-                    }`}
-                  >
+                  <div className="step-number-bubble">
                     {step.completed ? "✓" : idx + 1}
                   </div>
-                  <h4 className="font-serif text-sm font-bold leading-tight">{step.title}</h4>
-                  {step.time && (
-                    <p className="text-[10px] text-linen-500">
-                      {new Date(step.time).toLocaleDateString("en-IN", {
-                        day: "numeric",
-                        month: "short",
-                      })}
-                    </p>
-                  )}
+                  <div className="step-info-col">
+                    <span className="step-title">{step.title}</span>
+                    {step.time && (
+                      <span className="step-time">
+                        {new Date(step.time).toLocaleDateString("en-IN", {
+                          day: "numeric",
+                          month: "short",
+                        })}
+                      </span>
+                    )}
+                  </div>
                 </div>
               ))}
             </div>
           </div>
 
-          {/* Ordered Bags & Destination Details */}
-          <div className="pt-6 border-t border-linen-100 grid grid-cols-1 md:grid-cols-2 gap-8 text-xs">
-            <div>
-              <h4 className="font-bold text-zinc-950 uppercase tracking-wider mb-3">
-                Items in This Shipment ({order.items?.length || 0})
+          {/* Details Grid */}
+          <div className="details-grid">
+            {/* Left: Items in Shipment */}
+            <div className="items-column">
+              <h4 className="col-title">
+                Handcrafted Bags in Shipment ({order.items?.length || 0})
               </h4>
-              <div className="divide-y divide-linen-100 space-y-2">
+              <div className="items-list">
                 {order.items?.map((item, idx) => (
-                  <div key={idx} className="pt-2 first:pt-0 flex items-center gap-3">
+                  <div key={idx} className="item-row">
                     <img
-                      src={item.image}
-                      alt=""
-                      className="w-12 h-14 object-cover rounded bg-linen-100 border border-linen-200"
+                      src={item.image || "/products/Bag001.png"}
+                      alt={item.title}
+                      className="item-thumb"
                       onError={(e) => {
-                        e.target.src = "/products/royal-elephant-green-tote.jpg";
+                        e.target.src = "/products/Bag001.png";
                       }}
                     />
-                    <div>
-                      <p className="font-semibold text-zinc-950">{item.title}</p>
-                      <p className="text-linen-500">Quantity: {item.quantity}</p>
-                      <p className="font-bold text-linen-800">₹{item.price * item.quantity}</p>
+                    <div className="item-details">
+                      <span className="item-name">{item.title}</span>
+                      <span className="item-qty">Quantity: {item.quantity}</span>
+                      <span className="item-price">₹{Number(item.price * item.quantity).toLocaleString("en-IN")}</span>
                     </div>
                   </div>
                 ))}
               </div>
             </div>
 
-            <div className="space-y-4">
-              <h4 className="font-bold text-zinc-950 uppercase tracking-wider mb-3">
-                Delivery Details
-              </h4>
-              <div className="p-4 bg-linen-50 rounded-lg space-y-1.5 text-linen-700">
-                <p className="font-bold text-zinc-950">{order.customerName}</p>
-                <p>Phone: {order.customerPhone}</p>
-                <p>
-                  {order.shippingAddress?.addressLine1}, {order.shippingAddress?.city},{" "}
-                  {order.shippingAddress?.state} - {order.shippingAddress?.pincode}
-                </p>
-                <div className="pt-2 text-zinc-900 font-bold">
-                  Total Paid: ₹{order.totalAmount}
+            {/* Right: Delivery Information */}
+            <div className="delivery-column">
+              <h4 className="col-title">Destination & Customer</h4>
+              <div className="delivery-card">
+                <span className="cust-name">{order.customerName}</span>
+                <span className="cust-phone">📞 {order.customerPhone}</span>
+                <span className="cust-address">
+                  📍 {order.shippingAddress?.addressLine1}{order.shippingAddress?.addressLine2 ? `, ${order.shippingAddress.addressLine2}` : ""}, {order.shippingAddress?.city}, {order.shippingAddress?.state} - {order.shippingAddress?.pincode}
+                </span>
+                <div className="order-total-highlight">
+                  <span>Grand Total Paid:</span>
+                  <span>₹{Number(order.totalAmount || 0).toLocaleString("en-IN")}</span>
                 </div>
               </div>
             </div>
           </div>
 
+          {/* Live Support Bar */}
+          <div className="support-bar">
+            <span className="support-text">
+              Have questions regarding dispatch or custom monogramming?
+            </span>
+            <a
+              href="https://wa.me/919512753471?text=Hi%20Mavtar%20Impex,%20I%20have%20an%20inquiry%20about%20my%20order."
+              target="_blank"
+              rel="noreferrer"
+              className="support-btn"
+            >
+              <MessageSquare style={{ width: 14, height: 14 }} />
+              <span>Artisan Care Support</span>
+            </a>
+          </div>
+
         </div>
       )}
 
+      {/* 4. Not Found / Error State */}
       {searched && !order && !loading && (
-        <div className="bg-white rounded-xl p-8 text-center text-linen-600 border border-linen-200">
-          <p className="text-ruby-700 font-semibold">{errorMsg || "No record found."}</p>
-          <p className="text-xs text-linen-500 mt-1">
-            Need assistance? WhatsApp our care team at +91 95127 53471.
+        <div className="track-not-found-card animate-fadeIn">
+          <p className="error-title">{errorMsg || "No active order found."}</p>
+          <p className="error-desc">
+            Please double-check the Order ID or phone number used during checkout. If you placed the order recently, our Surat team may still be generating your bill.
           </p>
+          <a
+            href="https://wa.me/919512753471?text=Hi%20Mavtar%20Impex,%20I%20need%20help%20tracking%20my%20order."
+            target="_blank"
+            rel="noreferrer"
+            className="whatsapp-assist-link"
+          >
+            <MessageSquare style={{ width: 14, height: 14 }} />
+            <span>Chat With Support on WhatsApp</span>
+          </a>
         </div>
       )}
 

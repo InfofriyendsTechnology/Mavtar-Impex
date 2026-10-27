@@ -7,6 +7,7 @@ import {
   Upload,
   X,
   ShoppingBag,
+  ExternalLink,
 } from "lucide-react";
 import { productApi, uploadApi } from "../../services/api";
 import toast from "react-hot-toast";
@@ -34,7 +35,7 @@ const AdminProducts = () => {
     careInstructions: "Spot clean with damp cloth or gentle dry clean only.",
     shortDescription: "",
     description: "",
-    images: ["/products/royal-elephant-green-tote.jpg"],
+    images: ["/products/Bag001.png"],
     isFeatured: false,
     isBestSeller: false,
   };
@@ -80,7 +81,7 @@ const AdminProducts = () => {
       careInstructions: product.careInstructions || "Spot clean or gentle dry clean only.",
       shortDescription: product.shortDescription || "",
       description: product.description || "",
-      images: product.images || ["/products/royal-elephant-green-tote.jpg"],
+      images: product.images || ["/products/Bag001.png"],
       isFeatured: !!product.isFeatured,
       isBestSeller: !!product.isBestSeller,
     });
@@ -105,32 +106,25 @@ const AdminProducts = () => {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    const data = new FormData();
-    data.append("image", file);
-
-    setUploadingImage(true);
-    try {
-      const res = await uploadApi.uploadImage(data);
-      if (res.success && res.data?.url) {
-        setFormData((prev) => ({
-          ...prev,
-          images: [res.data.url, ...prev.images],
-        }));
-        toast.success("Image uploaded!");
+    const reader = new FileReader();
+    reader.onload = async () => {
+      setUploadingImage(true);
+      try {
+        const res = await uploadApi.uploadImage(reader.result, "mavtar/products");
+        if (res.success && res.data?.url) {
+          setFormData((prev) => ({
+            ...prev,
+            images: [res.data.url, ...(prev.images || [])],
+          }));
+          toast.success("Image uploaded to Cloudinary!");
+        }
+      } catch (err) {
+        toast.error("Cloud image upload failed");
+      } finally {
+        setUploadingImage(false);
       }
-    } catch (err) {
-      const reader = new FileReader();
-      reader.onload = () => {
-        setFormData((prev) => ({
-          ...prev,
-          images: [reader.result, ...prev.images],
-        }));
-        toast.success("Image preview loaded!");
-      };
-      reader.readAsDataURL(file);
-    } finally {
-      setUploadingImage(false);
-    }
+    };
+    reader.readAsDataURL(file);
   };
 
   const handleSubmit = async (e) => {
@@ -229,16 +223,26 @@ const AdminProducts = () => {
                     <tr key={p.id}>
                       <td>
                         <img
-                          src={p.images?.[0] || "/products/royal-elephant-green-tote.jpg"}
+                          src={p.images?.[0] || "/products/Bag001.png"}
                           alt={p.title}
                           className="product-thumb"
                           onError={(e) => {
-                            e.target.src = "/products/royal-elephant-green-tote.jpg";
+                            e.target.src = "/products/Bag001.png";
                           }}
                         />
                       </td>
                       <td>
-                        <div className="prod-title">{p.title}</div>
+                        <div className="prod-title">
+                          <a
+                            href={`/product/${p.slug || p.id}`}
+                            target="_blank"
+                            rel="noreferrer"
+                            title="View product live on storefront"
+                            style={{ color: "inherit", textDecoration: "none" }}
+                          >
+                            {p.title}
+                          </a>
+                        </div>
                         <span className="sku-chip">{p.sku || "MVT-7801"}</span>
                       </td>
                       <td>
@@ -264,6 +268,15 @@ const AdminProducts = () => {
                       </td>
                       <td style={{ textAlign: "right" }}>
                         <div className="action-buttons-wrap">
+                          <a
+                            href={`/product/${p.slug || p.id}`}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="action-icon-btn"
+                            title="View product live on storefront"
+                          >
+                            <ExternalLink size={15} />
+                          </a>
                           <button
                             onClick={() => handleOpenEdit(p)}
                             className="action-icon-btn"
@@ -291,11 +304,11 @@ const AdminProducts = () => {
               {filteredProducts.map((p) => (
                 <div key={p.id} className="mobile-product-card">
                   <img
-                    src={p.images?.[0] || "/products/royal-elephant-green-tote.jpg"}
+                    src={p.images?.[0] || "/products/Bag001.png"}
                     alt={p.title}
                     className="mobile-card-thumb"
                     onError={(e) => {
-                      e.target.src = "/products/royal-elephant-green-tote.jpg";
+                      e.target.src = "/products/Bag001.png";
                     }}
                   />
 
@@ -321,6 +334,15 @@ const AdminProducts = () => {
                   </div>
 
                   <div className="mobile-card-actions">
+                    <a
+                      href={`/product/${p.slug || p.id}`}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="action-icon-btn"
+                      title="View product live on storefront"
+                    >
+                      <ExternalLink size={15} />
+                    </a>
                     <button
                       onClick={() => handleOpenEdit(p)}
                       className="action-icon-btn"

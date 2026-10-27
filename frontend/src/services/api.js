@@ -8,20 +8,18 @@ const getApiBase = () => {
     return import.meta.env.VITE_API_URL;
   }
   if (typeof window !== "undefined") {
-    // When running on production (e.g. Vercel), default to the live backend URL
     if (window.location.hostname !== "localhost" && window.location.hostname !== "127.0.0.1") {
       return "https://mavtarimpexbackend.vercel.app/api";
     }
-    return "/api";
   }
   return "http://localhost:1653/api";
 };
 
-const API_BASE = getApiBase();
+export const API_BASE_URL = getApiBase();
 
 const api = axios.create({
-  baseURL: API_BASE,
-  timeout: 15000,
+  baseURL: API_BASE_URL,
+  timeout: 20000,
 });
 
 api.interceptors.request.use((config) => {
@@ -35,7 +33,11 @@ api.interceptors.request.use((config) => {
 api.interceptors.response.use(
   (res) => res,
   (error) => {
-    if (error.response?.status === 401 && window.location.pathname.startsWith("/admin") && !window.location.pathname.includes("/login")) {
+    if (
+      error.response?.status === 401 &&
+      window.location.pathname.startsWith("/admin") &&
+      !window.location.pathname.includes("/login")
+    ) {
       localStorage.removeItem("mavtar_admin_token");
       localStorage.removeItem("mavtar_admin_user");
       window.location.href = "/admin/login";
@@ -52,38 +54,59 @@ export const productApi = {
   delete: (id) => api.delete(`/products/${id}`).then((r) => r.data),
 };
 
+export const categoryApi = {
+  getAll: () => api.get("/categories").then((r) => r.data),
+  create: (data) => api.post("/categories", data).then((r) => r.data),
+  delete: (id) => api.delete(`/categories/${id}`).then((r) => r.data),
+};
+
 export const orderApi = {
   create: (data) => api.post("/orders", data).then((r) => r.data),
-  track: (identifier) => api.get(`/orders/track/${identifier}`).then((r) => r.data),
+  track: (identifier) => api.get(`/orders/${identifier}`).then((r) => r.data),
   getAll: (params) => api.get("/orders", { params }).then((r) => r.data),
-  updateStatus: (id, data) => api.put(`/orders/${id}/status`, data).then((r) => r.data),
+  updateStatus: (id, data) => api.patch(`/orders/${id}/status`, data).then((r) => r.data),
 };
 
 export const inquiryApi = {
   create: (data) => api.post("/inquiries", data).then((r) => r.data),
   getAll: () => api.get("/inquiries").then((r) => r.data),
-  updateStatus: (id, data) => api.put(`/inquiries/${id}/status`, data).then((r) => r.data),
+  updateStatus: (id, data) => api.patch(`/inquiries/${id}/status`, data).then((r) => r.data),
 };
 
 export const analyticsApi = {
-  getDashboard: () => api.get("/analytics").then((r) => r.data),
+  getDashboard: () => api.get("/analytics/dashboard").then((r) => r.data),
+  getEvents: () => api.get("/analytics/events").then((r) => r.data),
+  trackEvent: (data) => api.post("/analytics/track", data).then((r) => r.data),
 };
 
 export const authApi = {
   login: (data) => api.post("/auth/login", data).then((r) => r.data),
+  googleAuth: (data) => api.post("/auth/google", data).then((r) => r.data),
+  customerLogin: (data) => api.post("/auth/customer-login", data).then((r) => r.data),
   getMe: () => api.get("/auth/me").then((r) => r.data),
 };
 
 export const settingsApi = {
   get: () => api.get("/settings").then((r) => r.data),
   update: (data) => api.put("/settings", data).then((r) => r.data),
-  getCategories: () => api.get("/settings/categories").then((r) => r.data),
+  getCategories: () => api.get("/categories").then((r) => r.data),
 };
 
 export const uploadApi = {
-  uploadImage: (formData) => api.post("/upload", formData, {
-    headers: { "Content-Type": "multipart/form-data" }
-  }).then((r) => r.data),
+  uploadImage: (image, folder = "mavtar/products") =>
+    api.post("/upload", { image, folder }).then((r) => r.data),
+};
+
+export const bucketApi = {
+  getStats: () => api.get("/bucket/stats").then((r) => r.data),
+  getFolders: (path = "") =>
+    api.get(`/bucket/folders?path=${encodeURIComponent(path)}`).then((r) => r.data),
+  getFiles: (path = "") =>
+    api.get(`/bucket/files?path=${encodeURIComponent(path)}`).then((r) => r.data),
+  deleteFile: (public_id) =>
+    api.delete("/bucket/files", { data: { public_id } }).then((r) => r.data),
+  deleteFolder: (path) =>
+    api.delete("/bucket/folders", { data: { path } }).then((r) => r.data),
 };
 
 export default api;

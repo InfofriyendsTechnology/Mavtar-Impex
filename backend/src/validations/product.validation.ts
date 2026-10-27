@@ -1,0 +1,43 @@
+import Joi from "joi";
+
+export const createProductSchema = Joi.object({
+  title: Joi.string().required(),
+  price: Joi.number().positive().required(),
+  originalPrice: Joi.number().positive().allow(null).optional(),
+  stock: Joi.number().integer().min(0).default(0),
+  category: Joi.string().required(),
+  categorySlug: Joi.string().optional(),
+  fabric: Joi.string().allow("", null).optional(),
+  embroideryType: Joi.string().allow("", null).optional(),
+  dimensions: Joi.string().allow("", null).optional(),
+  closure: Joi.string().allow("", null).optional(),
+  lining: Joi.string().allow("", null).optional(),
+  careInstructions: Joi.string().allow("", null).optional(),
+  shortDescription: Joi.string().allow("", null).optional(),
+  description: Joi.string().required(),
+  images: Joi.array().items(Joi.string()).default([]),
+  isFeatured: Joi.boolean().default(false),
+  isBestSeller: Joi.boolean().default(false),
+  sku: Joi.string().optional(),
+});
+
+export const updateProductSchema = Joi.object({
+  title: Joi.string().optional(),
+  price: Joi.number().positive().optional(),
+  originalPrice: Joi.number().positive().allow(null).optional(),
+  stock: Joi.number().integer().min(0).optional(),
+  category: Joi.string().optional(),
+  categorySlug: Joi.string().optional(),
+  fabric: Joi.string().allow("", null).optional(),
+  embroideryType: Joi.string().allow("", null).optional(),
+  dimensions: Joi.string().allow("", null).optional(),
+  closure: Joi.string().allow("", null).optional(),
+  lining: Joi.string().allow("", null).optional(),
+  careInstructions: Joi.string().allow("", null).optional(),
+  shortDescription: Joi.string().allow("", null).optional(),
+  description: Joi.string().optional(),
+  images: Joi.array().items(Joi.string()).optional(),
+  isFeatured: Joi.boolean().optional(),
+  isBestSeller: Joi.boolean().optional(),
+  sku: Joi.string().optional(),
+});

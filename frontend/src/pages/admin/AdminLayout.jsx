@@ -14,6 +14,7 @@ import {
   RotateCw,
   ExternalLink,
   Store,
+  HardDrive,
 } from "lucide-react";
 import { useAuth } from "../../context/AuthContext";
 import "./AdminLayout.scss";
@@ -55,6 +56,7 @@ const AdminLayout = () => {
   const navItems = [
     { name: "Dashboard", path: "/admin", icon: LayoutDashboard },
     { name: "Linen Bags Catalog", path: "/admin/products", icon: ShoppingBag },
+    { name: "Bucket Storage", path: "/admin/bucket", icon: HardDrive },
     { name: "Customer Orders", path: "/admin/orders", icon: Package },
     { name: "Bulk Inquiries", path: "/admin/inquiries", icon: MessageSquare },
     { name: "Store Settings", path: "/admin/settings", icon: Settings },

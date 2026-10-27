@@ -11,6 +11,8 @@ import AnnouncementBar from "./components/AnnouncementBar";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import CartDrawer from "./components/CartDrawer";
+import SplashGateModal from "./components/SplashGateModal";
+import CustomerAuthModal from "./components/CustomerAuthModal";
 
 // Public Pages
 import Home from "./pages/public/Home";
@@ -27,6 +29,7 @@ import AdminLogin from "./pages/admin/AdminLogin";
 import AdminLayout from "./pages/admin/AdminLayout";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import AdminProducts from "./pages/admin/AdminProducts";
+import AdminBucket from "./pages/admin/AdminBucket";
 import AdminOrders from "./pages/admin/AdminOrders";
 import AdminInquiries from "./pages/admin/AdminInquiries";
 import AdminSettings from "./pages/admin/AdminSettings";
@@ -40,11 +43,13 @@ const PublicLayout = () => {
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-linen-50">
+    <div className="app-shell public-layout">
+      <SplashGateModal />
+      <CustomerAuthModal />
       <AnnouncementBar />
       <Navbar />
       <CartDrawer />
-      <main className="flex-1">
+      <main className="public-main-content">
         <Outlet />
       </main>
       <Footer />
@@ -90,6 +95,7 @@ function App() {
             <Route path="/admin" element={<AdminLayout />}>
               <Route index element={<AdminDashboard />} />
               <Route path="products" element={<AdminProducts />} />
+              <Route path="bucket" element={<AdminBucket />} />
               <Route path="orders" element={<AdminOrders />} />
               <Route path="inquiries" element={<AdminInquiries />} />
               <Route path="settings" element={<AdminSettings />} />

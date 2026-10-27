@@ -1,6 +1,8 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import toast from "react-hot-toast";
+import { useAuth } from "./AuthContext";
+import { analyticsApi } from "../services/api";
 import {
   addToCart as reduxAddToCart,
   removeFromCart as reduxRemoveFromCart,
@@ -14,6 +16,7 @@ const CartContext = createContext(null);
 
 export const CartProvider = ({ children }) => {
   const dispatch = useDispatch();
+  const { isCustomerLoggedIn, openAuthModal } = useAuth();
   const [cart, setCart] = useState(() => {
     try {
       const saved = localStorage.getItem("mavtar_cart");
@@ -46,7 +49,7 @@ export const CartProvider = ({ children }) => {
             title: product.title,
             price: Number(product.price),
             originalPrice: Number(product.originalPrice || product.price),
-            image: product.images?.[0] || "/products/royal-elephant-green-tote.jpg",
+            image: product.images?.[0] || "/products/Bag001.png",
             category: product.category,
             fabric: product.fabric,
             quantity: Number(quantity),
@@ -57,6 +60,17 @@ export const CartProvider = ({ children }) => {
 
     // Also dispatch to Redux store
     dispatch(reduxAddToCart({ product, quantity }));
+
+    // Track add to cart event
+    try {
+      analyticsApi
+        .trackEvent({
+          type: "ADD_TO_CART",
+          target: product.title,
+          metadata: { productId: product.id, price: product.price, quantity },
+        })
+        .catch(() => {});
+    } catch {}
 
     toast.success(`${product.title} added to your bag!`, {
       style: {
@@ -74,7 +88,14 @@ export const CartProvider = ({ children }) => {
       },
     });
 
-    setIsCartOpen(true);
+    // If guest patron, prompt login popup as requested; otherwise open cart drawer directly
+    if (!isCustomerLoggedIn) {
+      setTimeout(() => {
+        openAuthModal("cart");
+      }, 350);
+    } else {
+      setIsCartOpen(true);
+    }
   };
 
   const updateQuantity = (id, newQuantity) => {

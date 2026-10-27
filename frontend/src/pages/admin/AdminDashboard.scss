@@ -226,6 +226,365 @@
     }
   }
 
+  /* 2.5 Live Visitor Engagement & Top-Down CRM Analytics Suite */
+  .crm-analytics-suite {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    .analytics-events-section {
+      background-color: $bg-card;
+      border: 1px solid $border-main;
+      border-radius: $border-radius;
+      padding: 22px 24px;
+      box-shadow: $shadow-sm;
+
+      .section-title-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 16px;
+
+        .title-box {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          color: #18181B;
+
+          h3 {
+            font-family: $font-serif;
+            font-size: 1.05rem;
+            font-weight: 600;
+          }
+        }
+
+        .live-pill {
+          display: inline-flex;
+          align-items: center;
+          font-size: 0.68rem;
+          font-weight: 600;
+          letter-spacing: 0.08em;
+          text-transform: uppercase;
+          background: #F4F4F5;
+          color: #71717A;
+          padding: 3px 9px;
+          border-radius: 9999px;
+        }
+      }
+
+      .engagement-cards-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 12px;
+
+        @media (min-width: 480px) {
+          grid-template-columns: repeat(2, 1fr);
+        }
+
+        @media (min-width: 768px) {
+          grid-template-columns: repeat(3, 1fr);
+        }
+
+        @media (min-width: 1100px) {
+          grid-template-columns: repeat(5, 1fr);
+        }
+
+        .eng-card {
+          background: #FAFAFA;
+          border: 1px solid #E4E4E7;
+          border-radius: 12px;
+          padding: 14px 16px;
+          display: flex;
+          flex-direction: column;
+          gap: 4px;
+          transition: all 0.2s ease;
+
+          &:hover {
+            background: #FFFFFF;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+          }
+
+          .eng-label {
+            font-size: 0.72rem;
+            font-weight: 600;
+            color: #71717A;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+          }
+
+          .eng-count {
+            font-size: 1.45rem;
+            font-weight: 800;
+            color: #18181B;
+            letter-spacing: -0.02em;
+            line-height: 1.1;
+          }
+
+          .eng-sub {
+            font-size: 0.7rem;
+            color: #A1A1AA;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+          }
+        }
+      }
+    }
+
+    .crm-graphs-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 20px;
+
+      @media (min-width: 1024px) {
+        grid-template-columns: 1.15fr 0.85fr;
+      }
+
+      .crm-funnel-card,
+      .crm-trend-card {
+        background-color: $bg-card;
+        border: 1px solid $border-main;
+        border-radius: $border-radius;
+        padding: 24px;
+        box-shadow: $shadow-sm;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+
+        .card-header-flex {
+          display: flex;
+          align-items: flex-start;
+          justify-content: space-between;
+          margin-bottom: 20px;
+
+          .badge-crm {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.68rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: #71717A;
+            background: #F4F4F5;
+            padding: 3px 8px;
+            border-radius: 9999px;
+            margin-bottom: 6px;
+          }
+
+          h4 {
+            font-family: $font-serif;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #18181B;
+          }
+
+          .card-sub {
+            font-size: 0.78rem;
+            color: #71717A;
+            margin-top: 2px;
+          }
+        }
+      }
+
+      /* Top-Down Funnel Styles */
+      .funnel-stages-list {
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+
+        .funnel-stage-item {
+          display: flex;
+          flex-direction: column;
+          gap: 6px;
+
+          .stage-meta-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            .stage-name {
+              font-size: 0.82rem;
+              font-weight: 600;
+              color: #18181B;
+            }
+
+            .stage-values {
+              display: flex;
+              align-items: center;
+              gap: 8px;
+
+              .stage-count {
+                font-size: 0.82rem;
+                font-weight: 700;
+                color: #18181B;
+              }
+
+              .stage-percent {
+                font-size: 0.72rem;
+                color: #71717A;
+                background: #F4F4F5;
+                padding: 1px 6px;
+                border-radius: 6px;
+              }
+            }
+          }
+
+          .stage-bar-track {
+            height: 8px;
+            width: 100%;
+            background: #F4F4F5;
+            border-radius: 9999px;
+            overflow: hidden;
+
+            .stage-bar-fill {
+              height: 100%;
+              border-radius: 9999px;
+              transition: width 0.5s ease;
+            }
+          }
+
+          .stage-subtext {
+            font-size: 0.7rem;
+            color: #A1A1AA;
+          }
+        }
+      }
+
+      /* Trend & Velocity Chart Styles */
+      .trend-chart-container {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+
+        .trend-bars-wrapper {
+          display: flex;
+          align-items: flex-end;
+          justify-content: space-between;
+          height: 140px;
+          padding-top: 10px;
+          border-bottom: 1px solid #E4E4E7;
+
+          .chart-bar-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            flex: 1;
+
+            .bars-column {
+              display: flex;
+              align-items: flex-end;
+              gap: 3px;
+              height: 110px;
+
+              .bar-item {
+                width: 7px;
+                border-radius: 4px 4px 0 0;
+                transition: height 0.4s ease;
+
+                &.bar-visits {
+                  background: #18181B;
+                }
+
+                &.bar-carts {
+                  background: #71717A;
+                }
+
+                &.bar-orders {
+                  background: #D4D4D8;
+                }
+              }
+            }
+
+            .bar-day-label {
+              font-size: 0.68rem;
+              color: #71717A;
+              font-weight: 500;
+            }
+          }
+        }
+
+        .chart-legend-row {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 16px;
+
+          .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.72rem;
+            color: #52525B;
+
+            .legend-dot {
+              width: 8px;
+              height: 8px;
+              border-radius: 50%;
+
+              &.visits { background: #18181B; }
+              &.carts { background: #71717A; }
+              &.orders { background: #D4D4D8; }
+            }
+          }
+        }
+      }
+
+      /* Channel Attribution Box */
+      .channel-attribution-box {
+        margin-top: 18px;
+        padding-top: 14px;
+        border-top: 1px solid #F4F4F5;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+
+        .attr-title {
+          font-size: 0.72rem;
+          text-transform: uppercase;
+          letter-spacing: 0.08em;
+          color: #71717A;
+          font-weight: 600;
+        }
+
+        .attr-grid {
+          display: grid;
+          grid-template-columns: 1fr;
+          gap: 8px;
+
+          @media (min-width: 480px) {
+            grid-template-columns: repeat(3, 1fr);
+          }
+
+          .attr-cell {
+            background: #FAFAFA;
+            border: 1px solid #E4E4E7;
+            border-radius: 10px;
+            padding: 10px 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+
+            .attr-top {
+              display: flex;
+              align-items: center;
+              gap: 5px;
+              font-size: 0.72rem;
+              color: #71717A;
+              font-weight: 500;
+            }
+
+            strong {
+              font-size: 0.84rem;
+              color: #18181B;
+            }
+          }
+        }
+      }
+    }
+  }
+
   /* 3. Split Layout: Recent Orders & Inventory Watch */
   .dashboard-split-grid {
     display: grid;

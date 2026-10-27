@@ -1,23 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { 
-  ArrowRight, 
-  Sparkles, 
-  Play, 
-  ShieldCheck, 
-  Award, 
-  CheckCircle2, 
-  Star, 
-  Video, 
-  PhoneCall, 
-  Package, 
-  Layers, 
-  Zap,
-  ShoppingBag
-} from "lucide-react";
+import { ArrowRight, PhoneCall, Sparkles, Shield, Layers, Star, CheckCircle2, Quote } from "lucide-react";
 import { motion } from "framer-motion";
 import ProductCard from "../../components/ProductCard";
 import { productApi } from "../../services/api";
+import bannerImg from "../../assets/Banner.png";
+import "./Home.scss";
 
 const Home = () => {
   const [featuredProducts, setFeaturedProducts] = useState([]);
@@ -36,281 +24,198 @@ const Home = () => {
   }, []);
 
   return (
-    <div className="overflow-x-hidden space-y-16 sm:space-y-24 lg:space-y-32 pb-24">
+    <div className="home-page">
       
       {/* =========================================================================
-          1. MASSIVE HAUTE-COUTURE LUXURY HERO SECTION
+          1. CREATIVE LUXURY HERO + INTEGRATED MARQUEE (Zero White Gap)
          ========================================================================= */}
-      <section className="relative overflow-hidden bg-[#09090B] text-zinc-100 min-h-[90vh] lg:min-h-[94vh] flex items-center border-b border-zinc-800">
-        
-        {/* Ambient Luxury Lighting & Subtle Grid Background */}
-        <div className="absolute inset-0 opacity-[0.07] bg-[radial-gradient(#ffffff_1px,transparent_1px)] [background-size:24px_24px] pointer-events-none" />
-        <div className="absolute -top-32 -right-32 w-80 sm:w-[500px] h-80 sm:h-[500px] bg-zinc-800/30 rounded-full blur-[120px] pointer-events-none" />
-        <div className="absolute -bottom-32 -left-32 w-80 sm:w-[500px] h-80 sm:h-[500px] bg-zinc-700/20 rounded-full blur-[120px] pointer-events-none" />
+      <div className="home-hero-wrapper">
+        <div className="hero-glow-amber" />
+        <div className="hero-glow-zinc" />
+        <div className="hero-watermark">MAVTAR</div>
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 sm:py-20 lg:py-28 relative z-10 w-full">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
-            
-            {/* Left Content Column */}
-            <motion.div 
-              initial={{ opacity: 0, y: 25 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-              className="lg:col-span-7 space-y-6 sm:space-y-8 text-center lg:text-left"
-            >
-              
-              {/* Luxury Capsule Tag */}
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-zinc-900/90 border border-zinc-700/80 text-zinc-300 text-xs font-bold tracking-widest uppercase shadow-sm mx-auto lg:mx-0 backdrop-blur-md">
-                <Sparkles className="w-3.5 h-3.5 text-zinc-300 animate-pulse" />
-                <span>Haute Couture Linen • Surat Atelier</span>
+        <section className="hero-content-container">
+          
+          {/* Left Hero Column */}
+          <motion.div 
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="hero-left"
+          >
+            <div className="hero-tag">
+              <Sparkles size={11} />
+              <span>Pure Belgian Flax</span>
+            </div>
+
+            <h1 className="hero-heading">
+              Woven Linen. <br />
+              <span className="hero-italic-slate">Sculpted</span> Precision.
+            </h1>
+
+            <p className="hero-lead">
+              Structured heavy-gsm natural flax carryalls, embellished with high-density zari embroidery. Built for everyday elegance and royal celebrations.
+            </p>
+
+            {/* Spec Strip */}
+            <div className="hero-spec-strip">
+              <div className="spec-item">
+                <span className="spec-number">450+</span>
+                <span className="spec-label">GSM Pure Flax</span>
+              </div>
+              <div className="spec-item">
+                <span className="spec-number gold">28,000+</span>
+                <span className="spec-label">Zari Stitches</span>
+              </div>
+              <div className="spec-item">
+                <span className="spec-number">10 kg</span>
+                <span className="spec-label">Reinforced</span>
+              </div>
+            </div>
+
+            {/* Action Buttons */}
+            <div className="hero-cta-group">
+              <Link to="/shop" className="btn-hero-primary">
+                <span>Shop Collection</span>
+                <ArrowRight size={15} />
+              </Link>
+
+              <Link to="/bulk-inquiry" className="btn-hero-secondary">
+                <span>Custom Orders</span>
+              </Link>
+            </div>
+          </motion.div>
+
+          {/* Right Hero Product Card - Clean Luxury Presentation */}
+          <div className="hero-right">
+            <div className="hero-clean-card">
+              <div className="card-top-pill">
+                <Sparkles size={12} />
+                <span>Handcrafted in Surat • Belgian Flax</span>
               </div>
 
-              {/* Massive Editorial Headline */}
-              <h1 className="font-serif text-4xl sm:text-6xl md:text-7xl lg:text-[5.2rem] font-bold text-white tracking-tight leading-[1.04]">
-                Pure Belgian Linen. <br />
-                <span className="italic font-serif text-zinc-300 underline decoration-zinc-700/50 decoration-2 underline-offset-8">
-                  Royal Zari
-                </span> Embroidery.
-              </h1>
-
-              {/* Authoritative Subtitle */}
-              <p className="text-base sm:text-lg md:text-xl text-zinc-300 max-w-2xl mx-auto lg:mx-0 font-light leading-relaxed">
-                Handcrafted heavy 450+ GSM natural flax linen carryalls, embellished with computerized 28,000-stitch royal elephant motifs, metallic zari, and velvet applique. Zero plastic. 100% sustainable heirloom luxury.
-              </p>
-
-              {/* Atelier Metric Chips */}
-              <div className="flex flex-wrap items-center justify-center lg:justify-start gap-2.5 sm:gap-3 pt-1">
-                {[
-                  "450+ GSM Heavy Flax",
-                  "28,000+ Zari Stitches",
-                  "10kg Reinforced Handles",
-                  "Free Pan-India Shipping > ₹999"
-                ].map((tag, i) => (
-                  <span 
-                    key={i} 
-                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-zinc-900/60 border border-zinc-800 text-zinc-300 text-xs font-semibold tracking-wide"
-                  >
-                    <CheckCircle2 size={13} className="text-zinc-400" />
-                    <span>{tag}</span>
-                  </span>
-                ))}
+              <div className="card-image-box">
+                <img
+                  src={bannerImg || "/Banner.png"}
+                  alt="Mavtar Impex Handcrafted Royal Zari Linen Bag"
+                  className="hero-main-img"
+                  onError={(e) => {
+                    e.target.src = "/products/Bag001.png";
+                  }}
+                />
               </div>
 
-              {/* High-Impact CTA Buttons */}
-              <div className="pt-3 flex flex-col sm:flex-row items-stretch sm:items-center justify-center lg:justify-start gap-3.5 sm:gap-4">
-                <Link
-                  to="/shop"
-                  className="bg-white hover:bg-zinc-200 text-zinc-950 font-bold px-8 py-4 rounded-full tracking-wide text-sm transition-all shadow-lg hover:shadow-white/10 flex items-center justify-center gap-2.5 group active:scale-[0.98]"
-                >
-                  <ShoppingBag className="w-4 h-4 text-zinc-900" />
-                  <span>Shop Royal Collection</span>
-                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                </Link>
-
-                <a
-                  href="#workshop-video"
-                  className="bg-zinc-900/80 hover:bg-zinc-800 text-white border border-zinc-700 font-semibold px-6 py-4 rounded-full text-sm transition-all flex items-center justify-center gap-2.5 backdrop-blur-md active:scale-[0.98]"
-                >
-                  <Play className="w-4 h-4 text-zinc-300 fill-zinc-300" />
-                  <span>Watch Surat Loom Video</span>
-                </a>
-              </div>
-
-            </motion.div>
-
-            {/* Right Hero Product Feature Card */}
-            <motion.div 
-              initial={{ opacity: 0, scale: 0.94 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.8, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
-              className="lg:col-span-5 relative w-full"
-            >
-              <div className="relative mx-auto max-w-sm sm:max-w-md w-full">
-                
-                {/* Glow Backdrop */}
-                <div className="absolute -inset-2 bg-gradient-to-r from-zinc-700/20 via-zinc-800/40 to-zinc-900/20 rounded-3xl blur-xl opacity-80" />
-                
-                {/* Product Frame */}
-                <div className="relative bg-zinc-900/90 rounded-3xl overflow-hidden border border-zinc-700 shadow-2xl">
-                  
-                  {/* Floating Badges */}
-                  <div className="absolute top-4 left-4 right-4 z-20 flex items-center justify-between pointer-events-none">
-                    <span className="bg-zinc-950/85 backdrop-blur-md border border-zinc-700 text-white text-[11px] font-bold px-3 py-1 rounded-full uppercase tracking-wider shadow-md">
-                      Flagship Edition
-                    </span>
-                    <span className="bg-red-700/90 backdrop-blur-md text-white text-[11px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider shadow-md">
-                      35% OFF
-                    </span>
+              <div className="card-bottom-bar">
+                <div className="bag-info">
+                  <span className="bag-tag">Flagship Edition</span>
+                  <h3 className="bag-name">The Royal Haathi Heritage Tote</h3>
+                  <div className="bag-pricing">
+                    <span className="current-price">₹1,499</span>
+                    <span className="original-price">₹2,299</span>
+                    <span className="save-badge">Save 35%</span>
                   </div>
-
-                  <img
-                    src="/products/royal-elephant-green-tote.jpg"
-                    alt="The Royal Haathi Linen Tote"
-                    className="w-full aspect-[4/5] object-cover object-center transform hover:scale-105 transition-transform duration-700"
-                    onError={(e) => {
-                      e.target.src = "/products/royal-elephant-embroidery-detail.jpg";
-                    }}
-                  />
-
-                  {/* Glassmorphism Bottom Information Pill */}
-                  <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/95 via-black/75 to-transparent p-5 sm:p-6 text-zinc-100">
-                    <div className="flex items-center gap-1.5 text-xs text-zinc-300 font-semibold mb-1">
-                      <Star size={13} className="text-zinc-300 fill-zinc-300" />
-                      <span>4.9 / 5 • 420+ Verified Clients</span>
-                    </div>
-
-                    <h3 className="font-serif text-2xl sm:text-3xl font-bold text-white leading-tight">
-                      The Royal Haathi Linen Tote
-                    </h3>
-
-                    <p className="text-xs text-zinc-300 mt-1 line-clamp-1">
-                      Zari & velvet elephant applique on heavy structured flax linen.
-                    </p>
-
-                    <div className="flex items-center justify-between mt-3 pt-3 border-t border-zinc-800/80">
-                      <div className="flex items-baseline gap-2">
-                        <span className="text-xl sm:text-2xl font-bold text-white">₹1,499</span>
-                        <span className="text-xs text-zinc-400 line-through">₹2,299</span>
-                      </div>
-                      <Link
-                        to="/product/royal-haathi-zinc-linen-tote"
-                        className="bg-white hover:bg-zinc-200 text-zinc-950 font-bold px-4 py-2 rounded-full text-xs transition-colors flex items-center gap-1.5 shadow"
-                      >
-                        <span>View Piece</span>
-                        <ArrowRight size={13} />
-                      </Link>
-                    </div>
-                  </div>
-
                 </div>
 
+                <Link to="/shop" className="btn-explore-pill">
+                  <span>Explore</span>
+                  <ArrowRight size={13} />
+                </Link>
               </div>
-            </motion.div>
+            </div>
+          </div>
 
+        </section>
+
+        {/* Marquee Ticker (Flush inside Hero - Zero Gap) */}
+        <div className="hero-marquee-ribbon">
+          <div className="marquee-track">
+            {[...Array(2)].map((_, groupIndex) => (
+              <div key={groupIndex} className="marquee-item-group">
+                <span className="highlight">Natural Belgian Flax Linen</span>
+                <span className="diamond">✦</span>
+                <span>28,000+ Precision Computerized Stitches</span>
+                <span className="diamond">✦</span>
+                <span className="highlight">Surat Artisan Atelier</span>
+                <span className="diamond">✦</span>
+                <span>100% Plastic-Free & Sustainable</span>
+                <span className="diamond">✦</span>
+                <span className="highlight">Custom Wedding & Corporate Gifting</span>
+                <span className="diamond">✦</span>
+              </div>
+            ))}
           </div>
         </div>
 
-      </section>
-
-      {/* =========================================================================
-          2. CONTINUOUS LUXURY MARQUEE TICKER (High-Impact Ribbon)
-         ========================================================================= */}
-      <div className="bg-[#121316] py-3.5 border-y border-zinc-800 overflow-hidden select-none -mt-4">
-        <div className="flex whitespace-nowrap animate-marquee">
-          {[...Array(2)].map((_, groupIndex) => (
-            <div key={groupIndex} className="flex items-center gap-8 shrink-0 tracking-widest text-xs uppercase font-bold text-zinc-400">
-              <span className="flex items-center gap-2 text-zinc-200">
-                <Sparkles size={13} className="text-zinc-400" />
-                BELGIAN HEAVYWEIGHT FLAX LINEN
-              </span>
-              <span>•</span>
-              <span>28,000+ COMPUTERIZED ZARI STITCHES</span>
-              <span>•</span>
-              <span className="text-zinc-200">HANDCRAFTED IN SURAT, GUJARAT</span>
-              <span>•</span>
-              <span>100% BIODEGRADABLE & PLASTIC-FREE</span>
-              <span>•</span>
-              <span className="text-zinc-200">REINFORCED 10KG CAPACITY HANDLES</span>
-              <span>•</span>
-              <span>BESPOKE WEDDING & CORPORATE HAMPERS</span>
-              <span>•</span>
-              <span className="text-zinc-200">EXPORT-GRADE WORLDWIDE PACKAGING</span>
-              <span className="mr-8">•</span>
-            </div>
-          ))}
-        </div>
       </div>
 
       {/* =========================================================================
-          3. CURATED COLLECTIONS (Massive Editorial Grid)
+          2. CURATED COLLECTIONS
          ========================================================================= */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="home-section-container">
         
-        {/* Section Heading */}
-        <div className="text-center max-w-3xl mx-auto mb-10 sm:mb-14 space-y-3">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-zinc-200 border border-zinc-300 text-zinc-800 text-[11px] font-bold tracking-widest uppercase">
-            <span>[ 01 / EDITIONS ]</span>
+        <div className="section-header-flex">
+          <div>
+            <span className="header-meta">Curated Series</span>
+            <h2 className="header-title">Explore Collections</h2>
           </div>
-          <h2 className="font-serif text-3xl sm:text-5xl font-bold text-zinc-950 tracking-tight leading-tight">
-            Curated Collections for the Connoisseur
-          </h2>
-          <p className="text-sm sm:text-base text-zinc-600 font-light leading-relaxed">
-            From regal Indian wedding souvenirs adorned with resham elephant motifs to minimal earth-toned daily carryalls.
-          </p>
+          <Link to="/shop" className="header-link">
+            <span>View All</span>
+            <ArrowRight size={14} />
+          </Link>
         </div>
 
-        {/* 4-Card Responsive Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-7">
+        <div className="collections-grid">
           {[
             {
-              index: "01",
-              title: "Royal Heritage Haathi",
-              desc: "Zari, sequin & velvet applique embroidery",
-              price: "From ₹1,299",
-              img: "/products/royal-elephant-green-tote.jpg",
+              title: "Royal Heritage",
+              desc: "Traditional Indian motifs & gold zari",
+              price: "From ₹1,399",
+              img: "/products/Bag001.png",
               slug: "royal-heritage",
             },
             {
-              index: "02",
-              title: "Everyday Minimal Linen",
-              desc: "Eco-friendly structured flax linen shoppers",
-              price: "From ₹649",
-              img: "/products/minimalist-raw-linen.jpg",
+              title: "Everyday Minimal",
+              desc: "Clean silhouettes in earth tones",
+              price: "From ₹1,299",
+              img: "/products/Bag005.png",
               slug: "everyday-minimal",
             },
             {
-              index: "03",
-              title: "Festive Evening Potlis",
-              desc: "Mughal florals with handcrafted beaded latkans",
-              price: "From ₹899",
-              img: "/products/crimson-floral-potli.jpg",
+              title: "Festive & Wedding",
+              desc: "Celebratory keepsakes & gifting",
+              price: "From ₹1,499",
+              img: "/products/Bag004.png",
               slug: "festive-gifting",
             },
             {
-              index: "04",
-              title: "Antique Zari Clutches",
-              desc: "Banarasi border detailing with brass link chains",
-              price: "From ₹699",
-              img: "/products/evening-gold-clutch.jpg",
-              slug: "potlis-clutches",
+              title: "Imperial Crest",
+              desc: "Intricate peacock & floral work",
+              price: "From ₹1,599",
+              img: "/products/Bag010.png",
+              slug: "royal-heritage",
             },
-          ].map((cat) => (
-            <Link
-              key={cat.index}
-              to={`/shop?category=${cat.slug}`}
-              className="group relative rounded-2xl overflow-hidden bg-zinc-900 aspect-[3/4] border border-zinc-200 shadow-md hover:shadow-2xl transition-all duration-300 flex flex-col justify-end"
-            >
-              <img
-                src={cat.img}
-                alt={cat.title}
-                className="absolute inset-0 w-full h-full object-cover group-hover:scale-108 transition-transform duration-700"
-                onError={(e) => {
-                  e.target.src = "/products/royal-elephant-green-tote.jpg";
-                }}
-              />
-
-              {/* Top Index Marker */}
-              <div className="absolute top-4 left-4 z-10">
-                <span className="font-mono text-xs font-bold px-2.5 py-1 rounded-md bg-black/60 backdrop-blur-md text-white border border-white/20">
-                  {cat.index}
-                </span>
+          ].map((cat, idx) => (
+            <Link key={idx} to={`/shop?category=${cat.slug}`} className="collection-item-card">
+              <div className="card-media-wrapper">
+                <img
+                  src={cat.img}
+                  alt={cat.title}
+                  onError={(e) => {
+                    e.target.src = "/products/Bag001.png";
+                  }}
+                />
+                <div className="media-hover-pill">
+                  <span>
+                    Explore Collection
+                    <ArrowRight size={13} />
+                  </span>
+                </div>
               </div>
 
-              {/* Gradient Bottom Drawer */}
-              <div className="relative z-10 bg-gradient-to-t from-black/95 via-black/60 to-transparent p-5 sm:p-6 text-white space-y-1.5">
-                <span className="text-[11px] font-bold tracking-widest uppercase text-zinc-300">
-                  {cat.price}
-                </span>
-                <h3 className="font-serif text-xl sm:text-2xl font-bold text-white group-hover:text-zinc-200 transition-colors">
-                  {cat.title}
-                </h3>
-                <p className="text-xs text-zinc-300 line-clamp-1 font-light">
-                  {cat.desc}
-                </p>
-                <div className="pt-2 flex items-center gap-1.5 text-xs font-bold text-white group-hover:translate-x-1.5 transition-transform">
-                  <span>Explore Collection</span>
-                  <ArrowRight size={14} />
-                </div>
+              <div className="card-meta-text">
+                <h3 className="cat-title">{cat.title}</h3>
+                <p className="cat-desc">{cat.desc}</p>
+                <p className="cat-price">{cat.price}</p>
               </div>
             </Link>
           ))}
@@ -318,265 +223,235 @@ const Home = () => {
       </section>
 
       {/* =========================================================================
-          4. BEST SELLERS SECTION (Live Dynamic Catalog)
+          3. BEST SELLERS CATALOG
          ========================================================================= */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="home-section-container">
         
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-8 sm:mb-12 gap-4 pb-4 border-b border-zinc-200">
+        <div className="section-header-flex">
           <div>
-            <span className="text-xs font-bold tracking-widest text-zinc-500 uppercase">
-              Handcrafted in Surat
-            </span>
-            <h2 className="font-serif text-3xl sm:text-5xl font-bold text-zinc-900 mt-1">
-              Best Selling Masterpieces
-            </h2>
+            <span className="header-meta">Handcrafted in Surat</span>
+            <h2 className="header-title">Best Sellers</h2>
           </div>
-          <Link
-            to="/shop"
-            className="inline-flex items-center gap-2 text-sm font-bold text-zinc-900 hover:text-zinc-600 transition-colors group"
-          >
-            <span>View All Masterpieces</span>
-            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+          <Link to="/shop" className="header-link">
+            <span>View All</span>
+            <ArrowRight size={14} />
           </Link>
         </div>
 
         {loading ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="products-grid-catalog">
             {[1, 2, 3, 4].map((n) => (
-              <div key={n} className="bg-zinc-200 rounded-xl h-96 animate-pulse" />
+              <div key={n} className="skeleton-card" />
             ))}
           </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-7">
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.4 }}
+            className="products-grid-catalog"
+          >
             {featuredProducts.map((product) => (
               <ProductCard key={product.id} product={product} />
             ))}
-          </div>
+          </motion.div>
         )}
       </section>
 
       {/* =========================================================================
-          5. SURAT WORKSHOP & COMPUTERIZED EMBROIDERY SPOTLIGHT
+          4. THE CRAFT SPOTLIGHT
          ========================================================================= */}
-      <section id="workshop-video" className="bg-[#09090B] text-zinc-200 py-16 sm:py-24 relative overflow-hidden border-y border-zinc-800">
-        
-        {/* Subtle Decorative Ambient Glow */}
-        <div className="absolute top-0 right-1/4 w-96 h-96 bg-zinc-800/20 rounded-full blur-[140px] pointer-events-none" />
-
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
-            
-            {/* Left: Video Player Card with Live Pulse */}
-            <div className="lg:col-span-6 relative w-full">
-              <div className="relative rounded-3xl overflow-hidden border border-zinc-700 shadow-2xl bg-black">
-                
-                {/* Live Indicator Pill */}
-                <div className="absolute top-4 left-4 z-20 flex items-center gap-2 bg-black/75 backdrop-blur-md px-3 py-1.5 rounded-full border border-zinc-700 text-[11px] font-semibold text-zinc-300">
-                  <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
-                  <span>Surat Computerized Loom Line 01</span>
-                </div>
-
-                <video
-                  src="/workshop-process.mp4"
-                  controls
-                  playsInline
-                  poster="/products/royal-elephant-embroidery-detail.jpg"
-                  className="w-full aspect-[9/16] max-h-[560px] mx-auto object-contain bg-black"
-                />
-              </div>
-
-              <div className="mt-3.5 text-center text-xs text-zinc-400 italic flex items-center justify-center gap-1.5">
-                <Video size={14} className="text-zinc-400" />
-                <span>Original footage recorded inside our high-precision multi-head embroidery facility</span>
-              </div>
-            </div>
-
-            {/* Right: Craftsmanship Narrative */}
-            <div className="lg:col-span-6 space-y-6 sm:space-y-7">
-              
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-zinc-900 text-zinc-300 text-xs font-bold tracking-wider uppercase border border-zinc-700">
-                <Award className="w-3.5 h-3.5 text-zinc-300" />
-                <span>Precision Engineering & Craft</span>
-              </div>
-
-              <h2 className="font-serif text-3xl sm:text-5xl font-bold text-white leading-[1.08]">
-                Where Multi-Head Precision Meets Gujarati Artisanship
-              </h2>
-
-              <p className="text-sm sm:text-base text-zinc-400 leading-relaxed font-light">
-                At <strong>Mavtar Impex</strong>, we refuse to work with cheap cotton duck or synthetic plastic blends. Each bag begins with pure, unadulterated Belgian flax linen, custom-stitched on state-of-the-art Japanese multi-head computerized embroidery machines.
-              </p>
-
-              {/* Detailed Feature Cards */}
-              <div className="space-y-4 pt-1">
-                {[
-                  {
-                    title: "28,000 High-Density Zari & Sequin Stitches",
-                    desc: "Intricate royal elephant caparisons featuring shimmering gold outlines and velvet patch applique.",
-                  },
-                  {
-                    title: "Heavyweight 450+ GSM Belgian Flax Linen",
-                    desc: "Durable, organic texture with water-repellent cotton lining designed to hold up to 10 kg.",
-                  },
-                  {
-                    title: "Ergonomic Reinforced Double-Stitched Handles",
-                    desc: "Engineered 28cm drop handles for comfortable all-day shoulder or hand carry.",
-                  },
-                ].map((item, i) => (
-                  <div key={i} className="flex items-start gap-3.5 p-3.5 rounded-xl bg-zinc-900/60 border border-zinc-800">
-                    <CheckCircle2 className="w-5 h-5 text-zinc-300 shrink-0 mt-0.5" />
-                    <div>
-                      <h4 className="text-sm font-bold text-white">{item.title}</h4>
-                      <p className="text-xs text-zinc-400 mt-0.5 leading-relaxed">{item.desc}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-
-              {/* Action Buttons */}
-              <div className="pt-2 flex flex-col sm:flex-row gap-3.5">
-                <Link
-                  to="/craftsmanship"
-                  className="bg-white hover:bg-zinc-200 text-zinc-950 font-bold px-7 py-3.5 rounded-full text-sm transition-all text-center"
-                >
-                  Read The Artisan Story
-                </Link>
-                <Link
-                  to="/bulk-inquiry"
-                  className="bg-zinc-900 hover:bg-zinc-800 text-white border border-zinc-700 font-semibold px-7 py-3.5 rounded-full text-sm transition-all text-center"
-                >
-                  Custom Wedding & Bulk Orders
-                </Link>
-              </div>
-
-            </div>
-
-          </div>
-        </div>
-      </section>
-
-      {/* =========================================================================
-          6. MASSIVE BESPOKE WEDDING & CORPORATE HAMPERS VIP BANNER
-         ========================================================================= */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="bg-gradient-to-br from-[#121316] via-[#18181B] to-[#0E0F12] rounded-3xl p-8 sm:p-14 border border-zinc-700 shadow-2xl relative overflow-hidden text-white">
+      <section id="craftsmanship-spotlight" className="craft-spotlight-wrapper">
+        <div className="craft-layout-grid">
           
-          {/* Subtle Ambient Backing */}
-          <div className="absolute top-0 right-0 w-80 h-80 bg-zinc-800/25 rounded-full blur-3xl pointer-events-none" />
+          <div className="craft-visual-card">
+            <img
+              src="https://res.cloudinary.com/pbnqazpy/image/upload/v1793090926/mavtar/products/Bag001.webp"
+              alt="Embroidered Linen Tote Bag"
+              onError={(e) => {
+                e.target.src = "/products/Bag001.png";
+              }}
+            />
+          </div>
 
-          <div className="max-w-3xl space-y-5 relative z-10">
-            
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-zinc-900 border border-zinc-700 text-zinc-300 text-xs font-bold tracking-widest uppercase">
-              <Sparkles size={13} className="text-zinc-300" />
-              <span>Weddings • Corporate Hampers • Wholesale Export</span>
-            </div>
+          <div className="craft-details-column">
+            <span className="craft-badge-meta">The Craft</span>
 
-            <h2 className="font-serif text-3xl sm:text-5xl font-bold text-white leading-tight">
-              Planning a Grand Indian Wedding or Luxury Corporate Gifting?
+            <h2 className="craft-main-title">
+              Thoughtfully Designed, <br />
+              <span className="gold-accent">Built</span> to Last.
             </h2>
 
-            <p className="text-sm sm:text-base text-zinc-300 leading-relaxed font-light">
-              We manufacture customized luxury linen tote bags with bride & groom monograms, family crests, or corporate emblems. Enjoy fast turnaround times, direct atelier wholesale pricing, and export-grade worldwide packing.
+            <p className="craft-lead-p">
+              Every Mavtar Impex tote is handcrafted in our Surat facility using heavyweight natural flax linen. Combining traditional embroidery techniques with modern precision, each piece is durable, sustainable, and made for everyday living.
             </p>
 
-            {/* 4-Item Gifting Highlights */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 pt-2">
+            <div className="craft-pillars-list">
               {[
-                "Custom Couple Monogram & Date Digitization",
-                "Tiered Volume Pricing for 50 to 5,000+ Units",
-                "12+ Linen Colorways & Matching Latkans",
-                "Worldwide Air Cargo & Express Pan-India Delivery"
-              ].map((perk, idx) => (
-                <div key={idx} className="flex items-center gap-2 text-xs text-zinc-200 font-semibold">
-                  <CheckCircle2 size={15} className="text-zinc-400 shrink-0" />
-                  <span>{perk}</span>
+                {
+                  icon: <Layers size={16} />,
+                  title: "Natural Flax Linen",
+                  desc: "Pure, breathable fiber that softens naturally with use while retaining high tensile strength.",
+                },
+                {
+                  icon: <Sparkles size={16} />,
+                  title: "Precision Threadwork",
+                  desc: "Dense, detailed embroidery designed to stay vibrant and intact over time.",
+                },
+                {
+                  icon: <Shield size={16} />,
+                  title: "Reinforced Construction",
+                  desc: "Double-stitched handles and boxed base capable of carrying heavy daily essentials.",
+                },
+              ].map((item, i) => (
+                <div key={i} className="pillar-item">
+                  <div className="pillar-icon-box">{item.icon}</div>
+                  <div>
+                    <h4 className="pillar-title">{item.title}</h4>
+                    <p className="pillar-desc">{item.desc}</p>
+                  </div>
                 </div>
               ))}
             </div>
 
-            {/* Action Buttons */}
-            <div className="pt-4 flex flex-col sm:flex-row gap-4">
-              <Link
-                to="/bulk-inquiry"
-                className="bg-white hover:bg-zinc-200 text-zinc-950 font-bold px-8 py-4 rounded-full text-sm tracking-wide transition-all text-center shadow-lg active:scale-[0.98]"
-              >
-                Request Custom Gifting Quote
+            <div className="craft-action-buttons">
+              <Link to="/craftsmanship" className="btn-craft-primary">
+                Our Process
               </Link>
-              
-              <a
-                href="https://wa.me/919512753471?text=Hello%20Mavtar%20Impex,%20I%20am%20interested%20in%20custom%20bulk%20linen%20bags"
-                target="_blank"
-                rel="noreferrer"
-                className="bg-zinc-900/90 hover:bg-zinc-800 text-white border border-zinc-700 px-8 py-4 rounded-full text-sm font-semibold transition-all flex items-center justify-center gap-2.5 backdrop-blur-md active:scale-[0.98]"
-              >
-                <PhoneCall size={15} className="text-zinc-300" />
-                <span>WhatsApp Concierge (+91 95127 53471)</span>
-              </a>
+              <Link to="/bulk-inquiry" className="btn-craft-outline">
+                Custom Orders
+              </Link>
             </div>
-
           </div>
 
         </div>
       </section>
 
       {/* =========================================================================
-          7. CLIENT TESTIMONIALS (Proof of Luxury)
+          5. BESPOKE WEDDING & CORPORATE ORDERS
          ========================================================================= */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        
-        <div className="text-center max-w-2xl mx-auto mb-10 space-y-2">
-          <span className="text-xs font-bold tracking-widest text-zinc-500 uppercase">
-            Patron Voices
-          </span>
-          <h2 className="font-serif text-3xl sm:text-4xl font-bold text-zinc-900">
-            Trusted by Connoisseurs Across India & Abroad
-          </h2>
-        </div>
+      <section className="home-section-container">
+        <div className="home-gifting-card">
+          <div className="gifting-inner-grid">
+            
+            <div className="gifting-copy-column">
+              <span className="gifting-meta-tag">Bespoke & Gifting</span>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {[
-            {
-              quote: "The Royal Haathi totes were the absolute highlight of our Udaipur wedding favors. Every single guest was stunned by the heavy linen and shimmering zari.",
-              client: "Priyanshi Shah",
-              location: "Mumbai",
-              role: "Destination Wedding Bride"
-            },
-            {
-              quote: "We ordered 250 bags for our corporate Diwali hampers with custom logo embroidery. Outstanding fabric weight and delivered 3 days before schedule.",
-              client: "Ankit Mehta",
-              location: "Ahmedabad",
-              role: "Managing Director, FinTech"
-            },
-            {
-              quote: "You simply cannot find this GSM of natural flax linen in typical retail stores. The craftsmanship in the elephant motif is couture level.",
-              client: "Neha Singhania",
-              location: "New Delhi",
-              role: "Luxury Lifestyle Blogger"
-            }
-          ].map((t, idx) => (
-            <div 
-              key={idx} 
-              className="bg-white rounded-2xl p-6 sm:p-7 border border-zinc-200 shadow-sm flex flex-col justify-between space-y-4 hover:shadow-md transition-shadow"
-            >
-              <div className="space-y-3">
-                <div className="flex gap-1 text-zinc-800">
-                  {[...Array(5)].map((_, i) => (
-                    <Star key={i} size={15} className="fill-current text-zinc-900" />
-                  ))}
-                </div>
-                <p className="text-sm text-zinc-600 leading-relaxed font-light italic">
-                  "{t.quote}"
-                </p>
+              <h2 className="gifting-heading">Weddings & Corporate Gifting</h2>
+
+              <p className="gifting-lead-p">
+                We design and manufacture customized linen tote bags with monograms, dates, or company logos. Enjoy transparent wholesale pricing, custom sizing, and reliable pan-India delivery.
+              </p>
+
+              <div className="gifting-bullets-row">
+                <span className="bullet-chip">
+                  <span className="bullet-dot" />
+                  Custom Monograms & Logos
+                </span>
+                <span className="bullet-chip">
+                  <span className="bullet-dot" />
+                  From 50 to 5,000+ Units
+                </span>
+                <span className="bullet-chip">
+                  <span className="bullet-dot" />
+                  Worldwide Shipping
+                </span>
               </div>
 
-              <div className="pt-3 border-t border-zinc-100">
-                <div className="text-sm font-bold text-zinc-900">{t.client}</div>
-                <div className="text-xs text-zinc-500">{t.role} • {t.location}</div>
+              <div className="gifting-buttons-group">
+                <Link to="/bulk-inquiry" className="btn-quote">
+                  Request a Quote
+                </Link>
+                
+                <a
+                  href="https://wa.me/919512753471?text=Hello%20Mavtar%20Impex,%20I%20am%20interested%20in%20custom%20bulk%20linen%20bags"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="btn-whatsapp"
+                >
+                  <PhoneCall size={14} />
+                  <span>WhatsApp: +91 95127 53471</span>
+                </a>
+              </div>
+            </div>
+
+            <div className="gifting-preview-frame">
+              <img
+                src={bannerImg}
+                alt="Custom Wedding Gifting Linen Tote Bag"
+                onError={(e) => {
+                  e.target.src = "/Banner.png";
+                }}
+              />
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      {/* =========================================================================
+          6. PATRON TESTIMONIALS
+         ========================================================================= */}
+      <section className="home-section-container" style={{ paddingBottom: "80px" }}>
+        <div className="section-header-flex" style={{ borderBottom: "none", textAlign: "center", display: "block" }}>
+          <span className="header-meta">Client Feedback</span>
+          <h2 className="header-title" style={{ marginTop: "6px" }}>What Our Patrons Say</h2>
+        </div>
+
+        <div className="testimonials-grid">
+          {[
+            {
+              quote: "The tote bags were the highlight of our wedding favors. The linen weight and embroidery quality were truly exceptional.",
+              client: "Priyanshi Shah",
+              location: "Mumbai",
+              tag: "Bridal Gifting",
+              rating: 5,
+            },
+            {
+              quote: "Ordered 250 customized bags for our annual corporate hampers. Great finish, responsive team, and delivered right on time.",
+              client: "Ankit Mehta",
+              location: "Ahmedabad",
+              tag: "Corporate Bulk",
+              rating: 5,
+            },
+            {
+              quote: "The fabric quality and neatness of the embroidery are wonderful. A durable, elegant bag that I use almost daily.",
+              client: "Neha Singhania",
+              location: "New Delhi",
+              tag: "Daily Carry",
+              rating: 5,
+            }
+          ].map((t, idx) => (
+            <div key={idx} className="testimonial-card">
+              <div className="testimonial-header-row">
+                <div className="stars-strip">
+                  {[...Array(t.rating)].map((_, i) => (
+                    <Star key={i} size={13} fill="#18181B" color="#18181B" />
+                  ))}
+                </div>
+                <div className="verified-badge">
+                  <CheckCircle2 size={12} />
+                  <span>Verified Patron</span>
+                </div>
+              </div>
+
+              <div className="quote-wrap">
+                <Quote size={18} className="quote-icon" />
+                <p className="quote-body">"{t.quote}"</p>
+              </div>
+
+              <div className="client-footer">
+                <div className="client-avatar">
+                  {t.client.charAt(0)}
+                </div>
+                <div className="client-info">
+                  <div className="client-name">{t.client}</div>
+                  <div className="client-loc">{t.location} • <span className="client-tag">{t.tag}</span></div>
+                </div>
               </div>
             </div>
           ))}
         </div>
-
       </section>
 
     </div>

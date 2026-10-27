@@ -1,90 +1,104 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Sparkles, ShieldCheck, Heart, Award, CheckCircle2, ArrowRight } from "lucide-react";
+import { ArrowRight, Sparkles, Layers, Cpu, ShieldCheck, CheckCircle2 } from "lucide-react";
+import "./Craftsmanship.scss";
 
 const Craftsmanship = () => {
+  const PROCESS_STAGES = [
+    {
+      step: "01",
+      icon: <Layers size={22} />,
+      title: "Raw Flax Sourcing",
+      subtitle: "100% Natural Belgian Flax",
+      desc: "Carefully selected heavy-GSM pure flax linen that offers superior tensile strength, natural fiber texture, and heirloom breathability.",
+      img: "/products/process-01.png",
+      metric: "450+ GSM Heavyweight Weave",
+    },
+    {
+      step: "02",
+      icon: <Cpu size={22} />,
+      title: "Vector Digitization",
+      subtitle: "Multi-Head Computerized Embroidery",
+      desc: "Our Surat designers digitize royal ceremonial elephant and peacock motifs, ensuring millimeter-precise multi-needle threadwork.",
+      img: "/products/process-02.png",
+      metric: "28,000+ High-Density Stitches",
+    },
+    {
+      step: "03",
+      icon: <Sparkles size={22} />,
+      title: "Zari & Velvet Applique",
+      subtitle: "Metallic Cord & Raised Relief",
+      desc: "Artisans hand-guide imported gold and silver bullion threads over plush velvet cutouts to create unmistakable royal texture.",
+      img: "/products/process-03.png",
+      metric: "Zero Pucker Tactile Relief",
+    },
+    {
+      step: "04",
+      icon: <ShieldCheck size={22} />,
+      title: "Master Tailoring",
+      subtitle: "Load-Bearing Dual Handle Seams",
+      desc: "Double-stitched boxed gussets, water-resistant cotton lining, and reinforced load-bearing handles tested to hold up to 10kg.",
+      img: "/products/process-04.png",
+      metric: "10kg Load-Tested Guarantee",
+    },
+  ];
+
   return (
-    <div className="space-y-16 py-12">
+    <div className="craftsmanship-page animate-fadeIn">
       
-      {/* Hero */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-4">
-        <span className="text-xs font-bold tracking-widest text-gold-600 uppercase">
-          Artisan Heritage • Surat, Gujarat
-        </span>
-        <h1 className="font-serif text-4xl sm:text-6xl font-bold text-zinc-950">
-          The Art of the Loom & Zari
-        </h1>
-        <p className="text-base text-linen-600 max-w-2xl mx-auto font-light leading-relaxed">
-          How Mavtar Impex unites modern multi-head computerized embroidery technology with age-old Indian royal textile craftsmanship.
+      {/* 1. Hero Section */}
+      <section className="craft-hero-section">
+        <span className="craft-tag">Surat Atelier Looms</span>
+        <h1>The Craft of Linen & Thread</h1>
+        <p>
+          How Mavtar Impex pairs dense organic flax linen with computerized embroidery and traditional Gujarati needlework to create heirloom carryalls.
         </p>
       </section>
 
-      {/* Embedded Workshop Video */}
-      <section className="max-w-5xl mx-auto px-4">
-        <div className="rounded-2xl overflow-hidden bg-zinc-950 p-4 sm:p-6 border border-gold-500/30 shadow-2xl">
-          <video
-            src="/workshop-process.mp4"
-            controls
-            playsInline
-            poster="/products/royal-elephant-embroidery-detail.jpg"
-            className="w-full max-h-[600px] object-contain rounded-xl mx-auto"
-          />
-          <div className="mt-4 text-center">
-            <h3 className="font-serif text-xl font-bold text-white">
-              Behind the Scenes: Stitching the Royal Haathi Motif
-            </h3>
-            <p className="text-xs text-gold-300 mt-1">
-              Live footage of the computerized embroidery machine weaving thousands of zari & sequin threads into luxury linen.
-            </p>
-          </div>
-        </div>
-      </section>
+      {/* 2. Editorial Showcase Frame (Clean Natural Containment - No Over-Zoom) */}
+      <div className="craft-showcase-frame">
+        <img
+          src="/products/craft-banner-wide.png"
+          alt="Mavtar Impex Handcrafted Royal Zari Linen Bag"
+          onError={(e) => {
+            e.target.src = "/Banner.png";
+          }}
+        />
+      </div>
 
-      {/* Craft Steps */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
-        <div className="text-center max-w-xl mx-auto">
-          <h2 className="font-serif text-3xl font-bold text-zinc-950">
-            Four Steps of Perfection
-          </h2>
-          <p className="text-sm text-linen-600 mt-1">
-            Every tote bag passes through meticulous stages of craftsmanship.
-          </p>
+      {/* 3. Four-Stage Process Showcase Cards */}
+      <section className="craft-stages-section">
+        <div className="section-title-wrap">
+          <span className="sub-title">Step-by-Step Excellence</span>
+          <h2>Our Production Process</h2>
+          <p>Every handcrafted tote passes through four rigorous artisanal stages in Surat.</p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {[
-            {
-              step: "01",
-              title: "Belgian Flax Linen",
-              desc: "We exclusively source heavy-gsm natural flax linen that softens gracefully with age while retaining tensile strength.",
-              img: "/products/natural-beige-tote.jpg",
-            },
-            {
-              step: "02",
-              title: "Computerized Precision",
-              desc: "High-density multi-needle machines stitch intricate royal elephant, peacock, and floral motifs with microscopic accuracy.",
-              img: "/products/royal-elephant-embroidery-detail.jpg",
-            },
-            {
-              step: "03",
-              title: "Velvet Applique & Zari",
-              desc: "Gilded metallic threads and plush magenta velvet saddles are hand-cut and layered for authentic three-dimensional depth.",
-              img: "/products/embroidery-loom-process.jpg",
-            },
-            {
-              step: "04",
-              title: "Hand-Assembly & Lining",
-              desc: "Master tailors reinforce the boxy tote gussets, install water-resistant cotton linings, and test handle durability up to 10kg.",
-              img: "/products/workshop-craftsmanship.jpg",
-            },
-          ].map((item, idx) => (
-            <div key={idx} className="bg-white rounded-xl overflow-hidden border border-linen-200 shadow-sm flex flex-col">
-              <img src={item.img} alt={item.title} className="w-full h-48 object-cover" />
-              <div className="p-5 flex-1 flex flex-col justify-between space-y-2">
-                <div>
-                  <span className="text-gold-600 font-serif text-2xl font-bold block">{item.step}</span>
-                  <h3 className="font-serif text-lg font-bold text-zinc-950">{item.title}</h3>
-                  <p className="text-xs text-linen-600 leading-relaxed mt-1">{item.desc}</p>
+        <div className="craft-steps-grid">
+          {PROCESS_STAGES.map((item, idx) => (
+            <div key={idx} className="step-card">
+              <div className="step-media-container">
+                <img
+                  src={item.img}
+                  alt={item.title}
+                  className="step-img"
+                  onError={(e) => {
+                    e.target.src = `/products/Bag00${idx + 1}.png`;
+                  }}
+                />
+                <div className="step-badge-circle">{item.step}</div>
+              </div>
+
+              <div className="step-body">
+                <div className="step-icon-row">
+                  <div className="step-icon-box">{item.icon}</div>
+                  <span className="step-sub">{item.subtitle}</span>
+                </div>
+                <h3>{item.title}</h3>
+                <p>{item.desc}</p>
+                <div className="step-metric-chip">
+                  <CheckCircle2 size={13} />
+                  <span>{item.metric}</span>
                 </div>
               </div>
             </div>
@@ -92,20 +106,73 @@ const Craftsmanship = () => {
         </div>
       </section>
 
-      {/* CTA */}
-      <section className="max-w-4xl mx-auto px-4 text-center bg-zinc-950 text-linen-100 rounded-2xl p-10 border border-gold-500/30 space-y-4">
-        <h2 className="font-serif text-3xl font-bold text-white">Experience The Royal Linen Bag</h2>
-        <p className="text-sm text-linen-300 max-w-md mx-auto">
-          Own a piece of Indian textile royalty, handcrafted for everyday sustainable luxury.
-        </p>
-        <Link
-          to="/shop"
-          className="inline-flex items-center gap-2 bg-gold-500 hover:bg-gold-600 text-zinc-950 px-8 py-3.5 rounded font-bold text-sm tracking-wide transition-colors"
-        >
-          <span>Shop The Collection</span>
-          <ArrowRight className="w-4 h-4" />
-        </Link>
+      {/* 4. Comprehensive Artisanal Process Benchmark Table */}
+      <section className="process-table-section">
+        <div className="section-title-wrap">
+          <span className="sub-title">Technical Specifications</span>
+          <h2>Artisanal Process Matrix</h2>
+          <p>Standardized quality benchmarks adhered to at our Surat manufacturing facility.</p>
+        </div>
+
+        <div className="table-responsive-wrapper">
+          <table className="process-matrix-table">
+            <thead>
+              <tr>
+                <th>Stage</th>
+                <th>Craftsmanship Phase</th>
+                <th>Technique & Machinery</th>
+                <th>Material Specification</th>
+                <th>Quality Benchmark</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span className="badge-stage">Phase 01</span></td>
+                <td><strong>Linen Weaving & Prep</strong></td>
+                <td>High-density air-jet looms</td>
+                <td>100% Unbleached Belgian Flax</td>
+                <td>450+ GSM certified weight</td>
+              </tr>
+              <tr>
+                <td><span className="badge-stage">Phase 02</span></td>
+                <td><strong>Motif Digitization</strong></td>
+                <td>Multi-head high-precision embroidery</td>
+                <td>Resham silk & metallic threads</td>
+                <td>28,000+ stitches per motif</td>
+              </tr>
+              <tr>
+                <td><span className="badge-stage">Phase 03</span></td>
+                <td><strong>Zari & Velvet Applique</strong></td>
+                <td>Hand-framed zardozi needlework</td>
+                <td>Lustrous micro-sequins & velvet</td>
+                <td>Zero thread slippage / snag test</td>
+              </tr>
+              <tr>
+                <td><span className="badge-stage">Phase 04</span></td>
+                <td><strong>Tailoring & QC</strong></td>
+                <td>Heavy-duty computerized lockstitch</td>
+                <td>Water-resistant khadi cotton lining</td>
+                <td>10 kg load stress verified</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </section>
+
+      {/* 5. Gifting & Bulk Order CTA */}
+      <div className="craft-cta-box">
+        <h2>Experience Heirloom Craftsmanship</h2>
+        <p>Browse our ready collection or commission custom monogrammed bags for weddings & corporate gifting.</p>
+        <div className="cta-actions">
+          <Link to="/shop" className="btn-shop-collection">
+            <span>Explore Collection</span>
+            <ArrowRight size={14} />
+          </Link>
+          <Link to="/bulk-inquiry" className="btn-bulk-custom">
+            <span>Custom Bulk Inquiries</span>
+          </Link>
+        </div>
+      </div>
 
     </div>
   );

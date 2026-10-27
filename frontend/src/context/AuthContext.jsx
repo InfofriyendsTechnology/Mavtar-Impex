@@ -8,6 +8,8 @@ const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
   const dispatch = useDispatch();
+
+  // Admin Auth State
   const [admin, setAdmin] = useState(() => {
     try {
       const saved = localStorage.getItem("mavtar_admin_user");
@@ -17,17 +19,37 @@ export const AuthProvider = ({ children }) => {
     }
   });
   const [token, setToken] = useState(() => localStorage.getItem("mavtar_admin_token") || null);
+
+  // Customer Auth State
+  const [customer, setCustomer] = useState(() => {
+    try {
+      const saved = localStorage.getItem("mavtar_customer_user");
+      return saved ? JSON.parse(saved) : null;
+    } catch {
+      return null;
+    }
+  });
+  const [customerToken, setCustomerToken] = useState(
+    () => localStorage.getItem("mavtar_customer_token") || null
+  );
+
+  // Customer Login Modal State (triggered automatically on cart add or manually)
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+  const [authModalReason, setAuthModalReason] = useState(""); // e.g. "cart" | "header"
+
   const [loading, setLoading] = useState(true);
 
+  // Verify Admin Session on mount
   useEffect(() => {
     if (token) {
       authApi
         .getMe()
         .then((res) => {
-          if (res.success && res.data?.user) {
-            setAdmin(res.data.user);
-            localStorage.setItem("mavtar_admin_user", JSON.stringify(res.data.user));
-            dispatch(loginSuccess({ user: res.data.user, token }));
+          const userData = res.data?.user || res.data;
+          if (res.success && userData) {
+            setAdmin(userData);
+            localStorage.setItem("mavtar_admin_user", JSON.stringify(userData));
+            dispatch(loginSuccess({ user: userData, token }));
           }
         })
         .catch(() => {
@@ -39,17 +61,23 @@ export const AuthProvider = ({ children }) => {
     }
   }, [token, dispatch]);
 
+  // Admin Login
   const login = async (identifier, password) => {
     try {
-      const res = await authApi.login({ identifier, password });
+      const res = await authApi.login({
+        mobile: identifier,
+        identifier,
+        password,
+      });
+      const userData = res.data?.user || res.data;
       if (res.success && res.data?.token) {
         setToken(res.data.token);
-        setAdmin(res.data.user);
+        setAdmin(userData);
         localStorage.setItem("mavtar_admin_token", res.data.token);
-        localStorage.setItem("mavtar_admin_user", JSON.stringify(res.data.user));
-        dispatch(loginSuccess({ user: res.data.user, token: res.data.token }));
+        localStorage.setItem("mavtar_admin_user", JSON.stringify(userData));
+        dispatch(loginSuccess({ user: userData, token: res.data.token }));
 
-        toast.success(`Welcome back, ${res.data?.user?.name || "Krish Vaghani"}!`, {
+        toast.success(`Welcome back, ${userData?.name || "Krish"}!`, {
           style: {
             background: "#18181B",
             color: "#FFFFFF",
@@ -94,6 +122,111 @@ export const AuthProvider = ({ children }) => {
     });
   };
 
+  // Customer Google Login
+  const loginWithGoogle = async (googlePayload) => {
+    try {
+      const res = await authApi.googleAuth(googlePayload);
+      if (res.success && res.data?.token) {
+        const user = res.data.user || res.data;
+        setCustomer(user);
+        setCustomerToken(res.data.token);
+        localStorage.setItem("mavtar_customer_user", JSON.stringify(user));
+        localStorage.setItem("mavtar_customer_token", res.data.token);
+        setIsAuthModalOpen(false);
+
+        toast.success(`Welcome to Mavtar Impex, ${user.name}!`, {
+          style: {
+            background: "#18181B",
+            color: "#FFFFFF",
+            border: "1px solid #3F3F46",
+            borderRadius: "9999px",
+            fontSize: "13px",
+            padding: "10px 18px",
+          },
+        });
+        return true;
+      }
+      return false;
+    } catch (err) {
+      const msg = err.response?.data?.message || "Google authentication failed";
+      toast.error(msg, {
+        style: {
+          background: "#18181B",
+          color: "#FFFFFF",
+          border: "1px solid #3F3F46",
+          borderRadius: "9999px",
+          fontSize: "13px",
+        },
+      });
+      return false;
+    }
+  };
+
+  // Customer Mobile/Email Direct Login
+  const loginAsCustomer = async (data) => {
+    try {
+      const res = await authApi.customerLogin(data);
+      if (res.success && res.data?.token) {
+        const user = res.data.user || res.data;
+        setCustomer(user);
+        setCustomerToken(res.data.token);
+        localStorage.setItem("mavtar_customer_user", JSON.stringify(user));
+        localStorage.setItem("mavtar_customer_token", res.data.token);
+        setIsAuthModalOpen(false);
+
+        toast.success(`Welcome back, ${user.name}!`, {
+          style: {
+            background: "#18181B",
+            color: "#FFFFFF",
+            border: "1px solid #3F3F46",
+            borderRadius: "9999px",
+            fontSize: "13px",
+            padding: "10px 18px",
+          },
+        });
+        return true;
+      }
+      return false;
+    } catch (err) {
+      const msg = err.response?.data?.message || "Sign in failed";
+      toast.error(msg, {
+        style: {
+          background: "#18181B",
+          color: "#FFFFFF",
+          border: "1px solid #3F3F46",
+          borderRadius: "9999px",
+          fontSize: "13px",
+        },
+      });
+      return false;
+    }
+  };
+
+  // Customer Logout
+  const logoutCustomer = () => {
+    setCustomer(null);
+    setCustomerToken(null);
+    localStorage.removeItem("mavtar_customer_user");
+    localStorage.removeItem("mavtar_customer_token");
+    toast("Signed out successfully", {
+      style: {
+        background: "#18181B",
+        color: "#A1A1AA",
+        borderRadius: "9999px",
+        fontSize: "13px",
+      },
+    });
+  };
+
+  const openAuthModal = (reason = "manual") => {
+    setAuthModalReason(reason);
+    setIsAuthModalOpen(true);
+  };
+
+  const closeAuthModal = () => {
+    setIsAuthModalOpen(false);
+  };
+
   return (
     <AuthContext.Provider
       value={{
@@ -103,6 +236,18 @@ export const AuthProvider = ({ children }) => {
         isAuthenticated: !!token,
         login,
         logout,
+        // Customer Auth
+        customer,
+        customerToken,
+        isCustomerLoggedIn: !!customerToken,
+        loginWithGoogle,
+        loginAsCustomer,
+        logoutCustomer,
+        // Modal Controls
+        isAuthModalOpen,
+        authModalReason,
+        openAuthModal,
+        closeAuthModal,
       }}
     >
       {children}

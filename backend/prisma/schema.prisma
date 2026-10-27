@@ -1,0 +1,115 @@
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "rhel-openssl-1.0.x", "rhel-openssl-3.0.x"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Product {
+  id               String   @id @default(uuid())
+  sku              String   @unique
+  title            String
+  slug             String   @unique
+  shortDescription String?
+  description      String
+  price            Float
+  originalPrice    Float?
+  stock            Int      @default(0)
+  category         String
+  categorySlug     String
+  fabric           String?
+  embroideryType   String?
+  dimensions       String?
+  closure          String?
+  lining           String?
+  careInstructions String?
+  images           Json     @default("[]")
+  isFeatured       Boolean  @default(false)
+  isBestSeller     Boolean  @default(false)
+  rating           Float    @default(4.9)
+  reviewsCount     Int      @default(0)
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+}
+
+model Category {
+  id          String   @id @default(uuid())
+  name        String
+  slug        String   @unique
+  description String?
+  image       String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Order {
+  id              String   @id @default(uuid())
+  orderNumber     String   @unique
+  customerName    String
+  customerEmail   String?
+  customerPhone   String
+  shippingAddress Json
+  items           Json
+  subtotal        Float
+  shippingFee     Float    @default(0)
+  totalAmount     Float
+  paymentMethod   String   @default("COD")
+  paymentStatus   String   @default("PENDING")
+  orderStatus     String   @default("CONFIRMED")
+  trackingSteps   Json     @default("[]")
+  notes           String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model Inquiry {
+  id           String   @id @default(uuid())
+  name         String
+  email        String?
+  phone        String
+  organization String?
+  quantity     String?
+  bagType      String?
+  message      String
+  status       String   @default("PENDING")
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model User {
+  id           String   @id @default(uuid())
+  mobile       String?  @unique
+  email        String?  @unique
+  name         String
+  password     String?
+  role         String   @default("CUSTOMER")
+  googleId     String?  @unique
+  avatar       String?
+  profilePic   String?
+  authProvider String   @default("LOCAL")
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model AnalyticsEvent {
+  id        String   @id @default(uuid())
+  type      String
+  target    String?
+  metadata  Json?    @default("{}")
+  ip        String?
+  userAgent String?
+  createdAt DateTime @default(now())
+
+  @@index([type])
+  @@index([createdAt])
+}
+
+model Setting {
+  id        String   @id @default(uuid())
+  key       String   @unique
+  value     Json
+  updatedAt DateTime @updatedAt
+}
