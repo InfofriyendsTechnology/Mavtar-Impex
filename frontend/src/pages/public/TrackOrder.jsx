@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import { Search, Clock, MessageSquare, CheckCircle, Package } from "lucide-react";
 import { orderApi } from "../../services/api";
+import { Skeleton } from "../../components/common/Skeleton";
 import "./TrackOrder.scss";
 
 const TrackOrder = () => {
@@ -79,8 +80,16 @@ const TrackOrder = () => {
         </button>
       </form>
 
+      {/* Loading Skeleton */}
+      {loading && (
+        <div style={{ marginTop: "24px", display: "flex", flexDirection: "column", gap: "16px" }}>
+          <Skeleton height="100px" borderRadius="18px" />
+          <Skeleton height="220px" borderRadius="18px" />
+        </div>
+      )}
+
       {/* 3. Order Result Container */}
-      {order && (
+      {order && !loading && (
         <div className="track-result-card animate-fadeIn">
           
           {/* Result Header */}

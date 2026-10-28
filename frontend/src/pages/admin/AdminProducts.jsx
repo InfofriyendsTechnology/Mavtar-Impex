@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   Plus,
   Search,
@@ -28,6 +28,13 @@ const AdminProducts = () => {
   const [editingProduct, setEditingProduct] = useState(null);
   const [deleteConfirmItem, setDeleteConfirmItem] = useState(null);
   const [uploadingImage, setUploadingImage] = useState(false);
+  const tableScrollRef = useRef(null);
+
+  const handleScrollTable = (delta) => {
+    if (tableScrollRef.current) {
+      tableScrollRef.current.scrollBy({ left: delta, behavior: "smooth" });
+    }
+  };
 
   const initialForm = {
     title: "",
@@ -406,137 +413,157 @@ const AdminProducts = () => {
             })}
           </div>
         ) : (
-          /* 2. Row View: One-Line Table with Visible Horizontal Scrollbar */
-          <div className="products-table-scroll-container">
-            <table className="admin-products-table">
-              <thead>
-                <tr>
-                  <th className="th-product" style={{ minWidth: "300px" }}>Product</th>
-                  <th className="th-category" style={{ minWidth: "180px" }}>Category</th>
-                  <th className="th-stock" style={{ minWidth: "140px" }}>Stock</th>
-                  <th className="th-price" style={{ minWidth: "150px" }}>Price</th>
-                  <th className="th-badge" style={{ minWidth: "120px" }}>Badge</th>
-                  <th className="th-actions" style={{ minWidth: "180px", textAlign: "right" }}>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {filteredProducts.map((p) => {
-                  const discountPct =
-                    p.originalPrice > p.price
-                      ? Math.round(((p.originalPrice - p.price) / p.originalPrice) * 100)
-                      : 0;
+          /* 2. Row View: One-Line Table with High-Contrast Scrollbar and Bottom Control Dock */
+          <div className="products-table-wrapper">
+            <div className="table-scroll-viewport" ref={tableScrollRef}>
+              <table className="admin-products-table">
+                <thead>
+                  <tr>
+                    <th className="th-product" style={{ minWidth: "300px" }}>Product</th>
+                    <th className="th-category" style={{ minWidth: "180px" }}>Category</th>
+                    <th className="th-stock" style={{ minWidth: "140px" }}>Stock</th>
+                    <th className="th-price" style={{ minWidth: "150px" }}>Price</th>
+                    <th className="th-badge" style={{ minWidth: "120px" }}>Badge</th>
+                    <th className="th-actions" style={{ minWidth: "180px", textAlign: "right" }}>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {filteredProducts.map((p) => {
+                    const discountPct =
+                      p.originalPrice > p.price
+                        ? Math.round(((p.originalPrice - p.price) / p.originalPrice) * 100)
+                        : 0;
 
-                  return (
-                    <tr key={p.id} className="admin-product-table-row">
-                      {/* 1. Product (Thumb + Title + SKU in single line) */}
-                      <td className="cell-product-info">
-                        <div className="table-product-flex">
-                          <div className="table-product-thumb">
-                            <img
-                              src={p.images?.[0] || "/products/Bag001.png"}
-                              alt={p.title}
-                              onError={(e) => {
-                                e.target.src = "/products/Bag001.png";
-                              }}
-                            />
+                    return (
+                      <tr key={p.id} className="admin-product-table-row">
+                        {/* 1. Product (Thumb + Title + SKU in single line) */}
+                        <td className="cell-product-info">
+                          <div className="table-product-flex">
+                            <div className="table-product-thumb">
+                              <img
+                                src={p.images?.[0] || "/products/Bag001.png"}
+                                alt={p.title}
+                                onError={(e) => {
+                                  e.target.src = "/products/Bag001.png";
+                                }}
+                              />
+                            </div>
+                            <div className="table-title-sku">
+                              <a
+                                href={`/product/${p.slug || p.id}`}
+                                target="_blank"
+                                rel="noreferrer"
+                                className="table-product-title"
+                                title="View live on storefront"
+                              >
+                                {p.title}
+                              </a>
+                              <span className="table-sku-chip">{p.sku || "MVT-7801"}</span>
+                            </div>
                           </div>
-                          <div className="table-title-sku">
+                        </td>
+
+                        {/* 2. Category */}
+                        <td className="cell-category">
+                          <span className="table-cat-badge">{p.category}</span>
+                        </td>
+
+                        {/* 3. Stock */}
+                        <td className="cell-stock">
+                          <span className={`table-stock-pill ${p.stock > 15 ? "in-stock" : "low-stock"}`}>
+                            <span className="status-dot" />
+                            <strong>{p.stock}</strong> units
+                          </span>
+                        </td>
+
+                        {/* 4. Price */}
+                        <td className="cell-price">
+                          <div className="table-price-flex">
+                            <span className="table-price-main">₹{p.price?.toLocaleString()}</span>
+                            {p.originalPrice > p.price && (
+                              <span className="table-price-strike">₹{p.originalPrice?.toLocaleString()}</span>
+                            )}
+                            {discountPct > 0 && (
+                              <span className="table-discount-chip">-{discountPct}%</span>
+                            )}
+                          </div>
+                        </td>
+
+                        {/* 5. Badge */}
+                        <td className="cell-badge">
+                          {p.isBestSeller ? (
+                            <span className="table-badge-bestseller">Best Seller</span>
+                          ) : (
+                            <span className="table-badge-regular">Standard</span>
+                          )}
+                        </td>
+
+                        {/* 6. Actions */}
+                        <td className="cell-actions" style={{ textAlign: "right" }}>
+                          <div className="table-actions-group">
                             <a
                               href={`/product/${p.slug || p.id}`}
                               target="_blank"
                               rel="noreferrer"
-                              className="table-product-title"
-                              title="View live on storefront"
+                              className="btn-tbl-action btn-tbl-preview"
+                              title="Preview live on storefront"
                             >
-                              {p.title}
+                              <ExternalLink size={13} />
+                              <span>View</span>
                             </a>
-                            <span className="table-sku-chip">{p.sku || "MVT-7801"}</span>
+                            <button
+                              type="button"
+                              onClick={() => handleOpenEdit(p)}
+                              className="btn-tbl-action btn-tbl-edit"
+                              title="Edit product"
+                            >
+                              <Edit2 size={13} />
+                              <span>Edit</span>
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => setDeleteConfirmItem(p)}
+                              className="btn-tbl-action btn-tbl-delete"
+                              title="Delete product"
+                            >
+                              <Trash2 size={13} />
+                              <span>Delete</span>
+                            </button>
                           </div>
-                        </div>
-                      </td>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
 
-                      {/* 2. Category */}
-                      <td className="cell-category">
-                        <span className="table-cat-badge">{p.category}</span>
-                      </td>
-
-                      {/* 3. Stock */}
-                      <td className="cell-stock">
-                        <span className={`table-stock-pill ${p.stock > 15 ? "in-stock" : "low-stock"}`}>
-                          <span className="status-dot" />
-                          <strong>{p.stock}</strong> units
-                        </span>
-                      </td>
-
-                      {/* 4. Price */}
-                      <td className="cell-price">
-                        <div className="table-price-flex">
-                          <span className="table-price-main">₹{p.price?.toLocaleString()}</span>
-                          {p.originalPrice > p.price && (
-                            <span className="table-price-strike">₹{p.originalPrice?.toLocaleString()}</span>
-                          )}
-                          {discountPct > 0 && (
-                            <span className="table-discount-chip">-{discountPct}%</span>
-                          )}
-                        </div>
-                      </td>
-
-                      {/* 5. Badge */}
-                      <td className="cell-badge">
-                        {p.isBestSeller ? (
-                          <span className="table-badge-bestseller">Best Seller</span>
-                        ) : (
-                          <span className="table-badge-regular">Standard</span>
-                        )}
-                      </td>
-
-                      {/* 6. Actions */}
-                      <td className="cell-actions" style={{ textAlign: "right" }}>
-                        <div className="table-actions-group">
-                          <a
-                            href={`/product/${p.slug || p.id}`}
-                            target="_blank"
-                            rel="noreferrer"
-                            className="btn-tbl-action btn-tbl-preview"
-                            title="Preview live on storefront"
-                          >
-                            <ExternalLink size={13} />
-                            <span>View</span>
-                          </a>
-                          <button
-                            type="button"
-                            onClick={() => handleOpenEdit(p)}
-                            className="btn-tbl-action btn-tbl-edit"
-                            title="Edit product"
-                          >
-                            <Edit2 size={13} />
-                            <span>Edit</span>
-                          </button>
-                          <button
-                            type="button"
-                            onClick={() => setDeleteConfirmItem(p)}
-                            className="btn-tbl-action btn-tbl-delete"
-                            title="Delete product"
-                          >
-                            <Trash2 size={13} />
-                            <span>Delete</span>
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-
-            {/* Bottom Scrollbar Dock & Status Bar */}
+            {/* Bottom Scrollbar Dock & Interactive Navigation Controls */}
             <div className="table-scroll-dock">
               <span className="dock-count">
                 Showing <strong>{filteredProducts.length}</strong> one-line rows
               </span>
-              <span className="dock-hint">
-                ⇄ Scroll horizontally to view all columns
-              </span>
+              <div className="dock-actions-row">
+                <span className="dock-hint">
+                  ⇄ Scroll table:
+                </span>
+                <button
+                  type="button"
+                  className="dock-scroll-arrow-btn"
+                  onClick={() => handleScrollTable(-240)}
+                  title="Scroll Left"
+                >
+                  ←
+                </button>
+                <button
+                  type="button"
+                  className="dock-scroll-arrow-btn"
+                  onClick={() => handleScrollTable(240)}
+                  title="Scroll Right"
+                >
+                  →
+                </button>
+              </div>
             </div>
           </div>
         )}
